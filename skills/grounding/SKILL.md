@@ -1,7 +1,7 @@
 ---
 name: page-grounding
 description: PAGE Stage 2 — Framework grounding for a new educational plugin. Maps every anticipated pipeline stage to an established framework (instructional design, assessment, communication, review practice) BEFORE architecture, flags unanchored stages as "invented process — justify or redesign", and enforces scope discipline. Includes an independent fresh-context review of the map before the author gate. Triggers - when the page umbrella dispatches Stage 2, or the user asks "what frameworks should ground this plugin".
-version: "1.2"
+version: "1.3"
 ---
 
 # PAGE Stage 2: Framework Grounding

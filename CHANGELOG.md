@@ -3,14 +3,25 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## page_skill.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## page_skill.1.3 — 2026-07-06
+
+Tiny Codex release-evidence cleanup.
+
+- Corrected the page_skill.1.2 review-evidence tally to match the machine-readable
+  review logs: 36 findings total, 16 fixed and 20 accepted.
+- Added release_lint check 9: every `reviews/*_review.json` finding must carry
+  `status: fixed|accepted` plus a non-empty `resolution`, and every review file with
+  findings must carry a `resolution_pass` block. The check was falsifiability-tested
+  by deleting a finding status in a temp copy and confirming lint failed.
+
 ## page_skill.1.2 — 2026-07-06
 
 Release-evidence hygiene (second Codex review round). No workflow changes.
 
 - **Review logs are now mechanical evidence**: every finding in `reviews/*.json`
   carries `status: fixed|accepted` + a one-line `resolution`, and each file a
-  `resolution_pass` block naming the release it was resolved against (33 findings:
-  16 fixed, 17 accepted). A status-less finding = open; there are none.
+  `resolution_pass` block naming the release it was resolved against (36 findings:
+  16 fixed, 20 accepted). A status-less finding = open; there are none.
 - **Uniform skill versioning**: every SKILL.md frontmatter `version` now tracks the
   plugin major.minor and is bumped together on release. New lint check 8 enforces it
   (falsifiability-tested: failed on all 10 stale files before the bump). Per-skill

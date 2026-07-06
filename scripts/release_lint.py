@@ -18,6 +18,9 @@ skills/page/reference/lessons_learned.md L7/L8):
   8. Uniform skill versioning: every skills/*/SKILL.md frontmatter `version` equals
      the plugin manifests' major.minor. Skill versions are bumped together on every
      release, so a stale frontmatter is mechanical drift, not history.
+  9. Review evidence is mechanically resolved: every reviews/*_review.json finding
+     has status fixed|accepted plus a resolution, and every review file has a
+     resolution_pass block.
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
@@ -137,6 +140,26 @@ if plugin_version:
         elif m.group(1) != mm:
             errors.append(f"[skillver] {p.relative_to(ROOT)}: frontmatter version "
                           f"{m.group(1)} != plugin {mm} (uniform convention — bump on release)")
+
+# 9. Review evidence: no status-less findings, no unrecorded resolution pass
+for p in sorted((ROOT / "reviews").glob("*_review.json")):
+    try:
+        data = json.loads(p.read_text())
+    except json.JSONDecodeError as e:
+        errors.append(f"[review] {p.relative_to(ROOT)}: invalid JSON ({e})")
+        continue
+    findings = data.get("findings", [])
+    if findings and not isinstance(data.get("resolution_pass"), dict):
+        errors.append(f"[review] {p.relative_to(ROOT)}: missing resolution_pass block")
+    for i, finding in enumerate(findings, 1):
+        status = finding.get("status")
+        if status not in {"fixed", "accepted"}:
+            errors.append(f"[review] {p.relative_to(ROOT)} finding {i}: "
+                          f"status {status!r} is not fixed|accepted")
+        resolution = finding.get("resolution")
+        if not isinstance(resolution, str) or not resolution.strip():
+            errors.append(f"[review] {p.relative_to(ROOT)} finding {i}: "
+                          "missing non-empty resolution")
 
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)

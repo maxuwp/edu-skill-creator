@@ -32,6 +32,9 @@ than no lint).
 - **Uniform skill versioning:** every `skills/*/SKILL.md` frontmatter `version` equals
   the plugin's major.minor and is bumped together on release (lint check 8 enforces
   it). Per-skill change history lives in CHANGELOG, not in the frontmatter.
+- Review evidence is mechanical: every `reviews/*_review.json` finding needs
+  `status: fixed|accepted`, a non-empty `resolution`, and a file-level
+  `resolution_pass` block (lint check 9 enforces it).
 - After the publish gate, run `python3 scripts/release_lint.py --publish` — in this
   mode a manifest that claims a hosted repo with no configured origin is an error,
   not a warning.
