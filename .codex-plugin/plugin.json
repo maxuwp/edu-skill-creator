@@ -1,7 +1,7 @@
 {
   "name": "page",
-  "version": "1.1.0",
-  "description": "PAGE — Plugin Authoring for Grounded Education. A meta-plugin that provides the framework, process, and supervision for creating educational plugins and skill sets. Guides an author from intent interview through framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release hygiene, and post-pilot reflection. Distills the lessons learned building POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d).",
+  "version": "1.2.0",
+  "description": "PAGE \u2014 Plugin Authoring for Grounded Education. A meta-plugin that provides the framework, process, and supervision for creating educational plugins and skill sets. Guides an author from intent interview through framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release hygiene, and post-pilot reflection. Distills the lessons learned building POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d).",
   "author": {
     "name": "Xiaoguang Ma",
     "email": "maxuwplatt@gmail.com"

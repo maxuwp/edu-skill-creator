@@ -29,6 +29,12 @@ than no lint).
 ## Releases
 
 - Bump `.claude-plugin/plugin.json` AND `.codex-plugin/plugin.json` in lockstep.
+- **Uniform skill versioning:** every `skills/*/SKILL.md` frontmatter `version` equals
+  the plugin's major.minor and is bumped together on release (lint check 8 enforces
+  it). Per-skill change history lives in CHANGELOG, not in the frontmatter.
+- After the publish gate, run `python3 scripts/release_lint.py --publish` — in this
+  mode a manifest that claims a hosted repo with no configured origin is an error,
+  not a warning.
 - Add a real `## page_skill.X.Y — <date>` heading to CHANGELOG.md (teaser mentions
   don't count and don't pass the lint).
 - Commit trailer: `Found-on: claude-code | codex-desktop | codex-cli | user-pilot-review`.

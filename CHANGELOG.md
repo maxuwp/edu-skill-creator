@@ -3,6 +3,26 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## page_skill.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## page_skill.1.2 — 2026-07-06
+
+Release-evidence hygiene (second Codex review round). No workflow changes.
+
+- **Review logs are now mechanical evidence**: every finding in `reviews/*.json`
+  carries `status: fixed|accepted` + a one-line `resolution`, and each file a
+  `resolution_pass` block naming the release it was resolved against (33 findings:
+  16 fixed, 17 accepted). A status-less finding = open; there are none.
+- **Uniform skill versioning**: every SKILL.md frontmatter `version` now tracks the
+  plugin major.minor and is bumped together on release. New lint check 8 enforces it
+  (falsifiability-tested: failed on all 10 stale files before the bump). Per-skill
+  history lives in this changelog.
+- **`release_lint.py --publish`**: after the publish gate, the "manifests claim a
+  hosted repo but no origin exists" case escalates from warning to error
+  (falsifiability-tested with origin removed). `page-release` step 8 and
+  MAINTAINING.md now call for publish mode post-publish.
+- page-refresh: Part B (grounding-library judgment) scoped INTO the independent
+  review alongside Part C, per the round-3 reviewer's finding; only Part A's pure
+  fact-reporting keeps the L3 waiver.
+
 ## page_skill.1.1 — 2026-07-06
 
 Codex review round: privacy/security/accessibility hardening + PAGE reviewed by its own

@@ -44,4 +44,10 @@ next release to consider.
 | page-refresh | 72, 1 critical | 91, 1 critical (blanket L3 waiver) | round 3: 90, 0 — approve | Part B scoped into the independent review alongside Part C (round-3 finding); footer/ladder naming, explicit close-out steps |
 
 The table is the release record; the per-skill JSON files hold every finding verbatim.
-The page_skill.1.1 version bump ships only with this table green.
+The page_skill.1.1 version bump shipped only with this table green.
+
+**Resolution annotations (page_skill.1.2).** Every finding in every JSON now carries
+machine-readable `status: fixed|accepted` and a one-line `resolution`; each file has a
+`resolution_pass` block naming the release it was resolved against. `fixed` = addressed
+in the named release; `accepted` = deliberate, documented deviation or deferred minor.
+A finding without a status is open — there are currently none.

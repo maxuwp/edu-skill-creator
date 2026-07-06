@@ -1,7 +1,7 @@
 ---
 name: page-reflect
 description: PAGE Stage 8 — Post-pilot reflection for an educational plugin built with PAGE. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson in PAGE's own lessons_learned.md. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.1"
+version: "1.2"
 ---
 
 # PAGE Stage 8: Reflect

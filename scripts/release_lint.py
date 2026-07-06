@@ -13,13 +13,17 @@ skills/page/reference/lessons_learned.md L7/L8):
   6. reference/ files cited by skills exist (warning only — heuristic).
   7. Manifest homepage/repository URLs match the configured git remote: a manifest
      that claims a hosted repo while origin points elsewhere is an error; a claimed
-     repo with no origin at all is a warning (legitimate at scaffold time, wrong at
-     publish time).
+     repo with no origin at all is a warning at scaffold time — pass --publish (as
+     page-release step 8 does after the publish gate) and it becomes an error.
+  8. Uniform skill versioning: every skills/*/SKILL.md frontmatter `version` equals
+     the plugin manifests' major.minor. Skill versions are bumped together on every
+     release, so a stale frontmatter is mechanical drift, not history.
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
 import json, pathlib, re, subprocess, sys
 
+PUBLISH = "--publish" in sys.argv[1:]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 errors, warnings = [], []
 
@@ -111,14 +115,28 @@ if claimed:
     r = subprocess.run(["git", "-C", str(ROOT), "remote", "get-url", "origin"],
                        capture_output=True, text=True)
     if r.returncode != 0:
-        warnings.append(f"[publish] manifests claim {sorted(claimed)} but no git remote "
-                        f"'origin' is configured — fine pre-publish, wrong after")
+        msg = (f"[publish] manifests claim {sorted(claimed)} but no git remote "
+               f"'origin' is configured — fine pre-publish, wrong after")
+        (errors if PUBLISH else warnings).append(msg)
     else:
         remote = _norm(r.stdout)
         for c in claimed:
             if c != remote:
                 errors.append(f"[publish] manifest URL {c} does not match "
                               f"git origin {remote}")
+
+# 8. Uniform skill versioning: SKILL frontmatter version == plugin major.minor
+if plugin_version:
+    mm = ".".join(plugin_version.split(".")[:2])
+    fm_ver = re.compile(r'^version:\s*"?([0-9.]+)"?\s*$', re.M)
+    for p in sorted((ROOT / "skills").glob("*/SKILL.md")):
+        head = "\n".join(p.read_text().splitlines()[:12])
+        m = fm_ver.search(head)
+        if not m:
+            warnings.append(f"[skillver] {p.relative_to(ROOT)}: no frontmatter version")
+        elif m.group(1) != mm:
+            errors.append(f"[skillver] {p.relative_to(ROOT)}: frontmatter version "
+                          f"{m.group(1)} != plugin {mm} (uniform convention — bump on release)")
 
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)

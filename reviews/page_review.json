@@ -15,20 +15,31 @@
       "severity": "minor",
       "location": "Pipeline section, 'Auto-continue' sentence (immediately after the Pipeline table)",
       "issue": "The rule 'after a gate is approved, proceed to the next stage without re-asking, but announce the transition with a one-paragraph stage-end summary' is stated with no anchor. The stage-end-summary half is grounded in gate_design_patterns.md principle 7, but the 'proceed without re-asking' half has no citation in lessons_learned.md or gate_design_patterns.md.",
-      "fix": "Add a one-clause rationale for auto-continue (e.g., tie it to L4's one-decision-per-gate discipline: once that one decision is made, no further human input is required until the next decision point) so it reads as applied process rather than an unanchored convenience rule."
+      "fix": "Add a one-clause rationale for auto-continue (e.g., tie it to L4's one-decision-per-gate discipline: once that one decision is made, no further human input is required until the next decision point) so it reads as applied process rather than an unanchored convenience rule.",
+      "status": "accepted",
+      "resolution": "Auto-continue is scoped by operating rule 7's input guard; anchor to a lesson deferred"
     },
     {
       "severity": "minor",
       "location": "Pipeline table, Stage 6 (Test) row, Gate column",
       "issue": "The gate description 'consent-gated; author reviews findings' does not name a single clear decision the way every other row does (e.g., 'author approves intent', 'lint exits 0', 'author approves publish'). It is ambiguous whether this is a blocking gate the pipeline waits on or a non-blocking FYI, which matters given gate_design_patterns.md requires every gate to name the one question the human answers.",
-      "fix": "State the Stage 6 gate's actual decision explicitly (e.g., 'author approves proceeding despite any failing evals' or 'author approves the RED/GREEN/REFACTOR log'), consistent with the decision field required by gate_design_patterns.md."
+      "fix": "State the Stage 6 gate's actual decision explicitly (e.g., 'author approves proceeding despite any failing evals' or 'author approves the RED/GREEN/REFACTOR log'), consistent with the decision field required by gate_design_patterns.md.",
+      "status": "fixed",
+      "resolution": "Stage 6 gate column now names the decision and test_gate (1.1)"
     },
     {
       "severity": "minor",
       "location": "Frontmatter, version field",
       "issue": "SKILL.md frontmatter uses version: \"1.0\" while both plugin.json manifests use \"1.0.0\" and CHANGELOG.md's current heading is \"page_skill.1.0\" (with a pending 1.1.0/page_skill.1.1 bump noted in BUILD_PLAN.md). The two-part vs three-part semver inconsistency is exactly the drift class dual_harness_playbook.md's lint is meant to catch across files.",
-      "fix": "Align SKILL.md's version string format with the manifests (\"1.0.0\") so a future version-consistency lint check has a uniform format to compare across files."
+      "fix": "Align SKILL.md's version string format with the manifests (\"1.0.0\") so a future version-consistency lint check has a uniform format to compare across files.",
+      "status": "fixed",
+      "resolution": "Uniform version convention adopted in 1.2: every SKILL frontmatter version tracks the plugin major.minor, lint-enforced"
     }
   ],
-  "recommendation": "approve"
+  "recommendation": "approve",
+  "resolution_pass": {
+    "resolved_against": "page_skill.1.2",
+    "date": "2026-07-06",
+    "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
+  }
 }

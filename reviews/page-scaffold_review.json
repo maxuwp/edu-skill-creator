@@ -13,16 +13,25 @@
   "findings": [
     {
       "severity": "minor",
-      "location": "Generate (component inventory tree) — hitl_protocol.md line",
+      "location": "Generate (component inventory tree) \u2014 hitl_protocol.md line",
       "issue": "hitl_protocol.md is listed as a generated artifact ('gate rules incl. never-accept-on-behalf (L5)') with no stated content source, unlike every sibling line in the same tree which points to a named origin (dual_harness_playbook.md, architecture's dependency model, Stage 2 output).",
-      "fix": "State what this file is authored from, e.g. 'derived from gate_design_patterns.md's Gate specification table, one entry per gate named in architecture.md.'"
+      "fix": "State what this file is authored from, e.g. 'derived from gate_design_patterns.md's Gate specification table, one entry per gate named in architecture.md.'",
+      "status": "accepted",
+      "resolution": "hitl_protocol.md content source: gate_design_patterns.md principles, generated fresh; provenance note deferred"
     },
     {
       "severity": "minor",
-      "location": "Confirm with the author first — item 3 'Harness set'",
+      "location": "Confirm with the author first \u2014 item 3 'Harness set'",
       "issue": "The skill offers 'both (default) or one' as an explicit choice, but the Generate tree and every downstream instruction (manifest pair, lockstep version rule, .codex mirrors) assume both harnesses unconditionally. No guidance tells the executing agent which files/rules to drop when only one harness is selected.",
-      "fix": "Add a sentence after the Generate tree: when harness set = one, omit the other harness's plugin.json/agent mirrors and the lockstep-version check for the omitted manifest."
+      "fix": "Add a sentence after the Generate tree: when harness set = one, omit the other harness's plugin.json/agent mirrors and the lockstep-version check for the omitted manifest.",
+      "status": "accepted",
+      "resolution": "Single-harness branch: generate only that harness's manifest/tree; explicit branch text deferred"
     }
   ],
-  "recommendation": "approve"
+  "recommendation": "approve",
+  "resolution_pass": {
+    "resolved_against": "page_skill.1.2",
+    "date": "2026-07-06",
+    "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
+  }
 }

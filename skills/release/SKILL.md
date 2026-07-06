@@ -1,7 +1,7 @@
 ---
 name: page-release
 description: PAGE Stage 7 — Release hygiene for an educational plugin. Runs the release lint (rule 0), verifies changelog heading and lockstep manifest versions, checks trigger descriptions, applies commit conventions, and gates the actual publish (remote push, marketplace) on the author. Triggers - when the page umbrella dispatches Stage 7, or the user says "release/ship/publish the plugin".
-version: "1.0"
+version: "1.2"
 ---
 
 # PAGE Stage 7: Release
@@ -31,7 +31,10 @@ entry, and `release_gate_decision.json` (below).
    Also verify structural validity beyond the drift-lint: both manifests parse and
    carry the fields plugin-dev's plugin-structure conventions require (a lint-clean
    but structurally invalid manifest must not ship).
-4. **Version lockstep.** Bump BOTH plugin manifests identically. Changelog gets a real
+4. **Version lockstep.** Bump BOTH plugin manifests identically, and every SKILL.md
+   frontmatter `version` to the new major.minor (uniform convention, lint-enforced —
+   per-skill history belongs in the changelog, not the frontmatter). Changelog gets a
+   real
    `## <x>_skill.X.Y — <date>` heading with: what changed, why (which pilot finding or
    review drove it), and what a user of the previous version should do.
 5. **Trigger check.** Re-read each skill's frontmatter description against the intent's
@@ -59,10 +62,12 @@ entry, and `release_gate_decision.json` (below).
    | invalidates | publishing freezes this version; later edits start the next release |
    | consent | n/a — the outward action IS the decision |
 
-   After publishing, re-run the lint: its publish check verifies the manifests'
-   homepage/repository URLs match the actual git remote (a manifest claiming a repo
-   that origin doesn't point to — or that doesn't exist yet — is exactly the drift it
-   catches).
+   After publishing, re-run the lint in publish mode
+   (`python3 scripts/release_lint.py --publish`): it verifies the manifests'
+   homepage/repository URLs match the actual git remote, and in this mode a claimed
+   repo with **no** origin is an error, not the scaffold-time warning (a manifest
+   claiming a repo that origin doesn't point to — or that doesn't exist yet — is
+   exactly the drift it catches).
 
 ## Cross-harness handoff
 

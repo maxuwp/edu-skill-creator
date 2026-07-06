@@ -15,20 +15,31 @@
       "severity": "minor",
       "location": "Gate table `artifact` row (\"rows keyed by stage name\") and Process step 4(a)",
       "issue": "Gate rows are keyed by stage name rather than a stable alphanumeric id (gate_design_patterns.md principle 2 prescribes ids like c1/b3/s12 that never renumber, specifically so identity survives edits). If a stage is renamed or split under the step-4(a) \"redesign\" resolution, the row key changes, which is exactly the identity-loss problem the stable-id rule exists to prevent.",
-      "fix": "Assign each candidate stage a stable id (e.g. g1, g2...) at enumeration time in step 1, and key the map table and gate decision JSON by that id, keeping stage name as a mutable label column."
+      "fix": "Assign each candidate stage a stable id (e.g. g1, g2...) at enumeration time in step 1, and key the map table and gate decision JSON by that id, keeping stage name as a mutable label column.",
+      "status": "accepted",
+      "resolution": "Stage-name keys kept; renames handled as remove+add rows"
     },
     {
       "severity": "minor",
       "location": "Process step 1 (\"Enumerate candidate stages\")",
       "issue": "No granularity rule is given for how coarse or fine the candidate-stage list should be (e.g., whether \"drafting per artifact\" should be one row or split per artifact type before architecture does the real split). A cold agent could produce inconsistent stage lists across runs for the same intent.md.",
-      "fix": "Add one sentence of guidance: enumerate at the granularity of a distinct drafting/review skill (matching page-architecture's eventual stage unit), not per-artifact-field, and let architecture subdivide further if needed."
+      "fix": "Add one sentence of guidance: enumerate at the granularity of a distinct drafting/review skill (matching page-architecture's eventual stage unit), not per-artifact-field, and let architecture subdivide further if needed.",
+      "status": "accepted",
+      "resolution": "Granularity emerges from intent's artifact list; no rule imposed yet"
     },
     {
       "severity": "minor",
       "location": "Top refusal clause (lines 16-20) / Output section",
       "issue": "The skill states a refusal-to-run guard for missing/unapproved intent.md but has no analogous guard for edu_grounding_library.md being missing or unreadable, even though step 2 makes it the mandatory first stop.",
-      "fix": "Add a one-line refusal clause: if edu_grounding_library.md is missing, halt and flag a PAGE installation issue rather than silently proceeding straight to web search for every stage."
+      "fix": "Add a one-line refusal clause: if edu_grounding_library.md is missing, halt and flag a PAGE installation issue rather than silently proceeding straight to web search for every stage.",
+      "status": "accepted",
+      "resolution": "edu_grounding_library.md ships inside PAGE itself; missing file would be an install defect caught by lint check 6"
     }
   ],
-  "recommendation": "approve"
+  "recommendation": "approve",
+  "resolution_pass": {
+    "resolved_against": "page_skill.1.2",
+    "date": "2026-07-06",
+    "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
+  }
 }

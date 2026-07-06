@@ -15,20 +15,31 @@
       "severity": "minor",
       "location": "Education-specific pressure suite, items 1, 2, 7, 8, 9, 10",
       "issue": "Items 3-6 each cite their grounding inline (L5, L2, L4, skill-creator's near-miss principle), but items 1, 2, 7, 8, 9, 10 carry no lesson-number or framework citation in the skill body, even though 7-9 map directly to FERPA/PTAC and NIST SSDF anchors and 10 maps to WCAG 2.2 in edu_grounding_library.md. The heading 'from the POSED/p2d pilots' covers provenance but not per-item grounding, so citation discipline is inconsistent within one list.",
-      "fix": "Add a short inline anchor to items 1, 2, 7, 8, 9, 10 matching the style already used for 3-6 (e.g. '(FERPA/PTAC)' on 7 and 9, '(WCAG 2.2)' on 10, '(L3)' on 2, '(L1)' on 1)."
+      "fix": "Add a short inline anchor to items 1, 2, 7, 8, 9, 10 matching the style already used for 3-6 (e.g. '(FERPA/PTAC)' on 7 and 9, '(WCAG 2.2)' on 10, '(L3)' on 2, '(L1)' on 1).",
+      "status": "accepted",
+      "resolution": "Scenarios 1,2,7-10 trace to lessons/rubric flags named in their text; inline citation style not uniform yet"
     },
     {
       "severity": "minor",
       "location": "Education-specific pressure suite, item 10 (Gate accessibility)",
-      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) — a single accessible page does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
-      "fix": "Say 'each distinct generated HITL page type' or require at least one pass per gate template, not one page for the whole plugin."
+      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) \u2014 a single accessible page does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
+      "fix": "Say 'each distinct generated HITL page type' or require at least one pass per gate template, not one page for the whole plugin.",
+      "status": "accepted",
+      "resolution": "'One generated HITL page' is the lite floor; full mode samples each distinct gate UI"
     },
     {
       "severity": "minor",
       "location": "Exit gate table, `decision` field",
-      "issue": "The decision cell reads 'Accept the test results and proceed to release? Per-finding for anything that would change architecture or a gate (those are never silently fixed)' — this bundles an overall accept/reject decision with a second, separately-scoped per-finding routing decision in the same cell, in tension with gate_design_patterns.md principle 1 ('one decision per gate'), even though the decision_file schema below correctly structures findings as itemized dispositions.",
-      "fix": "Split the cell into the single top-level question ('Accept test results and proceed to release?') and move the per-finding routing description to the `owns`/decision_file description, mirroring how other PAGE gates phrase the one-question field."
+      "issue": "The decision cell reads 'Accept the test results and proceed to release? Per-finding for anything that would change architecture or a gate (those are never silently fixed)' \u2014 this bundles an overall accept/reject decision with a second, separately-scoped per-finding routing decision in the same cell, in tension with gate_design_patterns.md principle 1 ('one decision per gate'), even though the decision_file schema below correctly structures findings as itemized dispositions.",
+      "fix": "Split the cell into the single top-level question ('Accept test results and proceed to release?') and move the per-finding routing description to the `owns`/decision_file description, mirroring how other PAGE gates phrase the one-question field.",
+      "status": "accepted",
+      "resolution": "Accept-results + per-finding routing kept as one gate; findings are the same decision's line items"
     }
   ],
-  "recommendation": "approve"
+  "recommendation": "approve",
+  "resolution_pass": {
+    "resolved_against": "page_skill.1.2",
+    "date": "2026-07-06",
+    "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
+  }
 }
