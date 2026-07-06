@@ -49,7 +49,7 @@ Every lesson there is a design requirement for the plugin you are about to build
 | 3 Architecture | `page-architecture` | `architecture.md` + `BUILD_PLAN.md` + manifest/dependency schema | author approves design |
 | 4 Scaffold | `page-scaffold` | dual-harness repo skeleton + lint + link script | lint exits 0 |
 | 5 Draft | `page-draft` | SKILL.md files + rubrics, each independently reviewed | per-skill review ≥85, no critical flags → author gate (batched¹) |
-| 6 Test | `page-test` | RED/GREEN/REFACTOR log + eval results | consent-gated; author reviews findings |
+| 6 Test | `page-test` | RED/GREEN/REFACTOR log + eval results | author accepts results; per-finding decisions on anything that changes design (test_gate) |
 | 7 Release | `page-release` | lint-clean tagged release, CHANGELOG entry | rule-0 lint + author approves publish |
 | 8 Reflect | `page-reflect` | pilot-lesson harvest → updates to the plugin AND to PAGE's lessons_learned.md | author approves each harvested item |
 | — Refresh | `page-refresh` | ~90-day authoring-practice/framework refresh ledger | approve-per-item |

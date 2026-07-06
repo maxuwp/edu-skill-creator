@@ -1,0 +1,52 @@
+{
+  "skill": "page-reflect",
+  "score": 88,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 24,
+    "gates": 20,
+    "craft": 18,
+    "integrity": 11,
+    "hygiene": 15
+  },
+  "critical_flags": [],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Independent review (before the author sees the ledger — L3)",
+      "issue": "The fresh-context reviewer is given four prose checks (source support, scope honesty, redaction completeness, proposal match) but no scored rubric, no threshold, and no output schema — unlike every other PAGE content-review pairing (page-draft's skill_quality_rubric, posed-outline's step rubrics), which per L3 must sum to 100 with a threshold and critical flags. No rubric file exists anywhere in the repo for reflect_ledger_review.json to reference. gate_design_patterns.md principle 4 also requires the gate to show 'the reviewer's summary card (score, top findings, critical flags)' — with no score, that card is undefined.",
+      "fix": "Add a small scored rubric (e.g., 4 dimensions x 25 = 100, threshold 85) covering the four checks already named, plus an output schema (score, dimension_scores, critical_flags, findings, recommendation) matching the pattern used by skill_quality_rubric.md, and have the SKILL.md point to it explicitly."
+    },
+    {
+      "severity": "major",
+      "location": "Inputs (exact) / Triage each finding into exactly one ledger row",
+      "issue": "The 'never renumbered' id-stability rule for f<n> rows implies continuity across multiple reflection runs (a plugin's second, third pilot), but the Inputs section never lists the plugin's prior reflect_ledger.json as an input, and no manifest field is named to track the last-used id or cumulative ledger state. As written, a second reflection run has no specified way to know whether to start at f1 or continue from a prior run's f<n>.",
+      "fix": "List the plugin's existing reflect_ledger.json (if present) as an input, and specify that new rows continue numbering from the highest existing id; note this in the plugin's manifest (e.g., a last_reflect_id field) consistent with the stale-state/id-stability pattern used elsewhere (L4)."
+    },
+    {
+      "severity": "minor",
+      "location": "Also harvest the human's preferences",
+      "issue": "This section (offering to record durable interaction preferences) has no framework anchor at all, even though edu_grounding_library.md's TPI entry ('characterizing an educator's teaching perspective... persona work') is the natural, closely-scoped fit and is used elsewhere in PAGE for persona synthesis.",
+      "fix": "Add a one-line anchor pointing to TPI, or note explicitly that this is a mechanical preference-capture step outside any pedagogical framework's scope, per L1's 'no anchor = flag' rule."
+    },
+    {
+      "severity": "minor",
+      "location": "Gate table, decision field",
+      "issue": "gate_design_patterns.md principle 5 ('never accept on the human's behalf... may prefill, never bypass') is a load-bearing rule for every PAGE gate but is never restated or referenced in this skill's Gate section, unlike the explicit 'Nothing here auto-applies' framing given to approval elsewhere in the doc.",
+      "fix": "Add a short clause to the Gate section: prefill recommended dispositions but never submit/approve the gate on the educator's behalf."
+    },
+    {
+      "severity": "minor",
+      "location": "Harvest sources / opening paragraph",
+      "issue": "The 'Refuses to run without a completed pilot session' clause states the refusal condition but not the resulting behavior (report to user and stop vs. some other fallback), leaving a cold agent to guess what 'refuses' means operationally.",
+      "fix": "State explicitly: report which artifact is missing and stop; do not partially harvest."
+    },
+    {
+      "severity": "minor",
+      "location": "Whole skill — gate rendering",
+      "issue": "The skill never states whether reflect_gate is presented as a generated web HITL page or a simpler CLI/text approval, which matters for critical flag 9 (WCAG operability) applicability; as written it is ambiguous rather than clearly compliant or clearly out of scope.",
+      "fix": "State the gate's presentation mechanism (e.g., reuse the plugin's existing guided-app gate page per gate_design_patterns.md 'session mechanics', which already carries accessibility properties) so flag 9 applicability is unambiguous."
+    }
+  ],
+  "recommendation": "approve"
+}

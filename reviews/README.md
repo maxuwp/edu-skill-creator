@@ -22,21 +22,26 @@ files, and `docs/BUILD_PLAN.md` (whose source-anchors table is the skill's desig
 spec). Never the drafter's session or reasoning. Scores follow the rubric: /100,
 threshold 85, critical flags block regardless of score.
 
-## Status (2026-07-06)
+## Status (2026-07-06, review pass complete)
 
-| Skill | Score | Criticals | Verdict | Action taken |
+Round 1 = first cold review; fixes applied for every finding at or above major; round 2
+= independent re-review of the revised text. Where a round-2 verdict was `approve` but
+carried residual findings, the cheap ones were fixed post-approval (noted below) and the
+verdict retained — the remaining minors are accepted and live in the JSON logs for the
+next release to consider.
+
+| Skill | Round 1 | Round 2 | Final | Post-approval fixes |
 |---|---|---|---|---|
-| page (umbrella) | 90 | 1 (own artifacts lacked stale-state rule) | approve-after-fix | operating rules 7–8 added (input guard, self stale-state, accessible gates); Stage-5 batching justification added; re-review pending |
-| page-intent | 87 | 0 | approve | anchors cited in A.7/A.8; gate decision file named; Part B pacing added |
-| page-grounding | 63 | 2 (no independent map review; no invalidation) | regenerate | SKILL regenerated to v1.1: fresh-context map review before gate, full gate-spec block, refusal + stale rules, worked example; re-review pending |
-| page-scaffold | 70 | 0 | revise | plugin-dev anchor + scope note, preconditions/stale rule, verbatim-template rule, gate-app fallback + strip criteria, scaffold_decisions.json; re-review pending |
-| page-architecture | — | — | pending | first review interrupted by session limit |
-| page-draft | — | — | pending | same |
-| page-test | — | — | pending | same |
-| page-release | — | — | pending | same |
-| page-reflect | — | — | pending | same |
-| page-refresh | — | — | pending | same |
+| page (umbrella) | 90, 1 critical (no self stale-state) | 97, 0 | approve | Stage-6 gate column clarified |
+| page-intent | 87, 0 | — (approved round 1) | approve | anchors in A.7/A.8, decision file, Part B pacing (its 3 findings) |
+| page-grounding | 63, 2 criticals | 97, 0 | approve | inspection-vs-rubric justification stated |
+| page-architecture | 78, 0 | 95, 0 | approve | inspection-vs-rubric justification stated |
+| page-scaffold | 70, 0 | 98, 0 | approve | — |
+| page-draft | 79, 1 critical (no stage stale-state) | 95, 0 | approve | batch-gate gate_id/owns/invalidates added |
+| page-test | 78, 0 | 97, 0 | approve | — |
+| page-release | 80, 0 | 90, 0 | approve | git-pull step, structural-manifest check, lint-as-reviewer justification |
+| page-reflect | 71, 2 criticals (no reviewer; no redaction) | 88, 0 | approve | cross-pilot ids, inspection note, TPI anchor |
+| page-refresh | 72, 1 critical | 91, 1 critical (blanket L3 waiver) | round 3: 90, 0 — approve | Part B scoped into the independent review alongside Part C (round-3 finding); footer/ladder naming, explicit close-out steps |
 
-Six first-run reviews and three re-reviews were interrupted by the account session
-limit on 2026-07-06 (~01:30, resets 04:10 America/Chicago); they resume from this
-table. The page_skill.1.1 version bump waits until the table is fully green.
+The table is the release record; the per-skill JSON files hold every finding verbatim.
+The page_skill.1.1 version bump ships only with this table green.

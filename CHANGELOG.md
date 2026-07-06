@@ -3,6 +3,41 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## page_skill.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## page_skill.1.1 — 2026-07-06
+
+Codex review round: privacy/security/accessibility hardening + PAGE reviewed by its own
+instrument.
+
+- **Stage 1 intent**: new interview questions A.7 (student data/PII, FERPA/PPRA +
+  institutional constraints, retention/deletion, de-identification, external
+  API/vendor exposure, logging/redaction, permissions) and A.8 (accessibility, incl.
+  the plugin's own HITL pages); three new contested postures (accessibility,
+  student-data handling, external-service); persisted `intent_gate_decision.json`.
+- **Grounding library**: new privacy/security/accessibility section — W3C WCAG 2.2,
+  CAST UDL 3.0, FERPA/PPRA + Dept. of Education PTAC, NIST SP 800-218 (consolidated).
+- **Architecture**: mandatory data-flow & security model for plugins touching student
+  data, external services, or generated UI; exact inputs + refusal conditions;
+  independent design review + full gate spec.
+- **skill_quality_rubric**: critical flags 7–9 (ungoverned student data, undisclosed
+  external services, inaccessible HITL pages).
+- **page-test**: pressure scenarios 7–10 (student-data leakage, undisclosed external
+  call, log/redaction failure, gate keyboard/screen-reader operability); fresh-context
+  GREEN judges; exit gate spec (`test_gate`).
+- **release_lint check 7**: manifests' homepage/repository URLs must match the git
+  origin (mismatch = error, missing origin = warning). Falsifiability-tested in both
+  directions before landing. Lint also hardened against a missing CHANGELOG.
+- **PAGE reviewed by PAGE's rubric** (durable evidence in `reviews/`): all 10 skills
+  cold-reviewed by fresh-context subagents, findings fixed, revised skills
+  re-reviewed to a green board — final scores 88–98, zero critical flags. The round
+  caught real defects in its own author: no self stale-state at the umbrella (fixed:
+  operating rules 7–8), grounding/reflect/draft/refresh shipping without the
+  independent-review or invalidation discipline they preach (all fixed), and — outside
+  the repo entirely — POSED's `posed-refresh` symlinks missing from both harness trees
+  (relinked).
+- Every stage gate now carries the full gate-spec table (gate_id, decision_file,
+  owns, invalidates, consent); binary inspections are explicitly distinguished from
+  scored rubrics (Fagan/IEEE 1028).
+
 ## page_skill.1.0 — 2026-07-06
 
 Initial release: the full authoring pipeline, built to the plan in `docs/BUILD_PLAN.md`.

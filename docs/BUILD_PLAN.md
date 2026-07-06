@@ -57,11 +57,16 @@ unchecked item.
 - [x] page-release: publish-check pointer in step 8
 - [x] Independent reviews, round 1: page (90), page-intent (87), page-grounding (63,
       regenerated), page-scaffold (70, revised) — fixes applied, logs in reviews/
-- [ ] Independent reviews, round 1: architecture, draft, test, release, reflect,
-      refresh (BLOCKED: account session limit, resumes after 04:10 America/Chicago)
-- [ ] Re-reviews of revised skills: page, page-grounding, page-scaffold
-- [ ] Bump both manifests to 1.1.0 + `## page_skill.1.1` CHANGELOG heading
-- [ ] Final lint, commit (Found-on: claude-code), push
+- [x] Independent reviews, round 1: architecture (78), draft (79, 1 crit), test (78),
+      release (80), reflect (71, 2 crit), refresh (72, 1 crit) — all findings fixed
+- [x] Re-reviews: page (97), grounding (97), scaffold (98), architecture (95),
+      draft (95), test (97), release (90), reflect (88), refresh (91→90 after Part C/B
+      reviewer fix) — table green, 0 criticals (reviews/README.md is the record)
+- [x] Side catch from review round: posed-refresh symlinks were missing in both harness
+      trees (skill added after link script last ran) — relinked via POSED's
+      link_dev_dirs.py
+- [x] Bump both manifests to 1.1.0 + `## page_skill.1.1` CHANGELOG heading
+- [x] Final lint, commit (Found-on: claude-code), push
 
 ## Source anchors (what each stage borrows)
 

@@ -6,9 +6,21 @@ version: "1.0"
 
 # PAGE Stage 5: Draft
 
-Fills the scaffold's stubs with real skills, in the BUILD_PLAN's dependency order:
-reference files → rubrics → sub-skill SKILL.md bodies → umbrella body. Every draft gets
-an independent review before the author sees it (L3 — applied to ourselves).
+Fills the scaffold's stubs with real skills, in the dependency order from the new
+plugin's `docs/BUILD_PLAN.md`: reference files → rubrics → sub-skill SKILL.md bodies →
+umbrella body. Every draft gets an independent review before the author sees it (L3 —
+applied to ourselves).
+
+**Inputs (exact):** the approved `architecture.md` (each skill's spec is its stage-map
+row + gate spec), the new plugin's `skills/<x>/reference/grounding_frameworks.md`, and
+its `docs/BUILD_PLAN.md`. **Refuses to run** if any is missing, unapproved, or stale.
+
+**Stale-state rule for this stage's own artifacts (L4).** If `architecture.md` or the
+grounding map is revised mid-stage, every skill drafted from the old version is marked
+stale in BUILD_PLAN and re-drafted or re-reviewed against the new spec. Likewise
+*within* the stage: revising a rubric invalidates every review that was performed with
+that rubric — the affected skills go back through step 2. Reference files change →
+skills citing them get a re-review, not a silent pass.
 
 ## Writing doctrine (from Anthropic's skill-creator, verbatim in spirit)
 
@@ -37,20 +49,28 @@ worked failure example. Ground every dimension in the plugin's grounding map.
 
 1. **Draft** the SKILL.md against its architecture spec.
 2. **Independent review**: dispatch a fresh subagent session whose input is ONLY the
-   draft (+ its references), the plugin's grounding map, the architecture spec for this
-   skill, and PAGE's `<page-skill-dir>/reference/skill_quality_rubric.md`. It returns
-   the rubric's output JSON; save it to `reviews/<skill>_review.json` BEFORE anything
-   is shown to the author.
+   draft (+ its references), the plugin's `grounding_frameworks.md`, this skill's spec
+   in `architecture.md`, PAGE's `<page-skill-dir>/reference/skill_quality_rubric.md`,
+   and `<page-skill-dir>/reference/lessons_learned.md` (the rubric's critical-flag
+   language references the lessons by number — a reviewer without the ledger can't
+   apply them). It returns the rubric's output JSON; save it to
+   `reviews/<skill>_review.json` BEFORE anything is shown to the author.
 3. **Iterate** per the rubric's policy (≥85 and no critical flags → done; 80–84 → revise
    with findings, max 3 rounds; <80 → escalate to the author with top findings).
 4. Mark the BUILD_PLAN item.
 
 ## Author gate (batched)
 
-Don't gate every skill separately — that burns the gate budget (L4). Batch by pipeline
-stage: present each batch with a per-skill summary card (purpose, anchor, review score,
-open findings) and collect structured decisions (approve / revise + comment, per skill).
-The review logs are already on disk; link them.
+Don't gate every skill separately — that burns the gate budget (L4; the umbrella
+records this as a justified deviation: quality is judged per-skill by the reviews, the
+batch gate is only sign-off). Batch by pipeline stage: present each batch with a
+per-skill summary card (purpose, anchor, review score, open findings) and collect
+structured decisions, persisted as `draft_gate_decision_<batch>.json` —
+`{decision, skills:[{name, disposition: approve|revise, comment}], guidance}`. The
+review logs are already on disk; link them. Gate spec: gate_id `draft_gate_<batch>`;
+owns — revise dispositions route back to step 1 for that skill; invalidates — a
+revised skill re-enters review (step 2), and if its rubric changed, every review made
+with the old rubric (per the stale-state rule above).
 
 ## Exit
 

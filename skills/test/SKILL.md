@@ -11,10 +11,17 @@ skill-creator's eval mechanics. The iron law, softened one notch for practicalit
 skill's key constraints should each trace to a demonstrated failure (RED) or to a lesson
 in `<page-skill-dir>/reference/lessons_learned.md` (already-paid-for RED).
 
+**Inputs (exact):** the new plugin's drafted skills with their `reviews/*_review.json`
+logs all at ≥85 and zero critical flags, plus the approved `architecture.md` (whose
+gate specs and data posture define what scenarios 3–5 and 7–10 assert). **Refuses to
+run** on unreviewed or stale drafts — testing text that is about to change is spent
+tokens. If a skill is revised after its GREEN pass (by this stage's own REFACTOR or
+anything else), its scenarios are stale and re-run.
+
 ## Consent first (L6)
 
 Testing spawns many subagent runs. Before anything, offer the ladder and record the mode
-in the build manifest:
+in the build manifest as `test.consent_mode` (results land in `test.results`):
 
 - **full** — RED baselines + GREEN runs for every skill, plus the education-specific
   pressure suite. Cost: roughly one full pipeline dry-run per skill tested; the largest
@@ -71,12 +78,24 @@ Scenarios every educational plugin must survive (from the POSED/p2d pilots):
 ## GREEN and REFACTOR
 
 Re-run each RED scenario WITH the skill. A pass = the specific failure is gone, not
-merely "output looks better." Where an agent finds a new loophole, close it in the skill
-text by adding the *why* (not another MUST) and re-run. Log every loop in
-`tests/loop_log.md`. Two consecutive clean passes per scenario = done.
+merely "output looks better" — and the pass/fail judgment is made by a **fresh-context
+judge** (a subagent given only the RED failure description and the GREEN run transcript,
+never the fix or its rationale; this stage tests other skills for reviewer
+rationalization and is not exempt from it). Where an agent finds a new loophole, close
+it in the skill text by adding the *why* (not another MUST) and re-run. Log every loop
+in `tests/loop_log.md`. Two consecutive clean passes per scenario = done.
 
-## Exit
+## Exit gate
 
-Results table (scenario × RED result × GREEN result × loops), consent mode recorded,
-BUILD_PLAN items checked. Findings the author must decide on (not silently fixed):
-anything that changes architecture or a gate. Then `page-release`.
+| Field | Value |
+|---|---|
+| gate_id | `test_gate` |
+| decision | Accept the test results and proceed to release? Per-finding for anything that would change architecture or a gate (those are never silently fixed) |
+| artifact | `tests/results.md` — results table (scenario × RED × GREEN × loops), findings keyed `f1…fn` |
+| reviewer | the fresh-context GREEN judges above (transcripts under `tests/`) |
+| decision_file | `test_gate_decision.json` — `{decision, findings:[{id, disposition: fix-now|defer|reject, comment}], guidance}` |
+| owns | fix-now findings route to `page-draft` (skill text) or `page-architecture` (design) |
+| invalidates | any fix-now that lands marks the affected skill's GREEN passes stale (re-run before release) |
+| consent | the full/lite/skip ladder above, recorded as `test.consent_mode` |
+
+BUILD_PLAN items checked, then `page-release`.

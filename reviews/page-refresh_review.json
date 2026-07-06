@@ -1,0 +1,40 @@
+{
+  "skill": "page-refresh",
+  "score": 90,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 20,
+    "gates": 21,
+    "craft": 19,
+    "integrity": 15,
+    "hygiene": 15
+  },
+  "critical_flags": [],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "BUILD_PLAN.md Source anchors table, row 'refresh' (this skill's design spec)",
+      "issue": "The design spec's cited primary source for this skill is 'posed-refresh pattern.' No skill named posed-refresh exists in the current POSED skill set (only posed-reflect, a distinct end-of-session preference-harvesting skill already separately anchored under L9). The skill's own grounding anchor is therefore unverifiable and appears to conflate refresh with reflect.",
+      "fix": "Correct the BUILD_PLAN source-anchor row to name the actual precedent, or state plainly that page-refresh is the first instance of this pattern, justified directly by L9, rather than implying a prior POSED skill that does not exist."
+    },
+    {
+      "severity": "major",
+      "location": "Part B — Grounding library",
+      "issue": "Part B is waived from independent review under the claim that Parts A and B 'report external facts with sources the author can check directly -- no drafter judgment to re-derive.' But Part B's actual task includes judging whether a candidate framework meets the inclusion bar ('widely citable, validated scope statable, not proprietary') and judging whether an existing entry's 'standing has materially changed.' Both are interpretive calls of the kind L3 exists to catch (cf. the rubric's own quiz-builder worked example, where an unreviewed judgment call was a critical flag).",
+      "fix": "Either give Part B the same fresh-context review treatment as Part C (checking inclusion-bar reasoning against edu_grounding_library.md's Rules of use before the gate), or narrow the waiver's claim to the fact-finding half only and add review for the inclusion/standing judgment half."
+    },
+    {
+      "severity": "minor",
+      "location": "Part C — Grounding note",
+      "issue": "The justification asserts 'no published framework governs watch for AI-capability change' as a settled conclusion without describing that a search was performed to reach it, unlike Part B, which explicitly directs a search before concluding no better anchor exists.",
+      "fix": "Add a short clause noting this conclusion follows a check against the grounding library and a web search, matching Part B's evidentiary standard."
+    },
+    {
+      "severity": "minor",
+      "location": "Part A — Authoring practice",
+      "issue": "Names four primary sources to check but does not specify the mechanism for detecting change (fetch changelog, diff against a recorded prior commit/date, read release notes) -- a cold agent knows what to check but not how to determine 'changed since last refresh.'",
+      "fix": "Add one line naming the check method, e.g. compare against dates/commit refs recorded in the previous ledger, or fetch each source's changelog directly."
+    }
+  ],
+  "recommendation": "approve"
+}

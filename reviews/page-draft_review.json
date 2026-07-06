@@ -1,0 +1,34 @@
+{
+  "skill": "page-draft",
+  "score": 95,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 24,
+    "gates": 21,
+    "craft": 20,
+    "integrity": 15,
+    "hygiene": 15
+  },
+  "critical_flags": [],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Author gate (batched)",
+      "issue": "The batched gate names the decision file and schema (draft_gate_decision_<batch>.json) and links review logs, but does not specify gate_id, owns (which step regenerates a skill on 'revise'), or invalidates (what becomes stale when a batch is approved with per-skill revisions) — all required fields per gate_design_patterns.md's 'Gate specification (required per gate)' table.",
+      "fix": "Add the three missing fields to the Author gate section: a stable gate_id (e.g. draft_batch_gate_<n>), an explicit owns statement (a 'revise' disposition routes that skill back to step 1 of the per-skill cycle), and an invalidates statement (approving a batch with edits marks that skill's downstream review and any dependent BUILD_PLAN items stale)."
+    },
+    {
+      "severity": "minor",
+      "location": "Writing doctrine (from Anthropic's skill-creator, verbatim in spirit)",
+      "issue": "The doctrine bullets cite skill-creator concepts (progressive disclosure, generalization) without restating the grounding library's scope-limit language (skill-creator's methodology is scoped to 'skill authoring for Claude-family agents' per edu_grounding_library.md), leaving the anchor's scope implicit rather than stated per L1's 'state the application, not just the citation' rule.",
+      "fix": "Add a one-line scope note under the doctrine header pointing to edu_grounding_library.md's scope-limit text for skill-creator."
+    },
+    {
+      "severity": "minor",
+      "location": "Author gate (batched)",
+      "issue": "The gate's rendering modality (chat-native structured collection vs. a generated HITL web page) is unstated, so it cannot be confirmed whether WCAG 2.2 keyboard/screen-reader operability (critical flag 9) applies or is satisfied; gate_design_patterns.md cites POSED's guided web app as the reference gate implementation, so if page-draft's batch gate is ever rendered the same way, accessibility is currently unaddressed in this section.",
+      "fix": "State the gate's rendering modality explicitly, and if a web page is used, add a one-line accessibility requirement consistent with the pattern other PAGE stages use."
+    }
+  ],
+  "recommendation": "approve"
+}

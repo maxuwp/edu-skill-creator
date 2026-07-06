@@ -1,0 +1,40 @@
+{
+  "skill": "page-release",
+  "score": 90,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 17,
+    "gates": 24,
+    "craft": 19,
+    "integrity": 15,
+    "hygiene": 15
+  },
+  "critical_flags": [],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Checklist step 3 (Rule 0)",
+      "issue": "The BUILD_PLAN source-anchors row for this stage lists 'plugin-dev validation' alongside 'POSED release hygiene (lint, lockstep, Found-on trailers)' as the design spec, but the skill only runs scripts/release_lint.py (the drift-lint from dual_harness_playbook.md's table: hardcoded paths, version lockstep, changelog heading, rubric sums, dangling refs). There is no step validating plugin.json structural correctness / required manifest fields / skill frontmatter against plugin-dev's own component-validation rules — a manifest that is lint-clean but structurally invalid per plugin-dev conventions would still pass this checklist.",
+      "fix": "Add a step (or fold into step 3) that runs plugin-dev's own component/manifest validation, or explicitly state why release_lint.py is treated as a sufficient substitute for it."
+    },
+    {
+      "severity": "major",
+      "location": "Checklist step 1 (State verification before commit) / Cross-harness handoff section",
+      "issue": "dual_harness_playbook.md's Release rules require 'git pull before editing (the other harness may have pushed)' as rule 2 — directly relevant here since page-release's own Cross-harness handoff section states both agents maintain the plugin and 'finding different issues' is the intended steady state. Without a pull-before-edit step, a release built on a stale local checkout can silently overwrite or conflict with the other harness's un-pulled commits — exactly the drift class the playbook exists to prevent.",
+      "fix": "Add a step 0 (or fold into step 1) requiring a git pull / fast-forward check against the remote before any state verification or commit, failing loudly on divergence."
+    },
+    {
+      "severity": "minor",
+      "location": "Publish gate table, 'reviewer' field (step 8)",
+      "issue": "The gate's reviewer field is filled by 'the lint run from step 3 (mechanical reviewer of record)', reasonable for a non-content-generating stage, but it slightly overloads gate_design_patterns.md's 'reviewer' field (intended primarily for the independent fresh-context content reviewer whose summary card the human sees before a content gate). Defensible since no new pedagogical/technical content is generated here, but the equivalence is left implicit rather than justified in one line.",
+      "fix": "Add a short clause noting explicitly that no independent content reviewer applies at this stage because no new pedagogical/technical content is generated, only mechanical state checks."
+    },
+    {
+      "severity": "minor",
+      "location": "Checklist step 5 (Trigger check)",
+      "issue": "Step 5 references re-reading each skill's frontmatter description against 'the intent's should/should-not-trigger lists' but does not name the file/path where that inventory lives, leaving a cold agent to guess which artifact from page-intent's output to consult.",
+      "fix": "Name the exact file (e.g. the intent interview's should/should-not-trigger artifact path) so the step is directly executable without inferring it from another skill."
+    }
+  ],
+  "recommendation": "approve"
+}

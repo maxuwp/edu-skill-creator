@@ -6,9 +6,16 @@ version: "1.0"
 
 # PAGE Stage 3: Architecture
 
-Turns the approved intent + grounding map into a buildable design. Borrows plugin-dev's
-component-planning phases; hardened by L3–L6, L8, L9. Outputs: `architecture.md` and the
-new plugin's `BUILD_PLAN.md` (resumable checklist), both gate-approved.
+Turns the approved intent + grounding map into a buildable design. The step sequence
+below applies the official plugin-dev plugin's creation phases 2–3 (component planning →
+detailed design) — steps 1–4 are its component planning, steps 5–9 its detailed design —
+hardened by L3–L6, L8, L9. Outputs: `architecture.md` and the new plugin's
+`BUILD_PLAN.md` (resumable checklist), both gate-approved.
+
+**Inputs (exact):** `intent.md` with an approved `intent_gate_decision.json`, and the
+draft `grounding_frameworks.md` with an approved `grounding_gate_decision.json`, from
+the build session. **Refuses to run** if either file is missing, unapproved, or marked
+stale — halt and name the unresolved stage instead.
 
 ## Design the pipeline
 
@@ -66,9 +73,35 @@ A checkbox list covering every file the build will create, in dependency order
 the rule stated at the top: *mark items as they land; resume at the first unchecked
 item.* PAGE's own `docs/BUILD_PLAN.md` is the format example.
 
+## Independent review (before the author sees the design — L3)
+
+`architecture.md` is a drafted artifact, so it gets the same treatment this skill
+mandates for every stage it designs. Dispatch a fresh subagent session whose inputs are
+ONLY: the draft `architecture.md`, the approved `intent.md`, the approved grounding map,
+and `gate_design_patterns.md`. It checks: every gate spec complete (all eight fields),
+dependency model coherent (no artifact without an owner or invalidation path), every
+contested choice threaded from intake to the stages it affects, gate load within the
+intent's gate budget. Findings go to `reviews/architecture_review.json` in the build
+session BEFORE the gate opens; fix blocking findings and re-review. This review is
+deliberately a binary inspection (each check passes or produces a severity-classed
+finding), not a scored /100 rubric: forcing points onto binary completeness checks is
+fake precision — the same Fagan (1976) / IEEE 1028 reasoning POSED's Stage 7 Part A
+records. Scored rubrics are for quality judgments (drafted skill text); inspections are
+for conformance.
+
 ## Gate
 
-Two structured passes with the author: (1) stage map + gates (the shape), (2) dependency
-model + contested-choice threading (the wiring). Approval of a change to `intent.md` or
-the grounding map after this point marks `architecture.md` stale — say so and re-gate the
-affected sections. Then continue to `page-scaffold`.
+| Field | Value |
+|---|---|
+| gate_id | `architecture_gate` |
+| decision | Two passes, one decision each: (1) stage map + gates (the shape), (2) dependency model + contested-choice threading (the wiring) |
+| artifact | draft `architecture.md`; sections keyed by name |
+| reviewer | fresh-context design review above (`reviews/architecture_review.json`) |
+| decision_file | `architecture_gate_decision.json` — `{decision, pass, sections:[{name, disposition, comment}], guidance}` |
+| owns | `page-architecture` reworks the revised sections |
+| invalidates | on approval of changes: the new plugin's BUILD_PLAN ordering and any scaffold/draft output already generated (stale per umbrella rules) |
+| consent | n/a — not token-expensive |
+
+Approval of a change to `intent.md` or the grounding map after this point marks
+`architecture.md` stale — say so and re-gate the affected sections. Then continue to
+`page-scaffold`.

@@ -1,64 +1,28 @@
 {
   "skill": "page-scaffold",
-  "score": 70,
+  "score": 98,
   "threshold": 85,
   "dimension_scores": {
-    "grounding": 17,
-    "gates": 21,
-    "craft": 15,
-    "integrity": 8,
-    "hygiene": 9
+    "grounding": 24,
+    "gates": 25,
+    "craft": 19,
+    "integrity": 15,
+    "hygiene": 15
   },
   "critical_flags": [],
   "findings": [
     {
-      "severity": "major",
-      "location": "Whole skill / frontmatter vs. BUILD_PLAN source anchors",
-      "issue": "BUILD_PLAN.md's source-anchors row for 'scaffold' names two primary sources: 'plugin-dev plugin-structure' and 'POSED dual-harness playbook'. The SKILL body anchors thoroughly to dual_harness_playbook.md but never mentions plugin-dev at all — no reference to its plugin-structure/validation guidance anywhere in the generation steps or exit check.",
-      "fix": "Add a line anchoring the plugin.json / manifest generation step to plugin-dev's plugin-structure conventions (or the specific fields it validates), or drop plugin-dev from the source-anchors row if it isn't actually used."
+      "severity": "minor",
+      "location": "Generate (component inventory tree) — hitl_protocol.md line",
+      "issue": "hitl_protocol.md is listed as a generated artifact ('gate rules incl. never-accept-on-behalf (L5)') with no stated content source, unlike every sibling line in the same tree which points to a named origin (dual_harness_playbook.md, architecture's dependency model, Stage 2 output).",
+      "fix": "State what this file is authored from, e.g. 'derived from gate_design_patterns.md's Gate specification table, one entry per gate named in architecture.md.'"
     },
     {
       "severity": "minor",
-      "location": "Generate tree — 'Harness set' confirmation vs. plugin-dev scope",
-      "issue": "The skill scaffolds both .claude-plugin/plugin.json and .codex-plugin/plugin.json, but plugin-dev's grounding-library scope limit is explicitly 'Claude Code plugin mechanics' only. The skill never notes that the Codex manifest has no equivalent validated authoring framework behind it, which is exactly the kind of scope-limit statement L1's corollary requires.",
-      "fix": "Add a one-line scope note: plugin-dev anchors the Claude Code manifest only; the Codex manifest is maintained by convention/mirroring, not an external spec."
-    },
-    {
-      "severity": "major",
-      "location": "Generate section, harness_adaptation.md line",
-      "issue": "The tree lists 'harness_adaptation.md # <x>-skill-dir mappings; lint-whitelisted' with no stated provenance, but dual_harness_playbook.md describes this file as something the new plugin authors directly (whitelisted mapping file), not an artifact copied from an earlier stage. Meanwhile the adjacent line explicitly says grounding_frameworks.md is 'copied from Stage 2 output.' The asymmetry leaves the executing agent to guess whether harness_adaptation.md is authored fresh at Stage 4 or inherited, and from where.",
-      "fix": "State explicitly: 'harness_adaptation.md — authored fresh at this stage from the plugin-name confirmed above' (or wherever it actually originates)."
-    },
-    {
-      "severity": "major",
-      "location": "Whole skill — Pipeline integrity",
-      "issue": "The skill assumes 'the approved architecture's component inventory' exists and never states what happens if docs/BUILD_PLAN.md / architecture.md from Stage 3 is missing, incomplete, or was revised after a prior scaffold run. No refuse-on-missing-input check, and no stale-state behavior is specified if architecture changes after scaffolding (contrast with L4/L7's stale-state model that the rest of PAGE enforces elsewhere).",
-      "fix": "Add an explicit precondition check ('confirm architecture.md exists and is the approved version before generating; if scaffold has already run and architecture changed, flag which generated files are now stale and require regeneration') consistent with the manifest stale-state fields used elsewhere in PAGE."
-    },
-    {
-      "severity": "minor",
-      "location": "'Templates for the docs' section",
-      "issue": "MAINTAINING.md/AGENTS.md/CHANGELOG.md content is specified only as a bulleted topic list ('rule 0, pull-before-edit, lockstep version bumps...'), not as pointers to the actual required text from dual_harness_playbook.md's Release rules section (e.g., the Found-on trailer values, the exact CHANGELOG heading format '## <x>_skill.X.Y — <date>'). A cold executing agent could plausibly paraphrase these into something that fails the release lint later.",
-      "fix": "Either inline the exact required strings/formats or explicitly say 'copy verbatim from dual_harness_playbook.md Release rules 1-4' rather than restating them as a loose topic list."
-    },
-    {
-      "severity": "minor",
-      "location": "'If the architecture includes a gate app' paragraph",
-      "issue": "Instructs copying skills/posed/scripts/posed_app.py from github.com/maxuwp/posed as a starting point, but gives no fallback if that specific external repo is unavailable, renamed, or the sub-skill doesn't recognize which 'modes' to strip — no criteria for what to strip beyond 'modes the design doesn't use.'",
-      "fix": "Point to a stable internal copy of the reference implementation (or a description of its modes in dual_harness_playbook.md/gate_design_patterns.md) rather than solely an external live GitHub URL, and give 1-2 concrete stripping criteria."
-    },
-    {
-      "severity": "minor",
-      "location": "'Confirm with the author first' list",
-      "issue": "Three distinct author decisions (plugin name, repo location/remote timing, harness set) are bundled as a flat numbered list with no decision-JSON, stable ids, or gate_id per gate_design_patterns.md's required 'Gate specification' fields (gate_id, decision, artifact, decision_file, owns, invalidates, consent). For a mechanical stage this is a light-touch confirmation rather than a full content gate, but the skill provides no persisted record of what was confirmed, which matters given L8's 'verify state before committing.'",
-      "fix": "Note where/how these three confirmations are recorded (e.g., into the BUILD_PLAN or a scaffold_decisions.json) so a resumed session doesn't re-ask or silently diverge."
-    },
-    {
-      "severity": "minor",
-      "location": "Exit check section",
-      "issue": "'write the stage-end summary' has no pointer to a template or required content, unlike gate_design_patterns.md principle 7 (stage-end summaries should state what was decided and what becomes stale in plain language).",
-      "fix": "Point to the stage-end summary format used elsewhere in PAGE, or inline the two required elements (what was generated, what's now stale/pending)."
+      "location": "Confirm with the author first — item 3 'Harness set'",
+      "issue": "The skill offers 'both (default) or one' as an explicit choice, but the Generate tree and every downstream instruction (manifest pair, lockstep version rule, .codex mirrors) assume both harnesses unconditionally. No guidance tells the executing agent which files/rules to drop when only one harness is selected.",
+      "fix": "Add a sentence after the Generate tree: when harness set = one, omit the other harness's plugin.json/agent mirrors and the lockstep-version check for the omitted manifest."
     }
   ],
-  "recommendation": "revise"
+  "recommendation": "approve"
 }

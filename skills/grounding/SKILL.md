@@ -59,7 +59,10 @@ accuracy (does each framework actually ground what the row claims?), scope-limit
 correctness, no silently unanchored stage (every stage has a row with an anchor or a
 recorded resolution), no stance smuggling — and writes findings to
 `reviews/grounding_map_review.json` in the build session BEFORE the gate page renders.
-Fix blocking findings and re-review; the gate shows the reviewer's summary card.
+Fix blocking findings and re-review; the gate shows the reviewer's summary card. (Like
+the architecture design review, this is a binary inspection with severity-classed
+findings, not a scored /100 rubric — Fagan/IEEE 1028: points belong on quality
+judgments, not conformance checks.)
 
 ## Output — the new plugin's `grounding_frameworks.md`
 
