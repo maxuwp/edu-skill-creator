@@ -1,7 +1,7 @@
 # Dual-Harness Playbook — one repo, every harness
 
 The maintenance architecture that ended copy-drift between Claude Code and Codex for
-POSED/p2d (L7). `page-scaffold` generates this layout for every new educational plugin;
+POSED/p2d (L7). `edu-skill-creator-scaffold` generates this layout for every new educational plugin;
 this file is the specification.
 
 ## Repo layout (per plugin, name `<x>`)

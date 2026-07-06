@@ -1,5 +1,5 @@
 {
-  "skill": "page",
+  "skill": "edu-skill-creator",
   "score": 97,
   "threshold": 85,
   "dimension_scores": {
@@ -30,7 +30,7 @@
     {
       "severity": "minor",
       "location": "Frontmatter, version field",
-      "issue": "SKILL.md frontmatter uses version: \"1.0\" while both plugin.json manifests use \"1.0.0\" and CHANGELOG.md's current heading is \"page_skill.1.0\" (with a pending 1.1.0/page_skill.1.1 bump noted in BUILD_PLAN.md). The two-part vs three-part semver inconsistency is exactly the drift class dual_harness_playbook.md's lint is meant to catch across files.",
+      "issue": "SKILL.md frontmatter uses version: \"1.0\" while both plugin.json manifests use \"1.0.0\" and CHANGELOG.md's current heading is \"edu_skill_creator.1.0\" (with a pending 1.1.0/edu_skill_creator.1.1 bump noted in BUILD_PLAN.md). The two-part vs three-part semver inconsistency is exactly the drift class dual_harness_playbook.md's lint is meant to catch across files.",
       "fix": "Align SKILL.md's version string format with the manifests (\"1.0.0\") so a future version-consistency lint check has a uniform format to compare across files.",
       "status": "fixed",
       "resolution": "Uniform version convention adopted in 1.2: every SKILL frontmatter version tracks the plugin major.minor, lint-enforced"
@@ -38,7 +38,7 @@
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

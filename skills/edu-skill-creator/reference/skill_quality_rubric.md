@@ -1,6 +1,6 @@
 # Skill Quality Rubric — reviewer instrument for drafted skills (/100, threshold 85)
 
-Used by `page-draft`'s independent reviewer. The reviewer runs in a **fresh context**
+Used by `edu-skill-creator-draft`'s independent reviewer. The reviewer runs in a **fresh context**
 with this input allowlist ONLY: the drafted SKILL.md (+ its reference files), the new
 plugin's grounding map, the architecture doc's spec for this skill, and
 `lessons_learned.md`. Never the drafter's reasoning or chat context (L3).

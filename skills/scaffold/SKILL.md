@@ -1,12 +1,12 @@
 ---
-name: page-scaffold
-description: PAGE Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the page umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
-version: "1.3"
+name: edu-skill-creator-scaffold
+description: Edu Skill Creator Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the edu-skill-creator umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
+version: "1.4"
 ---
 
-# PAGE Stage 4: Scaffold
+# Edu Skill Creator Stage 4: Scaffold
 
-Generates the repo skeleton per `<page-skill-dir>/reference/dual_harness_playbook.md`
+Generates the repo skeleton per `<edu-skill-creator-skill-dir>/reference/dual_harness_playbook.md`
 (the specification — read it before generating anything). The Claude Code manifest and
 component layout follow the official plugin-dev plugin's plugin-structure conventions
 (the grounding library's anchor for plugin mechanics); scope note per L1's corollary:
@@ -61,7 +61,7 @@ status-file machinery intact regardless.
 
 ## The lint (rule 0)
 
-Adapt PAGE's own `scripts/release_lint.py` — substitute the `<x>_skill.` prefix,
+Adapt Edu Skill Creator's own `scripts/release_lint.py` — substitute the `<x>_skill.` prefix,
 `<x>-skill-dir` placeholder, and the plugin's deprecated-URL list (empty at birth). Then
 apply the falsifiability rule (L8): seed one violation per check, watch the lint fail,
 fix, watch it pass. Record the seeding run in the commit message.
@@ -79,4 +79,4 @@ fix, watch it pass. Record the seeding run in the commit message.
 `git init`, initial commit, `python3 scripts/release_lint.py` exits 0, and
 `link_dev_dirs.py --dry-run` resolves every skill. Mark the BUILD_PLAN items and write
 the stage-end summary — per gate_design_patterns.md principle 7: what was generated,
-what remains pending/stale — then continue to `page-draft`.
+what remains pending/stale — then continue to `edu-skill-creator-draft`.

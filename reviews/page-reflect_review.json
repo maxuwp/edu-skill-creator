@@ -1,5 +1,5 @@
 {
-  "skill": "page-reflect",
+  "skill": "edu-skill-creator-reflect",
   "score": 88,
   "threshold": 85,
   "dimension_scores": {
@@ -14,7 +14,7 @@
     {
       "severity": "major",
       "location": "Independent review (before the author sees the ledger \u2014 L3)",
-      "issue": "The fresh-context reviewer is given four prose checks (source support, scope honesty, redaction completeness, proposal match) but no scored rubric, no threshold, and no output schema \u2014 unlike every other PAGE content-review pairing (page-draft's skill_quality_rubric, posed-outline's step rubrics), which per L3 must sum to 100 with a threshold and critical flags. No rubric file exists anywhere in the repo for reflect_ledger_review.json to reference. gate_design_patterns.md principle 4 also requires the gate to show 'the reviewer's summary card (score, top findings, critical flags)' \u2014 with no score, that card is undefined.",
+      "issue": "The fresh-context reviewer is given four prose checks (source support, scope honesty, redaction completeness, proposal match) but no scored rubric, no threshold, and no output schema \u2014 unlike every other Edu Skill Creator content-review pairing (edu-skill-creator-draft's skill_quality_rubric, posed-outline's step rubrics), which per L3 must sum to 100 with a threshold and critical flags. No rubric file exists anywhere in the repo for reflect_ledger_review.json to reference. gate_design_patterns.md principle 4 also requires the gate to show 'the reviewer's summary card (score, top findings, critical flags)' \u2014 with no score, that card is undefined.",
       "fix": "Add a small scored rubric (e.g., 4 dimensions x 25 = 100, threshold 85) covering the four checks already named, plus an output schema (score, dimension_scores, critical_flags, findings, recommendation) matching the pattern used by skill_quality_rubric.md, and have the SKILL.md point to it explicitly.",
       "status": "fixed",
       "resolution": "Binary-inspection justification + severity summary card stated (1.1)"
@@ -30,7 +30,7 @@
     {
       "severity": "minor",
       "location": "Also harvest the human's preferences",
-      "issue": "This section (offering to record durable interaction preferences) has no framework anchor at all, even though edu_grounding_library.md's TPI entry ('characterizing an educator's teaching perspective... persona work') is the natural, closely-scoped fit and is used elsewhere in PAGE for persona synthesis.",
+      "issue": "This section (offering to record durable interaction preferences) has no framework anchor at all, even though edu_grounding_library.md's TPI entry ('characterizing an educator's teaching perspective... persona work') is the natural, closely-scoped fit and is used elsewhere in Edu Skill Creator for persona synthesis.",
       "fix": "Add a one-line anchor pointing to TPI, or note explicitly that this is a mechanical preference-capture step outside any pedagogical framework's scope, per L1's 'no anchor = flag' rule.",
       "status": "fixed",
       "resolution": "TPI anchor cited for preference harvest (1.1)"
@@ -38,10 +38,10 @@
     {
       "severity": "minor",
       "location": "Gate table, decision field",
-      "issue": "gate_design_patterns.md principle 5 ('never accept on the human's behalf... may prefill, never bypass') is a load-bearing rule for every PAGE gate but is never restated or referenced in this skill's Gate section, unlike the explicit 'Nothing here auto-applies' framing given to approval elsewhere in the doc.",
+      "issue": "gate_design_patterns.md principle 5 ('never accept on the human's behalf... may prefill, never bypass') is a load-bearing rule for every Edu Skill Creator gate but is never restated or referenced in this skill's Gate section, unlike the explicit 'Nothing here auto-applies' framing given to approval elsewhere in the doc.",
       "fix": "Add a short clause to the Gate section: prefill recommended dispositions but never submit/approve the gate on the educator's behalf.",
       "status": "accepted",
-      "resolution": "Never-accept-on-behalf governs all PAGE gates via umbrella operating rule 4"
+      "resolution": "Never-accept-on-behalf governs all Edu Skill Creator gates via umbrella operating rule 4"
     },
     {
       "severity": "minor",
@@ -54,15 +54,15 @@
     {
       "severity": "minor",
       "location": "Whole skill \u2014 gate rendering",
-      "issue": "The skill never states whether reflect_gate is presented as a generated web HITL page or a simpler CLI/text approval, which matters for critical flag 9 (WCAG operability) applicability; as written it is ambiguous rather than clearly compliant or clearly out of scope.",
-      "fix": "State the gate's presentation mechanism (e.g., reuse the plugin's existing guided-app gate page per gate_design_patterns.md 'session mechanics', which already carries accessibility properties) so flag 9 applicability is unambiguous.",
+      "issue": "The skill never states whether reflect_gate is presented as a generated web HITL edu-skill-creator or a simpler CLI/text approval, which matters for critical flag 9 (WCAG operability) applicability; as written it is ambiguous rather than clearly compliant or clearly out of scope.",
+      "fix": "State the gate's presentation mechanism (e.g., reuse the plugin's existing guided-app gate edu-skill-creator per gate_design_patterns.md 'session mechanics', which already carries accessibility properties) so flag 9 applicability is unambiguous.",
       "status": "accepted",
       "resolution": "Gate rendering is harness-dependent; WCAG bar applies whenever pages are generated (umbrella rule 8)"
     }
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

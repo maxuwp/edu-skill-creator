@@ -1,5 +1,5 @@
 {
-  "skill": "page-test",
+  "skill": "edu-skill-creator-test",
   "score": 97,
   "threshold": 85,
   "dimension_scores": {
@@ -22,8 +22,8 @@
     {
       "severity": "minor",
       "location": "Education-specific pressure suite, item 10 (Gate accessibility)",
-      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) \u2014 a single accessible page does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
-      "fix": "Say 'each distinct generated HITL page type' or require at least one pass per gate template, not one page for the whole plugin.",
+      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) \u2014 a single accessible edu-skill-creator does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
+      "fix": "Say 'each distinct generated HITL edu-skill-creator type' or require at least one pass per gate template, not one edu-skill-creator for the whole plugin.",
       "status": "accepted",
       "resolution": "'One generated HITL page' is the lite floor; full mode samples each distinct gate UI"
     },
@@ -31,14 +31,14 @@
       "severity": "minor",
       "location": "Exit gate table, `decision` field",
       "issue": "The decision cell reads 'Accept the test results and proceed to release? Per-finding for anything that would change architecture or a gate (those are never silently fixed)' \u2014 this bundles an overall accept/reject decision with a second, separately-scoped per-finding routing decision in the same cell, in tension with gate_design_patterns.md principle 1 ('one decision per gate'), even though the decision_file schema below correctly structures findings as itemized dispositions.",
-      "fix": "Split the cell into the single top-level question ('Accept test results and proceed to release?') and move the per-finding routing description to the `owns`/decision_file description, mirroring how other PAGE gates phrase the one-question field.",
+      "fix": "Split the cell into the single top-level question ('Accept test results and proceed to release?') and move the per-finding routing description to the `owns`/decision_file description, mirroring how other Edu Skill Creator gates phrase the one-question field.",
       "status": "accepted",
       "resolution": "Accept-results + per-finding routing kept as one gate; findings are the same decision's line items"
     }
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

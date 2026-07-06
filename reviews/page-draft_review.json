@@ -1,5 +1,5 @@
 {
-  "skill": "page-draft",
+  "skill": "edu-skill-creator-draft",
   "score": 95,
   "threshold": 85,
   "dimension_scores": {
@@ -30,15 +30,15 @@
     {
       "severity": "minor",
       "location": "Author gate (batched)",
-      "issue": "The gate's rendering modality (chat-native structured collection vs. a generated HITL web page) is unstated, so it cannot be confirmed whether WCAG 2.2 keyboard/screen-reader operability (critical flag 9) applies or is satisfied; gate_design_patterns.md cites POSED's guided web app as the reference gate implementation, so if page-draft's batch gate is ever rendered the same way, accessibility is currently unaddressed in this section.",
-      "fix": "State the gate's rendering modality explicitly, and if a web page is used, add a one-line accessibility requirement consistent with the pattern other PAGE stages use.",
+      "issue": "The gate's rendering modality (chat-native structured collection vs. a generated HITL web page) is unstated, so it cannot be confirmed whether WCAG 2.2 keyboard/screen-reader operability (critical flag 9) applies or is satisfied; gate_design_patterns.md cites POSED's guided web app as the reference gate implementation, so if edu-skill-creator-draft's batch gate is ever rendered the same way, accessibility is currently unaddressed in this section.",
+      "fix": "State the gate's rendering modality explicitly, and if a web edu-skill-creator is used, add a one-line accessibility requirement consistent with the pattern other Edu Skill Creator stages use.",
       "status": "accepted",
       "resolution": "Rendering modality is harness-dependent; WCAG bar applies whenever pages are generated (umbrella rule 8)"
     }
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

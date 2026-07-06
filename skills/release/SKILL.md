@@ -1,10 +1,10 @@
 ---
-name: page-release
-description: PAGE Stage 7 — Release hygiene for an educational plugin. Runs the release lint (rule 0), verifies changelog heading and lockstep manifest versions, checks trigger descriptions, applies commit conventions, and gates the actual publish (remote push, marketplace) on the author. Triggers - when the page umbrella dispatches Stage 7, or the user says "release/ship/publish the plugin".
-version: "1.3"
+name: edu-skill-creator-release
+description: Edu Skill Creator Stage 7 — Release hygiene for an educational plugin. Runs the release lint (rule 0), verifies changelog heading and lockstep manifest versions, checks trigger descriptions, applies commit conventions, and gates the actual publish (remote push, marketplace) on the author. Triggers - when the edu-skill-creator umbrella dispatches Stage 7, or the user says "release/ship/publish the plugin".
+version: "1.4"
 ---
 
-# PAGE Stage 7: Release
+# Edu Skill Creator Stage 7: Release
 
 Mechanical, ordered, and strict — every step below exists because skipping it once
 shipped a defect (see lessons L7, L8).
@@ -58,7 +58,7 @@ entry, and `release_gate_decision.json` (below).
    | artifact | the release commit (diff summary), CHANGELOG entry, consent-mode disclosure |
    | reviewer | the lint run from step 3 — a deliberate substitution: this stage's artifact is mechanical conformance, so the lint is the right reviewer (inspection vs. judgment, Fagan/IEEE 1028; there is no content judgment here to re-derive) |
    | decision_file | `release_gate_decision.json` — `{decision: publish\|hold, remote, version, guidance}` |
-   | owns | `page-release` re-runs steps 1–7 on hold-with-changes |
+   | owns | `edu-skill-creator-release` re-runs steps 1–7 on hold-with-changes |
    | invalidates | publishing freezes this version; later edits start the next release |
    | consent | n/a — the outward action IS the decision |
 
@@ -79,4 +79,4 @@ is the intended steady state (L7); AGENTS.md carries their standing rules.
 ## Exit
 
 Tagged release, lint clean, changelog entry, author-approved publish (or an explicit
-decision to stay local). Then schedule `page-reflect` for after the first pilot.
+decision to stay local). Then schedule `edu-skill-creator-reflect` for after the first pilot.

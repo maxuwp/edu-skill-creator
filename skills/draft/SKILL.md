@@ -1,10 +1,10 @@
 ---
-name: page-draft
-description: PAGE Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the page umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.3"
+name: edu-skill-creator-draft
+description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
+version: "1.4"
 ---
 
-# PAGE Stage 5: Draft
+# Edu Skill Creator Stage 5: Draft
 
 Fills the scaffold's stubs with real skills, in the dependency order from the new
 plugin's `docs/BUILD_PLAN.md`: reference files → rubrics → sub-skill SKILL.md bodies →
@@ -50,8 +50,8 @@ worked failure example. Ground every dimension in the plugin's grounding map.
 1. **Draft** the SKILL.md against its architecture spec.
 2. **Independent review**: dispatch a fresh subagent session whose input is ONLY the
    draft (+ its references), the plugin's `grounding_frameworks.md`, this skill's spec
-   in `architecture.md`, PAGE's `<page-skill-dir>/reference/skill_quality_rubric.md`,
-   and `<page-skill-dir>/reference/lessons_learned.md` (the rubric's critical-flag
+   in `architecture.md`, Edu Skill Creator's `<edu-skill-creator-skill-dir>/reference/skill_quality_rubric.md`,
+   and `<edu-skill-creator-skill-dir>/reference/lessons_learned.md` (the rubric's critical-flag
    language references the lessons by number — a reviewer without the ledger can't
    apply them). It returns the rubric's output JSON; save it to
    `reviews/<skill>_review.json` BEFORE anything is shown to the author.
@@ -75,4 +75,4 @@ with the old rubric (per the stale-state rule above).
 ## Exit
 
 All BUILD_PLAN draft items checked, all reviews ≥85 with no critical flags, author
-batches approved. Stage-end summary, then `page-test`.
+batches approved. Stage-end summary, then `edu-skill-creator-test`.

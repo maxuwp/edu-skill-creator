@@ -2,19 +2,20 @@
 """Link the personal skill directories to this repo so both harnesses edit one source.
 
 Creates:
-    ~/.claude/skills/page-<x>  ->  <repo>/skills/<x>
-    ~/.codex/skills/page-<x>   ->  <repo>/skills/<x>
+    ~/.claude/skills/edu-skill-creator-<x>  ->  <repo>/skills/<x>
+    ~/.codex/skills/edu-skill-creator-<x>   ->  <repo>/skills/<x>
 
-The Claude/Codex personal dirs use the "page-" prefix; the repo drops it for most skills
-(the plugin namespace re-adds it). Exception kept as-is: `page` (the umbrella keeps its full name).
+The Claude/Codex personal dirs use the "edu-skill-creator-" prefix; the repo drops it
+for most skills (the plugin namespace re-adds it). Exception kept as-is:
+`edu-skill-creator` (the umbrella keeps its full name).
 
 Idempotent: an existing correct symlink is left alone. A real directory in the way is moved
-to <backup-root>/<tool>/ (default ~/page-prefork-backup-<timestamp>) before linking, so the
+to <backup-root>/<tool>/ (default ~/edu-skill-creator-prefork-backup-<timestamp>) before linking, so the
 operation is always reversible. Run with --dry-run to preview.
 """
 import argparse, os, glob, shutil, datetime
 
-KEEP_NAME = {"page"}   # repo dir == personal dir
+KEEP_NAME = {"edu-skill-creator"}   # repo dir == personal dir
 SKIP = set()                            # stays a real dir (node_modules)
 
 
@@ -22,7 +23,8 @@ def repo_target(repo_skills, pdir):
     if pdir in KEEP_NAME:
         cand = pdir
     else:
-        cand = pdir[len("page-"):] if pdir.startswith("page-") else pdir
+        prefix = "edu-skill-creator-"
+        cand = pdir[len(prefix):] if pdir.startswith(prefix) else pdir
     return cand if os.path.isdir(os.path.join(repo_skills, cand)) else None
 
 
@@ -30,13 +32,13 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     default_repo = os.path.dirname(here)  # repo root (scripts/..)
     ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", default=default_repo, help="Path to the page repo root")
+    ap.add_argument("--repo", default=default_repo, help="Path to the edu-skill-creator repo root")
     ap.add_argument("--trees", nargs="+",
                     default=[os.path.expanduser("~/.claude/skills"),
                              os.path.expanduser("~/.codex/skills")])
     ap.add_argument("--backup-root",
                     default=os.path.expanduser(
-                        "~/page-prefork-backup-" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")))
+                        "~/edu-skill-creator-prefork-backup-" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")))
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -44,11 +46,12 @@ def main():
     if not os.path.isdir(repo_skills):
         ap.error(f"no skills/ under {args.repo}")
 
-    # Every page skill that exists in the repo (so a fresh machine gets them all).
+    # Every edu-skill-creator skill that exists in the repo (so a fresh machine gets them all).
     repo_dirs = sorted(d for d in os.listdir(repo_skills)
                        if os.path.isdir(os.path.join(repo_skills, d)))
-    personal_names = sorted({("page" if d == "page" else
-                              d if d.startswith("page-") else "page-" + d)
+    personal_names = sorted({("edu-skill-creator" if d == "edu-skill-creator" else
+                              d if d.startswith("edu-skill-creator-") else
+                              "edu-skill-creator-" + d)
                              for d in repo_dirs})
 
     for tree in args.trees:

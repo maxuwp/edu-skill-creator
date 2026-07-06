@@ -1,8 +1,8 @@
-# MAINTAINING — PAGE
+# MAINTAINING — Edu Skill Creator
 
-This repo is the **single source of truth** for PAGE on both harnesses (Claude Code and
+This repo is the **single source of truth** for Edu Skill Creator on both harnesses (Claude Code and
 Codex). It follows the dual-harness playbook it teaches:
-`skills/page/reference/dual_harness_playbook.md` is the full specification — this file
+`skills/edu-skill-creator/reference/dual_harness_playbook.md` is the full specification — this file
 is the operational summary.
 
 ## Rule 0
@@ -14,11 +14,11 @@ than no lint).
 ## Every change
 
 1. `git pull` before editing — the other harness may have pushed.
-2. Edit through the symlinked working dirs (`<skills-dir>/page-<x>`) or here directly;
+2. Edit through the symlinked working dirs (`<skills-dir>/edu-skill-creator-<x>`) or here directly;
    they are the same files. Never copy files between trees.
-3. Keep SKILL bodies tool-agnostic: `<page-skill-dir>/…` placeholders, "a fresh subagent
+3. Keep SKILL bodies tool-agnostic: `<edu-skill-creator-skill-dir>/…` placeholders, "a fresh subagent
    session". Harness specifics live only in
-   `skills/page/reference/harness_adaptation.md` (lint-whitelisted, with
+   `skills/edu-skill-creator/reference/harness_adaptation.md` (lint-whitelisted, with
    `dual_harness_playbook.md`).
 4. When a rule or schema changes, grep the whole `skills/` tree for the OLD phrasing —
    semantic drift (new rule on top, stale text below) is the one class the lint cannot
@@ -38,18 +38,18 @@ than no lint).
 - After the publish gate, run `python3 scripts/release_lint.py --publish` — in this
   mode a manifest that claims a hosted repo with no configured origin is an error,
   not a warning.
-- Add a real `## page_skill.X.Y — <date>` heading to CHANGELOG.md (teaser mentions
+- Add a real `## edu_skill_creator.X.Y — <date>` heading to CHANGELOG.md (teaser mentions
   don't count and don't pass the lint).
 - Commit trailer: `Found-on: claude-code | codex-desktop | codex-cli | user-pilot-review`.
 - Update `docs/BUILD_PLAN.md` checkboxes if the release completes plan items.
 
 ## Dev setup on a fresh machine
 
-`python3 scripts/link_dev_dirs.py` — symlinks `~/.claude/skills/page-<x>` and
-`~/.codex/skills/page-<x>` into `skills/<x>` (idempotent; backs up anything in the way).
+`python3 scripts/link_dev_dirs.py` — symlinks `~/.claude/skills/edu-skill-creator-<x>` and
+`~/.codex/skills/edu-skill-creator-<x>` into `skills/<x>` (idempotent; backs up anything in the way).
 See the script docstring.
 
 ## Sibling repos
 
 POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d) are the plugins whose
-development produced PAGE's `lessons_learned.md`; their pilots feed `page-reflect`.
+development produced Edu Skill Creator's `lessons_learned.md`; their pilots feed `edu-skill-creator-reflect`.

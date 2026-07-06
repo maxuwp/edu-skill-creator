@@ -1,5 +1,5 @@
 {
-  "skill": "page-release",
+  "skill": "edu-skill-creator-release",
   "score": 90,
   "threshold": 85,
   "dimension_scores": {
@@ -22,7 +22,7 @@
     {
       "severity": "major",
       "location": "Checklist step 1 (State verification before commit) / Cross-harness handoff section",
-      "issue": "dual_harness_playbook.md's Release rules require 'git pull before editing (the other harness may have pushed)' as rule 2 \u2014 directly relevant here since page-release's own Cross-harness handoff section states both agents maintain the plugin and 'finding different issues' is the intended steady state. Without a pull-before-edit step, a release built on a stale local checkout can silently overwrite or conflict with the other harness's un-pulled commits \u2014 exactly the drift class the playbook exists to prevent.",
+      "issue": "dual_harness_playbook.md's Release rules require 'git pull before editing (the other harness may have pushed)' as rule 2 \u2014 directly relevant here since edu-skill-creator-release's own Cross-harness handoff section states both agents maintain the plugin and 'finding different issues' is the intended steady state. Without a pull-before-edit step, a release built on a stale local checkout can silently overwrite or conflict with the other harness's un-pulled commits \u2014 exactly the drift class the playbook exists to prevent.",
       "fix": "Add a step 0 (or fold into step 1) requiring a git pull / fast-forward check against the remote before any state verification or commit, failing loudly on divergence.",
       "status": "fixed",
       "resolution": "git pull added to step 1 (1.1)"
@@ -38,7 +38,7 @@
     {
       "severity": "minor",
       "location": "Checklist step 5 (Trigger check)",
-      "issue": "Step 5 references re-reading each skill's frontmatter description against 'the intent's should/should-not-trigger lists' but does not name the file/path where that inventory lives, leaving a cold agent to guess which artifact from page-intent's output to consult.",
+      "issue": "Step 5 references re-reading each skill's frontmatter description against 'the intent's should/should-not-trigger lists' but does not name the file/path where that inventory lives, leaving a cold agent to guess which artifact from edu-skill-creator-intent's output to consult.",
       "fix": "Name the exact file (e.g. the intent interview's should/should-not-trigger artifact path) so the step is directly executable without inferring it from another skill.",
       "status": "accepted",
       "resolution": "Trigger check references intent.md's lists; the build session carries them"
@@ -46,7 +46,7 @@
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

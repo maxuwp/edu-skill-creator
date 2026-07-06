@@ -1,15 +1,15 @@
 ---
-name: page-test
-description: PAGE Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the page umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.3"
+name: edu-skill-creator-test
+description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
+version: "1.4"
 ---
 
-# PAGE Stage 6: Test
+# Edu Skill Creator Stage 6: Test
 
 Adapts obra's writing-skills discipline — **TDD for process documentation** — plus
 skill-creator's eval mechanics. The iron law, softened one notch for practicality: a
 skill's key constraints should each trace to a demonstrated failure (RED) or to a lesson
-in `<page-skill-dir>/reference/lessons_learned.md` (already-paid-for RED).
+in `<edu-skill-creator-skill-dir>/reference/lessons_learned.md` (already-paid-for RED).
 
 **Inputs (exact):** the new plugin's drafted skills with their `reviews/*_review.json`
 logs all at ≥85 and zero critical flags, plus the approved `architecture.md` (whose
@@ -70,7 +70,7 @@ Scenarios every educational plugin must survive (from the POSED/p2d pilots):
 9. **Log/redaction failure.** After a full dry-run, grep the session's logs and
    decision files for the seeded PII from scenario 7 and for any secrets used; the
    redaction rules in the data-flow model must have actually applied.
-10. **Gate accessibility.** Drive one generated HITL page with keyboard only (tab
+10. **Gate accessibility.** Drive one generated HITL edu-skill-creator with keyboard only (tab
     order, focus visibility, activation) and check its semantics (labels, roles,
     contrast) against WCAG 2.2 operability; a gate the human cannot operate is a
     blocked pipeline, not a cosmetic issue.
@@ -94,8 +94,8 @@ in `tests/loop_log.md`. Two consecutive clean passes per scenario = done.
 | artifact | `tests/results.md` — results table (scenario × RED × GREEN × loops), findings keyed `f1…fn` |
 | reviewer | the fresh-context GREEN judges above (transcripts under `tests/`) |
 | decision_file | `test_gate_decision.json` — `{decision, findings:[{id, disposition: fix-now|defer|reject, comment}], guidance}` |
-| owns | fix-now findings route to `page-draft` (skill text) or `page-architecture` (design) |
+| owns | fix-now findings route to `edu-skill-creator-draft` (skill text) or `edu-skill-creator-architecture` (design) |
 | invalidates | any fix-now that lands marks the affected skill's GREEN passes stale (re-run before release) |
 | consent | the full/lite/skip ladder above, recorded as `test.consent_mode` |
 
-BUILD_PLAN items checked, then `page-release`.
+BUILD_PLAN items checked, then `edu-skill-creator-release`.

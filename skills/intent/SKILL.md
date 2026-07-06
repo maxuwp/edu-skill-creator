@@ -1,10 +1,10 @@
 ---
-name: page-intent
-description: PAGE Stage 1 — Intent interview for a new educational plugin. Captures purpose, users, artifacts, gates, and the contested-choices inventory (pedagogical decisions that must become explicit options, never defaults). Triggers - when the page umbrella dispatches Stage 1, or the user says "let's scope the new educational plugin".
-version: "1.3"
+name: edu-skill-creator-intent
+description: Edu Skill Creator Stage 1 — Intent interview for a new educational plugin. Captures purpose, users, artifacts, gates, and the contested-choices inventory (pedagogical decisions that must become explicit options, never defaults). Triggers - when the edu-skill-creator umbrella dispatches Stage 1, or the user says "let's scope the new educational plugin".
+version: "1.4"
 ---
 
-# PAGE Stage 1: Intent Interview
+# Edu Skill Creator Stage 1: Intent Interview
 
 Borrowed from Anthropic's skill-creator ("capture intent, then interview") and hardened
 by lesson L2. Output: `intent.md`, approved by the author at the stage gate.
@@ -94,7 +94,7 @@ inventory (table) · Gate sketch · Open questions.
 Present `intent.md` to the author section by section; collect structured feedback
 (agree / revise + comment per section) and persist it as
 `intent_gate_decision.json` (`{decision, section_feedback{}, guidance}` — the
-decision-JSON discipline from gate_design_patterns.md, applied to PAGE itself). Do not
-proceed to `page-grounding` until the author approves. Never approve on their behalf.
-If `intent.md` is revised after approval, downstream PAGE artifacts go stale per the
+decision-JSON discipline from gate_design_patterns.md, applied to Edu Skill Creator itself). Do not
+proceed to `edu-skill-creator-grounding` until the author approves. Never approve on their behalf.
+If `intent.md` is revised after approval, downstream Edu Skill Creator artifacts go stale per the
 umbrella's operating rules.

@@ -1,5 +1,5 @@
 {
-  "skill": "page-refresh",
+  "skill": "edu-skill-creator-refresh",
   "score": 90,
   "threshold": 85,
   "dimension_scores": {
@@ -15,7 +15,7 @@
       "severity": "major",
       "location": "BUILD_PLAN.md Source anchors table, row 'refresh' (this skill's design spec)",
       "issue": "The design spec's cited primary source for this skill is 'posed-refresh pattern.' No skill named posed-refresh exists in the current POSED skill set (only posed-reflect, a distinct end-of-session preference-harvesting skill already separately anchored under L9). The skill's own grounding anchor is therefore unverifiable and appears to conflate refresh with reflect.",
-      "fix": "Correct the BUILD_PLAN source-anchor row to name the actual precedent, or state plainly that page-refresh is the first instance of this pattern, justified directly by L9, rather than implying a prior POSED skill that does not exist.",
+      "fix": "Correct the BUILD_PLAN source-anchor row to name the actual precedent, or state plainly that edu-skill-creator-refresh is the first instance of this pattern, justified directly by L9, rather than implying a prior POSED skill that does not exist.",
       "status": "fixed",
       "resolution": "posed-refresh exists at posed-plugin/skills/refresh (posed_skill.1.11); its symlinks were missing from both harness trees and were relinked 2026-07-06 \u2014 the anchor is real and now visible"
     },
@@ -46,7 +46,7 @@
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

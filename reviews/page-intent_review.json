@@ -1,5 +1,5 @@
 {
-  "skill": "page-intent",
+  "skill": "edu-skill-creator-intent",
   "score": 87,
   "threshold": 85,
   "dimension_scores": {
@@ -30,7 +30,7 @@
     {
       "severity": "minor",
       "location": "Gate section",
-      "issue": "Gate collection is described only as 'collect structured feedback (agree / revise + comment per section)' \u2014 this is structured at the section level (consistent with gate_design_patterns.md) but never names a decision-file artifact or schema the way L5 and gate_design_patterns.md's decision-JSON pattern require ('Decisions are JSON on disk'). Reasonable to defer full gate-spec fields (gate_id, decision_file, owns, invalidates) to page-architecture since that table is explicitly scoped to 'architecture doc,' but this skill's own gate produces no named persisted decision artifact at all, which is a gap even for Stage 1.",
+      "issue": "Gate collection is described only as 'collect structured feedback (agree / revise + comment per section)' \u2014 this is structured at the section level (consistent with gate_design_patterns.md) but never names a decision-file artifact or schema the way L5 and gate_design_patterns.md's decision-JSON pattern require ('Decisions are JSON on disk'). Reasonable to defer full gate-spec fields (gate_id, decision_file, owns, invalidates) to edu-skill-creator-architecture since that table is explicitly scoped to 'architecture doc,' but this skill's own gate produces no named persisted decision artifact at all, which is a gap even for Stage 1.",
       "fix": "Name the decision file (e.g. intent_gate_decision.json) and note it persists per-section agree/revise+comment dispositions, so downstream stages and any audit trail have something concrete to point to.",
       "status": "fixed",
       "resolution": "intent_gate_decision.json named with schema (1.1)"
@@ -54,7 +54,7 @@
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

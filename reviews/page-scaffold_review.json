@@ -1,5 +1,5 @@
 {
-  "skill": "page-scaffold",
+  "skill": "edu-skill-creator-scaffold",
   "score": 98,
   "threshold": 85,
   "dimension_scores": {
@@ -30,7 +30,7 @@
   ],
   "recommendation": "approve",
   "resolution_pass": {
-    "resolved_against": "page_skill.1.2",
+    "resolved_against": "edu_skill_creator.1.2",
     "date": "2026-07-06",
     "legend": "status=fixed: addressed in the named release; status=accepted: deliberate, documented deviation or deferred minor"
   }

@@ -1,10 +1,10 @@
 ---
-name: page-reflect
-description: PAGE Stage 8 — Post-pilot reflection for an educational plugin built with PAGE. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson in PAGE's own lessons_learned.md. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.3"
+name: edu-skill-creator-reflect
+description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson in Edu Skill Creator's own lessons_learned.md. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
+version: "1.4"
 ---
 
-# PAGE Stage 8: Reflect
+# Edu Skill Creator Stage 8: Reflect
 
 The loop that made POSED improve across 14 releases instead of staying v1.0. Runs after
 the new plugin's first real pilot (and any later one on request). Nothing here
@@ -34,7 +34,7 @@ approved edits routed as described under "Gate".
 
 Gate comments and session artifacts can contain names, student work fragments, grades,
 or course-identifying detail. Before any harvested text enters `reflect_ledger.json` —
-and doubly before anything is promoted to a shared, committed file like PAGE's
+and doubly before anything is promoted to a shared, committed file like Edu Skill Creator's
 `lessons_learned.md` — apply the plugin's own data posture (its architecture data-flow
 model governs its session data): strip student PII entirely; replace personal names
 and course identifiers with roles ("the TA", "the intro course"); keep the educator's
@@ -52,14 +52,14 @@ across pilots:
 | id | stable `f<n>` — never renumbered |
 | finding | What happened, with source (gate file / quote / log) — post-redaction |
 | redactions | what was scrubbed or paraphrased, so the scrub is reviewable |
-| scope | `plugin` (fix this plugin) / `page` (general lesson for all educational plugins) / `both` |
+| scope | `plugin` (fix this plugin) / `edu-skill-creator` (general lesson for all educational plugins) / `both` |
 | proposal | The concrete change (skill text, rubric, gate, architecture) |
 | cost | Small edit / new release / architecture change |
 
-**Scope discipline for lessons:** promote a finding to PAGE's `lessons_learned.md` only
+**Scope discipline for lessons:** promote a finding to Edu Skill Creator's `lessons_learned.md` only
 if it would plausibly bite a *different* educational plugin; one-plugin quirks stay
 local. When promoting, follow the ledger format there (rule / failure that taught it /
-enforcement point) and link the enforcement into the relevant PAGE skill in the same
+enforcement point) and link the enforcement into the relevant Edu Skill Creator skill in the same
 release.
 
 ## Independent review (before the author sees the ledger — L3)
@@ -68,7 +68,7 @@ The ledger is a drafted artifact — self-harvested lessons are exactly where
 rationalization creeps in. Dispatch a fresh subagent session whose inputs are ONLY: the
 draft `reflect_ledger.json`, the pilot's gate decision files, and the pilot's review
 logs. It checks: each finding is actually supported by its cited source (no invented
-morals), scope classification is honest (`page`-scope claims generalize beyond this
+morals), scope classification is honest (`edu-skill-creator`-scope claims generalize beyond this
 plugin), redaction completeness (no PII or identifying detail survived), and proposals
 match findings. Log to `reviews/reflect_ledger_review.json` BEFORE the gate opens; fix
 blocking findings and re-review. Like the other map/design reviews, this is a binary
@@ -85,7 +85,7 @@ shows finding counts by severity.
 | artifact | `reflect_ledger.json`, rows keyed `f<n>` |
 | reviewer | fresh-context ledger review above (`reviews/reflect_ledger_review.json`) |
 | decision_file | `reflect_gate_decision.json` — `{rows:[{id, disposition, comment}], quote_consent: true\|false, guidance}` |
-| owns | approved `plugin`-scope rows feed the plugin's next release; approved `page`-scope rows become a PAGE release (which itself runs `page-release` — PAGE eats its own dog food) |
+| owns | approved `plugin`-scope rows feed the plugin's next release; approved `edu-skill-creator`-scope rows become a Edu Skill Creator release (which itself runs `edu-skill-creator-release` — Edu Skill Creator eats its own dog food) |
 | invalidates | nothing retroactively; changes land through the owning releases |
 | consent | n/a — the harvest is cheap; the per-row approval IS the gate |
 

@@ -1,11 +1,11 @@
 # Lessons Learned — building POSED and p2d
 
-The empirical core of PAGE. Every rule below was paid for by a real failure during the
+The empirical core of Edu Skill Creator. Every rule below was paid for by a real failure during the
 development and piloting of POSED (posed_skill.1.0 → 1.14) and p2d (p2d_skill.1.0 → 1.6).
-When PAGE supervises a new educational plugin, each lesson is a **design requirement**,
+When Edu Skill Creator supervises a new educational plugin, each lesson is a **design requirement**,
 not a suggestion — a stage that violates one must justify the deviation at its gate.
 
-Format per lesson: the rule, the failure that taught it, how PAGE enforces it.
+Format per lesson: the rule, the failure that taught it, how Edu Skill Creator enforces it.
 
 ---
 
@@ -27,7 +27,7 @@ POSED once over-generalized a protocol validated only for n8n-workflow developme
 universal AI-development framework; the fix was a "Scope and limitations" section. Every
 grounding map entry must state what the framework does NOT cover.
 
-**PAGE enforcement.** `page-grounding` runs before any architecture work and produces
+**Edu Skill Creator enforcement.** `edu-skill-creator-grounding` runs before any architecture work and produces
 `grounding_frameworks.md` for the new plugin; a stage with no anchor is flagged
 "invented process — justify or redesign" and blocks the grounding gate.
 
@@ -44,8 +44,8 @@ assisted design as default… many professors don't like it or even hate student
 assisted work." Fix: a four-option faculty AI stance chosen at intake, with all
 AI-flavored design conditional on it, plus a reviewer critical flag "AI stance violated."
 
-**PAGE enforcement.** `page-intent` includes a mandatory "contested choices inventory";
-`page-architecture` requires each inventoried choice to surface as an explicit intake
+**Edu Skill Creator enforcement.** `edu-skill-creator-intent` includes a mandatory "contested choices inventory";
+`edu-skill-creator-architecture` requires each inventoried choice to surface as an explicit intake
 option with a neutral introduction; reviewer rubrics get a critical flag for violations.
 
 ## L3 — Drafter ≠ reviewer, always
@@ -61,10 +61,10 @@ errors — cumulative hallucination passed its own checks. In the AI-for-All pil
 monolithic self-checked outline sailed through with terminology pile-ups and irrelevant
 prerequisites that a cold reader spotted immediately.
 
-**PAGE enforcement.** `page-architecture` requires a drafter/reviewer pairing per
-content stage; `page-draft` authors the rubrics from a standard template (allowlist,
+**Edu Skill Creator enforcement.** `edu-skill-creator-architecture` requires a drafter/reviewer pairing per
+content stage; `edu-skill-creator-draft` authors the rubrics from a standard template (allowlist,
 dimensions, threshold, critical flags, output schema, one worked failure example) — and
-PAGE itself reviews drafted skills with a fresh-context reviewer.
+Edu Skill Creator itself reviews drafted skills with a fresh-context reviewer.
 
 ## L4 — Big gates overload the human; split into narrow, dependency-aware steps
 
@@ -79,7 +79,7 @@ and un-actionable "revise it" feedback. After an upstream edit, downstream artif
 generated from the superseded version shipped silently. The six-step Stage 3 wizard with
 stale-state invalidation fixed both.
 
-**PAGE enforcement.** `page-architecture` produces an explicit dependency model and gate
+**Edu Skill Creator enforcement.** `edu-skill-creator-architecture` produces an explicit dependency model and gate
 map for the new plugin; a stage whose gate asks for more than one decision is a review
 finding.
 
@@ -94,9 +94,9 @@ the human's behalf; "prefer defaults" means prefill, never bypass.
 **Failure that taught it.** Faculty typed rich feedback into description fields where no
 downstream step ever read it. Feedback died in transit.
 
-**PAGE enforcement.** `gate_design_patterns.md` specifies the decision-JSON schema and
+**Edu Skill Creator enforcement.** `gate_design_patterns.md` specifies the decision-JSON schema and
 gate UI patterns (POSED's guided app is the reference implementation);
-`page-architecture` requires every gate to name its decision schema and owning step.
+`edu-skill-creator-architecture` requires every gate to name its decision schema and owning step.
 
 ## L6 — Expensive AI runs are consent-gated with a cost ladder
 
@@ -109,7 +109,7 @@ the only rehearsal — auto-invoke and say why.
 **Failure that taught it.** The two-role (professor/student) dry-run simulation was
 valuable but "very token consuming" — the author asked that it never run without asking.
 
-**PAGE enforcement.** `page-test`'s eval sweeps and any simulation stage designed into a
+**Edu Skill Creator enforcement.** `edu-skill-creator-test`'s eval sweeps and any simulation stage designed into a
 new plugin must carry the full/lite/skip consent gate with a recorded mode field.
 
 ## L7 — One source of truth; automate drift detection
@@ -125,7 +125,7 @@ rubric sums ≠ 100, missing changelog heading, dangling reference citations.
 Even after merging, a shared variable containing a literal home-directory harness path
 leaked into 17 files — caught by the other harness, then made lintable.
 
-**PAGE enforcement.** `page-scaffold` generates this layout from day one, including the
+**Edu Skill Creator enforcement.** `edu-skill-creator-scaffold` generates this layout from day one, including the
 parameterized lint; `dual_harness_playbook.md` is the specification.
 
 ## L8 — Plan resumably; verify state before committing; make lints falsifiable
@@ -137,8 +137,8 @@ mid-script abort once produced a bad partial commit). And test every lint in the
 direction before trusting it: a lint that can false-pass is worse than no lint (POSED's
 changelog check once matched a teaser line instead of a real entry).
 
-**PAGE enforcement.** `page-architecture` emits a BUILD_PLAN checklist as a required
-artifact; `page-release` requires demonstrating each new lint check fails on a seeded
+**Edu Skill Creator enforcement.** `edu-skill-creator-architecture` emits a BUILD_PLAN checklist as a required
+artifact; `edu-skill-creator-release` requires demonstrating each new lint check fails on a seeded
 violation before it counts.
 
 ## L9 — Knowledge snapshots go stale; build the refresh loop in
@@ -153,9 +153,9 @@ lecture designs — personalized FFT/IFFT visualizations — that the frozen ski
 never propose; and pilot lessons kept accumulating in chat transcripts instead of the
 plugin.
 
-**PAGE enforcement.** `page-architecture` includes refresh + reflect stages in every
-educational plugin's design by default (the educator can decline — see L2); PAGE itself
-ships `page-refresh` and `page-reflect`.
+**Edu Skill Creator enforcement.** `edu-skill-creator-architecture` includes refresh + reflect stages in every
+educational plugin's design by default (the educator can decline — see L2); Edu Skill Creator itself
+ships `edu-skill-creator-refresh` and `edu-skill-creator-reflect`.
 
 ---
 
@@ -163,15 +163,15 @@ ships `page-refresh` and `page-reflect`.
 
 | # | Rule | Enforced at |
 |---|---|---|
-| L1 | Ground in published frameworks, original scope only | page-grounding gate |
-| L2 | Contested choices are explicit options, never defaults | page-intent inventory; rubric critical flag |
-| L3 | Independent fresh-context reviewer per content stage | page-architecture; page-draft rubrics |
-| L4 | Narrow gates + dependency/stale-state model | page-architecture |
+| L1 | Ground in published frameworks, original scope only | edu-skill-creator-grounding gate |
+| L2 | Contested choices are explicit options, never defaults | edu-skill-creator-intent inventory; rubric critical flag |
+| L3 | Independent fresh-context reviewer per content stage | edu-skill-creator-architecture; edu-skill-creator-draft rubrics |
+| L4 | Narrow gates + dependency/stale-state model | edu-skill-creator-architecture |
 | L5 | Structured decision JSON; never accept on the human's behalf | gate_design_patterns.md |
-| L6 | Cost-consent ladder for expensive runs | page-test; simulation stage designs |
-| L7 | Single source + symlinks + release lint | page-scaffold |
-| L8 | Resumable checklists; verify-then-commit; falsifiable lints | page-architecture; page-release |
-| L9 | Refresh + reflect loops | page-architecture defaults |
+| L6 | Cost-consent ladder for expensive runs | edu-skill-creator-test; simulation stage designs |
+| L7 | Single source + symlinks + release lint | edu-skill-creator-scaffold |
+| L8 | Resumable checklists; verify-then-commit; falsifiable lints | edu-skill-creator-architecture; edu-skill-creator-release |
+| L9 | Refresh + reflect loops | edu-skill-creator-architecture defaults |
 
 *Provenance: POSED CHANGELOG entries posed_skill.1.4–1.14 and p2d_skill.1.4–1.6 record
 the concrete releases behind each lesson.*

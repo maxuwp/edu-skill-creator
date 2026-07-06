@@ -1,6 +1,6 @@
 # Educational Grounding Library — starter framework map
 
-The starting menu for `page-grounding`. When designing a stage in a new educational
+The starting menu for `edu-skill-creator-grounding`. When designing a stage in a new educational
 plugin, look here FIRST; search for additional frameworks only when nothing fits. Each
 entry: what it grounds, and its scope limit (L1 corollary: cite a framework only for its
 original, validated scope — every use must state what the framework does NOT cover).
@@ -61,7 +61,7 @@ For a worked example of a complete per-plugin grounding map, see POSED's
 
 Rule of thumb: a plugin that handles student work, grades, or identifiable student
 information — or sends anything to an external service — must carry a data-flow/security
-model in its architecture (see `page-architecture`), grounded in this section.
+model in its architecture (see `edu-skill-creator-architecture`), grounded in this section.
 
 ## AI-assisted development & authoring (for the plugin-building process itself)
 

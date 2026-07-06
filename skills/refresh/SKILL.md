@@ -1,15 +1,15 @@
 ---
-name: page-refresh
-description: PAGE maintenance — periodic (~90-day) refresh of PAGE's own knowledge. Checks for new skill/plugin-authoring best practices, new educational frameworks worth adding to the grounding library, and new AI capabilities that change what educational plugins can offer. Consent-gated research sweep; findings land in a dated ledger reviewed approve-per-item; never auto-applies. Triggers - when ~90 days have passed since the last refresh, or the user says "refresh PAGE" or asks whether the authoring guidance is still current.
-version: "1.3"
+name: edu-skill-creator-refresh
+description: Edu Skill Creator maintenance — periodic (~90-day) refresh of Edu Skill Creator's own knowledge. Checks for new skill/plugin-authoring best practices, new educational frameworks worth adding to the grounding library, and new AI capabilities that change what educational plugins can offer. Consent-gated research sweep; findings land in a dated ledger reviewed approve-per-item; never auto-applies. Triggers - when ~90 days have passed since the last refresh, or the user says "refresh Edu Skill Creator" or asks whether the authoring guidance is still current.
+version: "1.4"
 ---
 
-# PAGE Refresh
+# Edu Skill Creator Refresh
 
-PAGE encodes three snapshots that go stale at different speeds (L9): authoring practice
+Edu Skill Creator encodes three snapshots that go stale at different speeds (L9): authoring practice
 (fast — the harness vendors iterate), AI capabilities (fast), educational frameworks
 (slow). Check `last_refresh` in this file's footer; if ~90 days have passed, offer a
-refresh when PAGE is next invoked. Never run one un-asked.
+refresh when Edu Skill Creator is next invoked. Never run one un-asked.
 
 ## Consent first (L6)
 
@@ -52,7 +52,7 @@ implications (a new AI capability is still subject to the educator's AI stance �
 *Grounding note (L1, resolution b — recorded justification):* unlike Parts A and B,
 no published framework governs "watch for AI-capability change"; this part is an
 invented process justified by L9's documented failure (the frozen-skill-text /
-FFT-IFFT case in `<page-skill-dir>/reference/lessons_learned.md`). If a citable
+FFT-IFFT case in `<edu-skill-creator-skill-dir>/reference/lessons_learned.md`). If a citable
 practice for capability-watch emerges, a future refresh should anchor Part C to it and
 retire this note.
 
@@ -65,7 +65,7 @@ One row per finding, keyed `r1…rn` (stable, never renumbered):
 | id | `r<n>` |
 | source | which Part / which primary source |
 | change | what changed since last refresh |
-| affects | the PAGE file(s) to edit, and — where the change alters a pattern that `page-scaffold`/`page-draft` generate into new plugins — which already-built plugins carry the old pattern (informational: their own maintainers decide; PAGE never edits downstream repos) |
+| affects | the Edu Skill Creator file(s) to edit, and — where the change alters a pattern that `edu-skill-creator-scaffold`/`edu-skill-creator-draft` generate into new plugins — which already-built plugins carry the old pattern (informational: their own maintainers decide; Edu Skill Creator never edits downstream repos) |
 | proposal | the concrete edit |
 | risk_of_not | what breaks or goes stale if rejected |
 
@@ -91,15 +91,15 @@ against the library's "Rules of use" bar, and no row smuggles a pedagogical stan
 | artifact | the dated ledger, rows keyed `r<n>` |
 | reviewer | Part A: none (scoped waiver above); Parts B/C: the fresh-context review above |
 | decision_file | `docs/refresh_ledger_<date>_decision.json` — `{rows:[{id, disposition, comment}], guidance}` |
-| owns | approved rows are applied as a normal PAGE release through `page-release` |
-| invalidates | rows that change lessons_learned.md or the grounding library mark dependent PAGE skills for the semantic-drift grep in that release |
+| owns | approved rows are applied as a normal Edu Skill Creator release through `edu-skill-creator-release` |
+| invalidates | rows that change lessons_learned.md or the grounding library mark dependent Edu Skill Creator skills for the semantic-drift grep in that release |
 | consent | the full/lite/skip ladder above, recorded in the ledger header |
 
 **After the gate closes** (explicit steps, not implied): (1) update the `last_refresh`
 footer below in the same commit as the applied rows — an interrupted cycle whose footer
 never moved is simply re-run; a ledger with no decision file is an open cycle, and a new
 refresh must not start until it is closed or discarded; (2) write the stage-end
-plain-language summary (rows applied / deferred / rejected, what changed in PAGE).
+plain-language summary (rows applied / deferred / rejected, what changed in Edu Skill Creator).
 
 ---
 *last_refresh: 2026-07-06 (initial build — sources current as of this date)*

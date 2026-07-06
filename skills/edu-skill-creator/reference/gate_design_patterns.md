@@ -1,7 +1,7 @@
 # HITL Gate Design Patterns — for educational plugins
 
 Distilled from POSED's guided app (`posed_app.py`, the reference implementation) and the
-pilot failures in `lessons_learned.md` (L4, L5). `page-architecture` requires every gate
+pilot failures in `lessons_learned.md` (L4, L5). `edu-skill-creator-architecture` requires every gate
 in a new plugin's design to specify the fields in "Gate specification" below.
 
 ## Principles
@@ -27,7 +27,7 @@ in a new plugin's design to specify the fields in "Gate specification" below.
    Every feedback element routes to the pipeline step that OWNS that item; feedback with
    no owner is a design error.
 4. **Review before gate.** The independent reviewer's log is written to disk before the
-   human page renders; the gate shows the reviewer's summary card (score, top findings,
+   human edu-skill-creator renders; the gate shows the reviewer's summary card (score, top findings,
    critical flags) so the human never reviews blind.
 5. **Never accept on the human's behalf.** The assistant may prefill recommended
    defaults; it may never click approve, skip a gate, or interpret "prefer defaults" as
@@ -59,5 +59,5 @@ POSED's guided app already solves: cloud-storage-safe sessions (staging under a 
 private tmp dir when the project lives in OneDrive/iCloud; `--cloud-safe auto|always|never`),
 sandboxed-harness handoff (`--status-file` with ready → submitted_to_server → completed),
 and item/section gate pages. New educational plugins should adapt that app (or its
-patterns) rather than writing gate UIs from scratch — `page-scaffold` copies it as a
+patterns) rather than writing gate UIs from scratch — `edu-skill-creator-scaffold` copies it as a
 starting point.

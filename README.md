@@ -1,7 +1,7 @@
-# PAGE — Plugin Authoring for Grounded Education
+# Edu Skill Creator
 
 A meta-plugin: the framework, process, and supervision for creating **educational
-plugins** (HITL-gated agent pipelines that produce teaching artifacts). PAGE exists so
+plugins** (HITL-gated agent pipelines that produce teaching artifacts). Edu Skill Creator exists so
 that every new educational plugin starts from an established, framework-grounded process
 instead of ad-hoc drafting — and starts from the lessons already paid for while building
 [POSED](https://github.com/maxuwp/posed) (lecture/curriculum authoring, 14 releases) and
@@ -17,7 +17,7 @@ instead of ad-hoc drafting — and starts from the lessons already paid for whil
 - **obra's writing-skills** ([obra/superpowers](https://github.com/obra/superpowers)) —
   TDD for skills: RED baseline pressure scenarios → GREEN minimal skill → REFACTOR
   loopholes closed.
-- **The POSED/p2d lessons ledger** (`skills/page/reference/lessons_learned.md`) — nine
+- **The POSED/p2d lessons ledger** (`skills/edu-skill-creator/reference/lessons_learned.md`) — nine
   design requirements paid for by real pilot failures: framework grounding with scope
   discipline; contested pedagogical choices as explicit options, never author defaults;
   drafter ≠ reviewer; narrow dependency-aware gates; structured decision JSON; consent
@@ -26,9 +26,9 @@ instead of ad-hoc drafting — and starts from the lessons already paid for whil
 
 ## Pipeline
 
-`page` (umbrella) dispatches: `page-intent` → `page-grounding` → `page-architecture` →
-`page-scaffold` → `page-draft` → `page-test` → `page-release` → `page-reflect`, with
-`page-refresh` as the ~90-day maintenance loop. Each stage ends at a human gate; PAGE
+`edu-skill-creator` (umbrella) dispatches: `edu-skill-creator-intent` → `edu-skill-creator-grounding` → `edu-skill-creator-architecture` →
+`edu-skill-creator-scaffold` → `edu-skill-creator-draft` → `edu-skill-creator-test` → `edu-skill-creator-release` → `edu-skill-creator-reflect`, with
+`edu-skill-creator-refresh` as the ~90-day maintenance loop. Each stage ends at a human gate; Edu Skill Creator
 never approves on the author's behalf.
 
 ## Install

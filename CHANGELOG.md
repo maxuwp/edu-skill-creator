@@ -1,7 +1,19 @@
-# Changelog — PAGE
+# Changelog — Edu Skill Creator
 
 All releases bump both plugin manifests in lockstep. Entry headings follow
-`## page_skill.X.Y — <date>` (the release lint requires the heading, not a mention).
+`## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
+
+## edu_skill_creator.1.4 — 2026-07-06
+
+Rename release: PAGE is now **Edu Skill Creator**.
+
+- Renamed the plugin id, umbrella skill, subskill frontmatter names, placeholders,
+  README/maintenance docs, release lint prefix, and dev-link script from generic
+  `page` / `PAGE` naming to `edu-skill-creator` / `Edu Skill Creator`.
+- Updated both manifests to `edu-skill-creator` 1.4.0 and pointed homepage/repository
+  metadata at `https://github.com/maxuwp/edu-skill-creator`.
+- Future release headings use `edu_skill_creator.X.Y`; older entries below retain the
+  old `page_skill.*` tag prefix for historical accuracy.
 
 ## page_skill.1.3 — 2026-07-06
 
@@ -28,15 +40,15 @@ Release-evidence hygiene (second Codex review round). No workflow changes.
   history lives in this changelog.
 - **`release_lint.py --publish`**: after the publish gate, the "manifests claim a
   hosted repo but no origin exists" case escalates from warning to error
-  (falsifiability-tested with origin removed). `page-release` step 8 and
+  (falsifiability-tested with origin removed). `edu-skill-creator-release` step 8 and
   MAINTAINING.md now call for publish mode post-publish.
-- page-refresh: Part B (grounding-library judgment) scoped INTO the independent
+- edu-skill-creator-refresh: Part B (grounding-library judgment) scoped INTO the independent
   review alongside Part C, per the round-3 reviewer's finding; only Part A's pure
   fact-reporting keeps the L3 waiver.
 
 ## page_skill.1.1 — 2026-07-06
 
-Codex review round: privacy/security/accessibility hardening + PAGE reviewed by its own
+Codex review round: privacy/security/accessibility hardening + Edu Skill Creator reviewed by its own
 instrument.
 
 - **Stage 1 intent**: new interview questions A.7 (student data/PII, FERPA/PPRA +
@@ -51,13 +63,13 @@ instrument.
   independent design review + full gate spec.
 - **skill_quality_rubric**: critical flags 7–9 (ungoverned student data, undisclosed
   external services, inaccessible HITL pages).
-- **page-test**: pressure scenarios 7–10 (student-data leakage, undisclosed external
+- **edu-skill-creator-test**: pressure scenarios 7–10 (student-data leakage, undisclosed external
   call, log/redaction failure, gate keyboard/screen-reader operability); fresh-context
   GREEN judges; exit gate spec (`test_gate`).
 - **release_lint check 7**: manifests' homepage/repository URLs must match the git
   origin (mismatch = error, missing origin = warning). Falsifiability-tested in both
   directions before landing. Lint also hardened against a missing CHANGELOG.
-- **PAGE reviewed by PAGE's rubric** (durable evidence in `reviews/`): all 10 skills
+- **Edu Skill Creator reviewed by Edu Skill Creator's rubric** (durable evidence in `reviews/`): all 10 skills
   cold-reviewed by fresh-context subagents, findings fixed, revised skills
   re-reviewed to a green board — final scores 88–98, zero critical flags. The round
   caught real defects in its own author: no self stale-state at the umbrella (fixed:
@@ -73,14 +85,14 @@ instrument.
 
 Initial release: the full authoring pipeline, built to the plan in `docs/BUILD_PLAN.md`.
 
-- **Umbrella + 9 stage skills**: `page` (dispatcher), `page-intent` (interview +
-  contested-choices inventory), `page-grounding` (framework map before design),
-  `page-architecture` (stages, gates, dependency model, BUILD_PLAN output),
-  `page-scaffold` (dual-harness repo generation), `page-draft` (skills + rubrics with
-  fresh-context review), `page-test` (RED/GREEN/REFACTOR + education-specific pressure
-  suite, consent-gated), `page-release` (lint, lockstep, semantic-drift grep,
-  author-gated publish), `page-reflect` (post-pilot harvest, approve-per-item),
-  `page-refresh` (~90-day source refresh).
+- **Umbrella + 9 stage skills**: `edu-skill-creator` (dispatcher), `edu-skill-creator-intent` (interview +
+  contested-choices inventory), `edu-skill-creator-grounding` (framework map before design),
+  `edu-skill-creator-architecture` (stages, gates, dependency model, BUILD_PLAN output),
+  `edu-skill-creator-scaffold` (dual-harness repo generation), `edu-skill-creator-draft` (skills + rubrics with
+  fresh-context review), `edu-skill-creator-test` (RED/GREEN/REFACTOR + education-specific pressure
+  suite, consent-gated), `edu-skill-creator-release` (lint, lockstep, semantic-drift grep,
+  author-gated publish), `edu-skill-creator-reflect` (post-pilot harvest, approve-per-item),
+  `edu-skill-creator-refresh` (~90-day source refresh).
 - **Reference set**: `lessons_learned.md` (the nine POSED/p2d lessons as design
   requirements), `edu_grounding_library.md` (starter framework menu with scope limits),
   `gate_design_patterns.md` (gate spec + decision JSON + stale-state model),

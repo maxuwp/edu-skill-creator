@@ -1,13 +1,13 @@
 {
-  "name": "page",
-  "version": "1.3.0",
-  "description": "PAGE \u2014 Plugin Authoring for Grounded Education. A meta-plugin that provides the framework, process, and supervision for creating educational plugins and skill sets. Guides an author from intent interview through framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release hygiene, and post-pilot reflection. Distills the lessons learned building POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d).",
+  "name": "edu-skill-creator",
+  "version": "1.4.0",
+  "description": "Edu Skill Creator. A meta-plugin that provides the framework, process, and supervision for creating educational plugins and skill sets. Guides an author from intent interview through framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release hygiene, and post-pilot reflection. Distills the lessons learned building POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d).",
   "author": {
     "name": "Xiaoguang Ma",
     "email": "maxuwplatt@gmail.com"
   },
-  "homepage": "https://github.com/maxuwp/page",
-  "repository": "https://github.com/maxuwp/page",
+  "homepage": "https://github.com/maxuwp/edu-skill-creator",
+  "repository": "https://github.com/maxuwp/edu-skill-creator",
   "license": "MIT",
   "keywords": [
     "education",
@@ -16,18 +16,18 @@
     "pedagogy",
     "meta-plugin",
     "instructional-design",
-    "page"
+    "edu-skill-creator"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "PAGE",
+    "displayName": "Edu Skill Creator",
     "shortDescription": "Framework, process, and supervision for building educational plugins.",
     "category": "education",
     "brandColor": "#1C2644"
   },
   "defaultPrompt": [
-    "Start a new educational plugin with @page",
-    "Ground my pipeline stages in established frameworks with @page-grounding",
-    "Run the TDD pass on a drafted skill with @page-test"
+    "Start a new educational plugin with @edu-skill-creator",
+    "Ground my pipeline stages in established frameworks with @edu-skill-creator-grounding",
+    "Run the TDD pass on a drafted skill with @edu-skill-creator-test"
   ]
 }

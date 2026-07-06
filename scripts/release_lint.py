@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""Release lint for the PAGE repo — run before every push (see MAINTAINING.md).
+"""Release lint for the Edu Skill Creator repo — run before every push (see MAINTAINING.md).
 
 Checks the drift classes that actually bit POSED/p2d releases (see
-skills/page/reference/lessons_learned.md L7/L8):
+skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
   1. Hardcoded ~/.claude / ~/.codex paths in shared skill markdown
      (whitelist: harness_adaptation.md and dual_harness_playbook.md, which
      define/spec the path mappings).
   2. The two plugin manifests (.claude-plugin / .codex-plugin) version-match.
   3. Deprecated repo URLs (none yet — placeholder list).
   4. Rubric dimension points sum to 100 in skills/*/reference/*rubric*.md.
-  5. CHANGELOG.md has a real '## page_skill.X.Y ' heading for the current version.
+  5. CHANGELOG.md has a real '## edu_skill_creator.X.Y ' heading for the current version.
   6. reference/ files cited by skills exist (warning only — heuristic).
   7. Manifest homepage/repository URLs match the configured git remote: a manifest
      that claims a hosted repo while origin points elsewhere is an error; a claimed
      repo with no origin at all is a warning at scaffold time — pass --publish (as
-     page-release step 8 does after the publish gate) and it becomes an error.
+     edu-skill-creator-release step 8 does after the publish gate) and it becomes an error.
   8. Uniform skill versioning: every skills/*/SKILL.md frontmatter `version` equals
      the plugin manifests' major.minor. Skill versions are bumped together on every
      release, so a stale frontmatter is mechanical drift, not history.
@@ -38,7 +38,7 @@ for p in (ROOT / "skills").rglob("*.md"):
     for i, line in enumerate(p.read_text().splitlines(), 1):
         if "~/.claude/" in line or "~/.codex/" in line:
             errors.append(f"[path] {p.relative_to(ROOT)}:{i} hardcodes a harness path — "
-                          f"use <page-skill-dir>/… or <skills-dir>/…")
+                          f"use <edu-skill-creator-skill-dir>/… or <skills-dir>/…")
 
 # 2. Manifest versions match
 vers = {}
@@ -79,9 +79,9 @@ for p in (ROOT / "skills").glob("*/reference/*rubric*.md"):
         warnings.append(f"[rubric] {p.name}: could not parse dimension points")
 
 # 5. Changelog covers the current plugin version (heading required — a
-#    teaser mention like '*next → page_skill.1.1*' does not count)
+#    teaser mention like '*next → edu_skill_creator.1.1*' does not count)
 if plugin_version:
-    major_minor = "page_skill." + ".".join(plugin_version.split(".")[:2])
+    major_minor = "edu_skill_creator." + ".".join(plugin_version.split(".")[:2])
     clog = ROOT / "CHANGELOG.md"
     clog_text = clog.read_text() if clog.exists() else ""
     if f"## {major_minor} " not in clog_text:
@@ -89,13 +89,13 @@ if plugin_version:
                       f"(plugin.json is {plugin_version})")
 
 # 6. Cited reference files exist (heuristic, warning only)
-cite = re.compile(r"`(?:<page-skill-dir>/)?reference/([A-Za-z0-9_\-]+\.md)`")
+cite = re.compile(r"`(?:<edu-skill-creator-skill-dir>/)?reference/([A-Za-z0-9_\-]+\.md)`")
 for p in (ROOT / "skills").rglob("SKILL.md"):
     text = p.read_text()
     for m in cite.finditer(text):
         name = m.group(1)
         candidates = [p.parent / "reference" / name,
-                      ROOT / "skills" / "page" / "reference" / name]
+                      ROOT / "skills" / "edu-skill-creator" / "reference" / name]
         if not any(c.exists() for c in candidates):
             warnings.append(f"[ref] {p.relative_to(ROOT)} cites reference/{name} — not found")
 
