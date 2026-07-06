@@ -38,7 +38,7 @@ unchecked item.
 - [x] Run link_dev_dirs.py (both trees); verify symlinks resolve
 - [x] Run release_lint.py → 0 errors
 - [x] git commit (Found-on: claude-code)
-- [ ] ASK USER: create github.com/maxuwp/page + push (outward action — needs explicit OK)
+- [x] ASK USER: create github.com/maxuwp/page + push (outward action — needs explicit OK)
 - [ ] Codex verification checklist handed to user
 
 ## Source anchors (what each stage borrows)
