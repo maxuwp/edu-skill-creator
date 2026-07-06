@@ -1,0 +1,61 @@
+{
+  "skill": "page-grounding",
+  "score": 63,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 17,
+    "gates": 8,
+    "craft": 16,
+    "integrity": 10,
+    "hygiene": 12
+  },
+  "critical_flags": [
+    "Critical flag 2 (content-generating step reviews its own output): the grounding map is drafted (Process steps 1-6) and goes directly to the human gate ('Gate' section) with no independent fresh-context reviewer pass in between. gate_design_patterns.md principle 4 requires the reviewer's log be written to disk and shown as a summary card BEFORE the human page renders, 'so the human never reviews blind' — page-grounding has no such mechanism; the author reviews the drafter's own map unaided.",
+    "Critical flag 6 (downstream artifacts not invalidated after upstream changes): no invalidation/stale-state behavior is specified for grounding_frameworks.md if the upstream intent.md (or its contested-choices inventory) is later revised. gate_design_patterns.md's required gate-specification field 'invalidates' is absent from the 'Gate' section entirely."
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Process (intro) / whole-skill rationale",
+      "issue": "The skill's own justification for existing and running before architecture ('design decisions get anchored to frameworks, not the other way around') is asserted but never traced to its own source anchor — L1 in lessons_learned.md and the BUILD_PLAN 'grounding' row (POSED grounding release posed_skill.1.10/1.11) are never cited in the skill body, even though the skill's entire purpose is to enforce citation discipline on other stages.",
+      "fix": "Add a one-line grounding note citing L1 (lessons_learned.md) and the BUILD_PLAN source-anchor row as the reason this stage runs pre-architecture, mirroring the rigor it demands of downstream stages."
+    },
+    {
+      "severity": "major",
+      "location": "Gate section",
+      "issue": "Does not satisfy the required 'Gate specification' fields from gate_design_patterns.md: no gate_id, no decision_file path/schema, no owns field (which step regenerates on 'revise'), no invalidates field, and no explicit consent field (even to mark N/A). Only 'decision' (agree/revise) and 'artifact' (the map) are implied.",
+      "fix": "Add an explicit gate-spec block (gate_id: grounding_gate; decision_file path + schema per items/agree-revise; owns: page-grounding re-runs step 2 for revised rows; invalidates: contested-choice inventory changes re-open architecture's dependency model; consent: n/a — not token-expensive)."
+    },
+    {
+      "severity": "major",
+      "location": "Gate section / Process (missing independent reviewer)",
+      "issue": "Rubric dimension 2 requires content stages to have an independent reviewer with an input allowlist before the human gate. The grounding map is a drafted artifact (it selects frameworks, applies scope limits, resolves unanchored stages) but the SKILL.md routes it straight from drafting to the human gate with no fresh-context review step, unlike page-draft's pattern.",
+      "fix": "Add a fresh-context reviewer pass (rubric: framework-fit accuracy, scope-limit correctness, no silent unanchored stages) that writes a review log before 'Walk the author through the map' begins."
+    },
+    {
+      "severity": "major",
+      "location": "Pipeline integrity — Process step 1 and Output section",
+      "issue": "No refusal/guard clause for missing or unapproved intent.md, and no stale-state behavior if intent.md changes after this stage's gate has already been approved (e.g., a later-revised contested-choices inventory). Rubric dimension 4 explicitly requires both.",
+      "fix": "State explicitly: 'refuses to run if intent.md is not gate-approved' and 'if intent.md is revised after this gate approves, grounding_frameworks.md is marked stale (needs_regeneration) and architecture must not proceed until re-approved.'"
+    },
+    {
+      "severity": "minor",
+      "location": "Process step 3 (\"Search only for gaps\")",
+      "issue": "Directs searching 'the literature' for gap-filling frameworks but does not specify search tooling, verification standard, or how a searched-for framework's citation is vetted before entering the map (contrast with edu_grounding_library.md's own 'Rules of use' which this step implicitly relies on but never names).",
+      "fix": "Point explicitly to edu_grounding_library.md's 'Rules of use' section and state the vetting bar (widely validated, citable, public standard) is drawn from there, not invented for this step."
+    },
+    {
+      "severity": "minor",
+      "location": "Process (whole section)",
+      "issue": "No worked example or illustrative case (e.g., a short stage → framework → citation → application → scope-limit sample row) despite the rubric's own convention of including a worked example, and despite this being the exact deliverable format the skill must produce for every stage.",
+      "fix": "Add one concrete example map row (e.g., 'drafting stage → Mager/ABCD → objective wording → scope: says nothing about sequencing') to anchor the format for a cold agent."
+    },
+    {
+      "severity": "minor",
+      "location": "Output section",
+      "issue": "Says the output file 'ships INSIDE the new plugin' but does not name the exact path (e.g., skills/<x>/reference/grounding_frameworks.md) the way edu_grounding_library.md and dual_harness_playbook.md consistently name paths elsewhere in the reference set.",
+      "fix": "State the exact target path using the harness-neutral placeholder convention, e.g. '<x-skill-dir>/reference/grounding_frameworks.md'."
+    }
+  ],
+  "recommendation": "regenerate"
+}

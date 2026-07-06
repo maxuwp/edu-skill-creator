@@ -26,6 +26,13 @@ minor −1; floored at 0 within the dimension).
 4. A framework is cited outside its validated scope (L1 corollary).
 5. A token-expensive operation runs without a consent gate (L6).
 6. Downstream artifacts are not invalidated after upstream changes (L4).
+7. Student data or PII is handled without governance — no retention/deletion,
+   de-identification, redaction, or permissions rules where the data-flow model
+   requires them (FERPA/PTAC anchor).
+8. An external service or API is used without disclosure and consent in the plugin's
+   intake or gate flow.
+9. The skill generates HITL web pages without keyboard and screen-reader operability
+   (WCAG 2.2 anchor) — the gate human may be the person who needs it.
 
 ## Output schema
 

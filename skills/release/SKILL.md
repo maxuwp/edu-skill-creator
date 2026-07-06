@@ -32,7 +32,10 @@ shipped a defect (see lessons L7, L8).
    user-pilot-review`.
 8. **Publish — author's call.** Creating a remote repo, pushing, or listing on a
    marketplace is an outward action: present exactly what will be published and wait
-   for explicit approval. Never push on the author's behalf.
+   for explicit approval. Never push on the author's behalf. After publishing, re-run
+   the lint: its publish check verifies the manifests' homepage/repository URLs match
+   the actual git remote (a manifest claiming a repo that origin doesn't point to —
+   or that doesn't exist yet — is exactly the drift it catches).
 
 ## Cross-harness handoff
 

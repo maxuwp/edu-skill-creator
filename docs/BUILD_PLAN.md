@@ -39,7 +39,29 @@ unchecked item.
 - [x] Run release_lint.py → 0 errors
 - [x] git commit (Found-on: claude-code)
 - [x] ASK USER: create github.com/maxuwp/page + push (outward action — needs explicit OK)
-- [ ] Codex verification checklist handed to user
+- [x] Codex verification checklist handed to user (Codex review received 2026-07-06)
+
+## page_skill.1.1 follow-up (Codex review findings, 2026-07-06)
+
+- [x] Stage 1 intent: data/privacy/security question (A.7), accessibility question (A.8),
+      three new contested postures (accessibility, student-data, external-service)
+- [x] Grounding library: privacy/security/accessibility section (WCAG 2.2, UDL 3.0,
+      FERPA/PPRA + PTAC, NIST SSDF consolidated)
+- [x] Architecture: mandatory data-flow & security model item + output section
+- [x] skill_quality_rubric: critical flags 7–9 (ungoverned student data, undisclosed
+      external services, inaccessible HITL pages)
+- [x] page-test: pressure scenarios 7–10 (data leakage, undisclosed external call,
+      log/redaction failure, gate accessibility)
+- [x] release_lint check 7: manifest homepage/repository vs git origin
+      (falsifiability-tested: wrong origin → ERROR, no origin → WARN)
+- [x] page-release: publish-check pointer in step 8
+- [x] Independent reviews, round 1: page (90), page-intent (87), page-grounding (63,
+      regenerated), page-scaffold (70, revised) — fixes applied, logs in reviews/
+- [ ] Independent reviews, round 1: architecture, draft, test, release, reflect,
+      refresh (BLOCKED: account session limit, resumes after 04:10 America/Chicago)
+- [ ] Re-reviews of revised skills: page, page-grounding, page-scaffold
+- [ ] Bump both manifests to 1.1.0 + `## page_skill.1.1` CHANGELOG heading
+- [ ] Final lint, commit (Found-on: claude-code), push
 
 ## Source anchors (what each stage borrows)
 

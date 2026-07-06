@@ -1,0 +1,46 @@
+{
+  "skill": "page-intent",
+  "score": 87,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 21,
+    "gates": 22,
+    "craft": 17,
+    "integrity": 13,
+    "hygiene": 14
+  },
+  "critical_flags": [],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Part A.7 — Data, privacy & security",
+      "issue": "Asks all the right FERPA/PPRA-shaped questions (retention, de-identification, external exposure, logging/redaction, permissions) but never names the anchor. edu_grounding_library.md explicitly lists 'FERPA / PPRA + U.S. Dept. of Education PTAC guidance' as the citable framework for exactly this content. The skill's own header models correct citation discipline ('hardened by lesson L2') but A.7 doesn't extend that pattern to its own strongest grounding opportunity.",
+      "fix": "Add a one-line anchor next to A.7, e.g. 'grounded in FERPA/PPRA + PTAC guidance (see edu_grounding_library.md); institutional policy may be stricter — always ask.'"
+    },
+    {
+      "severity": "minor",
+      "location": "Part A.8 — Accessibility",
+      "issue": "Correctly raises that HITL pages are themselves UI needing keyboard/screen-reader operability, but never cites W3C WCAG 2.2, which edu_grounding_library.md names as the anchor for exactly this claim (including the 'gate human may need it' framing that this section paraphrases almost verbatim).",
+      "fix": "Cite WCAG 2.2 explicitly in A.8, mirroring the grounding library's language, so the anchor is traceable rather than paraphrased without attribution."
+    },
+    {
+      "severity": "minor",
+      "location": "Gate section",
+      "issue": "Gate collection is described only as 'collect structured feedback (agree / revise + comment per section)' — this is structured at the section level (consistent with gate_design_patterns.md) but never names a decision-file artifact or schema the way L5 and gate_design_patterns.md's decision-JSON pattern require ('Decisions are JSON on disk'). Reasonable to defer full gate-spec fields (gate_id, decision_file, owns, invalidates) to page-architecture since that table is explicitly scoped to 'architecture doc,' but this skill's own gate produces no named persisted decision artifact at all, which is a gap even for Stage 1.",
+      "fix": "Name the decision file (e.g. intent_gate_decision.json) and note it persists per-section agree/revise+comment dispositions, so downstream stages and any audit trail have something concrete to point to."
+    },
+    {
+      "severity": "minor",
+      "location": "Part B — Contested-choices inventory",
+      "issue": "This step asks the interviewer to synthesize a table (option set + neutral one-sentence intro per option + intake location) for potentially 7+ contested-choice items during what is framed as an interview. No guidance is given on format, pacing, or whether this synthesis happens live with the author or after, unlike sibling skills (e.g. posed-persona) which cap output length and specify process shape. A cold agent could reasonably turn this into an overwhelming single-pass interrogation.",
+      "fix": "Add a line noting Part B synthesis can happen after the live interview (drafted by the agent, then confirmed at the gate) rather than requiring the author to author options live."
+    },
+    {
+      "severity": "minor",
+      "location": "Whole skill",
+      "issue": "No word/length budget is given for intent.md, and no explicit refusal behavior is specified for what happens if the author declines to answer A.7/A.8 (student data / accessibility) — both of which the skill itself frames as high-stakes ('a liability, not a convenience').",
+      "fix": "State that A.7/A.8 cannot be skipped silently — record 'declined to answer' explicitly in the output so downstream stages know the gap exists rather than silently omitting the section."
+    }
+  ],
+  "recommendation": "approve"
+}

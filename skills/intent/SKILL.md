@@ -25,11 +25,35 @@ Ask, in the author's language, and record verbatim answers:
    versioned artifact snapshots, and reflect loops; one-offs may not.
 6. **Existing practice.** How does the human do this today, without AI? (The existing
    practice usually IS the grounded process — capture it before proposing anything.)
+7. **Data, privacy & security** *(anchors: FERPA/PPRA + Dept. of Education PTAC
+   guidance, NIST SSDF — see the grounding library's privacy/security/accessibility
+   section)*. Will the plugin ever see student work, grades, names, or other
+   identifiable student information (PII)? If yes, each of these gets an explicit
+   answer recorded in the profile — an educational tool that touches student data
+   without governance is a liability, not a convenience:
+   - Which privacy regimes apply — FERPA/PPRA (US), institutional policy, anything
+     stricter the institution has adopted?
+   - Retention and deletion: how long may artifacts containing student data live, and
+     who deletes them?
+   - De-identification: can the pipeline run on de-identified data (it usually can —
+     prefer it); where is re-identification actually necessary?
+   - External exposure: does any stage send content to an external API or vendor?
+     Which content, to whom, disclosed where?
+   - Logging and redaction: what do session logs, review logs, and gate decision files
+     capture — and what must be redacted from them?
+   - Permissions: who may run the plugin, who may read its artifacts?
+8. **Accessibility** *(anchors: WCAG 2.2 for conformance, UDL 3.0 for learning-design
+   depth)*. What accessibility requirements bind the outputs (institutional
+   WCAG mandate? student accommodations the artifacts must support?) — and note that
+   any HITL web pages the plugin generates are themselves a UI that must be operable
+   by keyboard and screen reader (the gate human may be the one who needs it).
 
 ## Part B — Contested-choices inventory (mandatory, L2)
 
-List every pedagogically contested decision the plugin's outputs would embody. Standard
-probes — go beyond them if the domain suggests more:
+List every pedagogically contested decision the plugin's outputs would embody. Work the
+probes one at a time — surface an item, agree on its option set and neutral intros, then
+move to the next; dumping the whole synthesis on the author at once is exactly the gate
+overload L4 warns about. Standard probes — go beyond them if the domain suggests more:
 
 - Student AI use (the POSED four-stance model: no-ai / ai-permitted / ai-guided /
   ai-central) — relevant to any plugin producing student-facing work.
@@ -37,7 +61,13 @@ probes — go beyond them if the domain suggests more:
   strictness, curve policy.
 - Collaboration: individual vs. group defaults; role structures (e.g. POGIL) vs. free.
 - Rigor/pace calibration; prerequisite assumptions.
-- Accessibility posture beyond legal minimums (UDL depth).
+- Accessibility posture: legal minimum (WCAG conformance) vs. UDL-deep design — a real
+  choice with real authoring cost, so it is the educator's, not the author's.
+- Student-data handling posture: no-student-data (pipeline refuses PII) /
+  de-identified-only / identified-with-governance (retention, permissions, redaction
+  all specified).
+- External-service posture: local-only / disclosed external APIs with per-run consent /
+  institution-approved vendors only.
 - Instructor voice: how much of the author's persona flavors generated text.
 
 For each item record: the option set, a neutral one-sentence introduction for each
@@ -56,10 +86,15 @@ express mode), not ignore it.
 
 Sections: Job & artifacts · Human-in-the-loop & gate budget · Inputs & canonical facts ·
 Trigger phrasings (should / should-not) · Scale & lifecycle · Existing practice ·
-Contested-choices inventory (table) · Gate sketch · Open questions.
+Data, privacy & accessibility profile (Part A.7–A.8 answers) · Contested-choices
+inventory (table) · Gate sketch · Open questions.
 
 ## Gate
 
 Present `intent.md` to the author section by section; collect structured feedback
-(agree / revise + comment per section). Do not proceed to `page-grounding` until the
-author approves. Never approve on their behalf.
+(agree / revise + comment per section) and persist it as
+`intent_gate_decision.json` (`{decision, section_feedback{}, guidance}` — the
+decision-JSON discipline from gate_design_patterns.md, applied to PAGE itself). Do not
+proceed to `page-grounding` until the author approves. Never approve on their behalf.
+If `intent.md` is revised after approval, downstream PAGE artifacts go stale per the
+umbrella's operating rules.

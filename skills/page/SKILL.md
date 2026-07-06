@@ -27,6 +27,18 @@ Every lesson there is a design requirement for the plugin you are about to build
    items as they land, so any session can resume at the first unchecked item.
 6. **Cost consent (L6).** Test sweeps and simulations are offered full / lite / skip with
    the cost stated plainly; record the chosen mode.
+7. **PAGE's own artifacts obey the stale-state rule (L4).** Before dispatching a stage,
+   verify its required upstream artifacts exist and are gate-approved — if not, halt
+   and name the unresolved stage. If the author revises an already-approved artifact
+   (intent.md, the grounding map, architecture.md), every downstream artifact built
+   from the old version is marked stale in BUILD_PLAN (`(STALE: <cause>)` on its line)
+   and its stages re-run before the pipeline continues. The discipline PAGE designs
+   into other plugins applies to its own build.
+   (L4's gate-splitting and L7's single-source rules are enforced structurally by
+   page-architecture and page-scaffold rather than repeated here.)
+8. **Accessible gates.** When PAGE presents its own gates through generated HTML pages
+   (the borrowed guided-app pattern), those pages meet the same WCAG 2.2
+   keyboard/screen-reader bar it requires of the plugins it builds.
 
 ## Pipeline
 
@@ -36,15 +48,22 @@ Every lesson there is a design requirement for the plugin you are about to build
 | 2 Grounding | `page-grounding` | `grounding_frameworks.md` (new plugin's map) | author approves map; unanchored stages resolved |
 | 3 Architecture | `page-architecture` | `architecture.md` + `BUILD_PLAN.md` + manifest/dependency schema | author approves design |
 | 4 Scaffold | `page-scaffold` | dual-harness repo skeleton + lint + link script | lint exits 0 |
-| 5 Draft | `page-draft` | SKILL.md files + rubrics, each independently reviewed | per-skill review ≥85, no critical flags → author gate (batched) |
+| 5 Draft | `page-draft` | SKILL.md files + rubrics, each independently reviewed | per-skill review ≥85, no critical flags → author gate (batched¹) |
 | 6 Test | `page-test` | RED/GREEN/REFACTOR log + eval results | consent-gated; author reviews findings |
 | 7 Release | `page-release` | lint-clean tagged release, CHANGELOG entry | rule-0 lint + author approves publish |
 | 8 Reflect | `page-reflect` | pilot-lesson harvest → updates to the plugin AND to PAGE's lessons_learned.md | author approves each harvested item |
 | — Refresh | `page-refresh` | ~90-day authoring-practice/framework refresh ledger | approve-per-item |
 
-Stages run in order; each dispatches its skill. **Auto-continue:** after a gate is
-approved, proceed to the next stage without re-asking, but announce the transition with a
+Stages run in order; each dispatches its skill after the operating-rule-7 input check.
+`page-refresh` sits outside the numbered sequence deliberately: it is periodic
+maintenance (~90 days), not a build stage. **Auto-continue:** after a gate is approved,
+proceed to the next stage without re-asking, but announce the transition with a
 one-paragraph stage-end summary (what was decided, what it constrains downstream).
+
+¹ Batching at Stage 5 is a deliberate, justified L4 deviation: content quality is judged
+per-skill by the independent reviews (one decision each, already logged); the batched
+gate is only the author's sign-off over those verdicts, and any skill the author wants
+to examine is pulled out into its own decision on request.
 
 ## Session state
 

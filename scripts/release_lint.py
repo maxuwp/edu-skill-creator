@@ -11,10 +11,14 @@ skills/page/reference/lessons_learned.md L7/L8):
   4. Rubric dimension points sum to 100 in skills/*/reference/*rubric*.md.
   5. CHANGELOG.md has a real '## page_skill.X.Y ' heading for the current version.
   6. reference/ files cited by skills exist (warning only — heuristic).
+  7. Manifest homepage/repository URLs match the configured git remote: a manifest
+     that claims a hosted repo while origin points elsewhere is an error; a claimed
+     repo with no origin at all is a warning (legitimate at scaffold time, wrong at
+     publish time).
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
-import json, pathlib, re, sys
+import json, pathlib, re, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 errors, warnings = [], []
@@ -87,6 +91,34 @@ for p in (ROOT / "skills").rglob("SKILL.md"):
                       ROOT / "skills" / "page" / "reference" / name]
         if not any(c.exists() for c in candidates):
             warnings.append(f"[ref] {p.relative_to(ROOT)} cites reference/{name} — not found")
+
+# 7. Manifest homepage/repository URLs match the git remote
+def _norm(url):
+    url = re.sub(r"^git@([^:]+):", r"https://\1/", url.strip())
+    return re.sub(r"\.git$", "", url).rstrip("/").lower()
+
+claimed = set()
+for mp in (".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
+    f = ROOT / mp
+    if not f.exists():
+        continue
+    data = json.loads(f.read_text())
+    for key in ("homepage", "repository"):
+        v = data.get(key)
+        if isinstance(v, str) and "://" in v:
+            claimed.add(_norm(v))
+if claimed:
+    r = subprocess.run(["git", "-C", str(ROOT), "remote", "get-url", "origin"],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        warnings.append(f"[publish] manifests claim {sorted(claimed)} but no git remote "
+                        f"'origin' is configured — fine pre-publish, wrong after")
+    else:
+        remote = _norm(r.stdout)
+        for c in claimed:
+            if c != remote:
+                errors.append(f"[publish] manifest URL {c} does not match "
+                              f"git origin {remote}")
 
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)

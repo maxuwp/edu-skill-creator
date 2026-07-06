@@ -28,7 +28,7 @@ For a worked example of a complete per-plugin grounding map, see POSED's
 | ICAP (Chi & Wylie) | Activity design ladder: interactive > constructive > active > passive | Engagement mode classification; not content selection |
 | Cognitive apprenticeship (Collins, Brown, Newman) | Modeling/scaffolding/fading in labs and projects | Skill-learning contexts; not declarative content |
 | POGIL | Guided-inquiry activity structure with rotating roles | Structured group inquiry; validated mainly in sciences |
-| UDL (CAST) | Multiple means of representation/action/engagement | Accessibility & flexibility of materials; not a quality rubric |
+| UDL 3.0 (CAST, 2024 guidelines) | Multiple means of representation/action/engagement | Design flexibility of materials; not a conformance standard — pair with WCAG for that |
 | TPI — Teaching Perspectives Inventory (Pratt & Collins) | Characterizing an educator's teaching perspective (persona work) | Descriptive of perspectives; not prescriptive of methods |
 
 ## Assessment & quality
@@ -51,6 +51,18 @@ For a worked example of a complete per-plugin grounding map, see POSED's
 | Kosslyn (Clear and to the Point) | Perception/cognition-based slide rules | Slide perception; overlaps Mayer — pick one anchor per rule |
 | SIFT (Caulfield) + CRAAP | Source vetting and claim tracing | Source evaluation; SIFT for quick vetting, not deep review |
 
+## Privacy, security & accessibility (mandatory review for any plugin touching student data or generating UI)
+
+| Framework | Grounds | Scope limit |
+|---|---|---|
+| W3C WCAG 2.2 | Accessibility conformance of generated web artifacts AND of the plugin's own HITL gate pages (keyboard operability, contrast, screen-reader semantics) | Web content; success criteria, not pedagogy — pair with UDL 3.0 for learning design |
+| FERPA / PPRA + U.S. Dept. of Education PTAC guidance | Governance of student education records: what counts as PII, permissible disclosure, retention, de-identification best practice | U.S. federal law + official guidance; institutional policy may be stricter — always ask (intent Part A.7); not legal advice |
+| NIST SP 800-218 (SSDF) | Secure development of any scripts/apps the plugin ships (gate apps, compile scripts): input handling, secrets, dependency hygiene | Security practice for shipped software; not a privacy regime |
+
+Rule of thumb: a plugin that handles student work, grades, or identifiable student
+information — or sends anything to an external service — must carry a data-flow/security
+model in its architecture (see `page-architecture`), grounded in this section.
+
 ## AI-assisted development & authoring (for the plugin-building process itself)
 
 | Framework | Grounds | Scope limit |
@@ -59,7 +71,6 @@ For a worked example of a complete per-plugin grounding map, see POSED's
 | plugin-dev (anthropics/claude-code) | Plugin component structure, validation, 8-phase creation workflow | Claude Code plugin mechanics |
 | obra writing-skills (Superpowers) | TDD for skills: RED baseline → GREEN minimal skill → REFACTOR loopholes | Process documentation testing; requires subagent-style test runs |
 | TDD (Beck) | Test-first discipline generally | Software; applied to skills via obra's adaptation |
-| NIST SP 800-218 (SSDF) | Secure development practices for shipped scripts/apps | Security practice; not pedagogy |
 | Ma, ASEE 2026 "Professor + AI Team" protocol | Faculty-led AI tool development phases | **n8n-workflow development only** — do not generalize |
 
 ## Rules of use

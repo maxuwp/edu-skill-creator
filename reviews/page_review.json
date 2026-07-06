@@ -1,0 +1,48 @@
+{
+  "skill": "page",
+  "score": 90,
+  "threshold": 85,
+  "dimension_scores": {
+    "grounding": 23,
+    "gates": 21,
+    "craft": 20,
+    "integrity": 11,
+    "hygiene": 15
+  },
+  "critical_flags": [
+    "Flag 6 (L4): PAGE's own pipeline artifacts (intent.md, grounding_frameworks.md, architecture.md, BUILD_PLAN.md...) have no stated stale-state/invalidation behavior at the umbrella level. If the author revises intent.md or grounding_frameworks.md after later stages (architecture, scaffold, draft) have already produced artifacts from the earlier version, the SKILL.md does not say those downstream PAGE artifacts become stale, get flagged needs_regeneration, or block continuation. page-architecture is required to design this stale-state model INTO the new plugin it is building, but the umbrella never applies the same discipline to its own 8-stage build process — an inconsistency the dispatcher, of all places, should resolve."
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Pipeline table, Stage 5 (Draft) row",
+      "issue": "The gate description reads 'per-skill review >= 85, no critical flags -> author gate (batched)'. Batching multiple independently-reviewed skill approvals into a single author gate contradicts gate_design_patterns.md principle 1 ('One decision per gate... A wizard of narrow steps beats one broad approval (L4)') and lessons_learned.md L4's rubber-stamping failure mode. No justification for this deviation is recorded anywhere in the SKILL.md, and L4 explicitly requires that a stage violating a lesson 'justify the deviation at its gate.'",
+      "fix": "Either split Stage 5's gate into one narrow per-skill approval step (consistent with L4), or add an explicit justification sentence for why batching is acceptable here (e.g., 'skills are reviewed independently and batched only for the author's final sign-off, not for judging content quality') so a cold reader does not read it as a contradiction of the plugin's own stated principle."
+    },
+    {
+      "severity": "major",
+      "location": "Operating rules / Pipeline section (dispatcher-level input validation)",
+      "issue": "Dimension 4 requires the skill to 'refuse to run on missing/stale inputs.' The SKILL.md never states that a stage dispatch checks for the existence of its required upstream artifact(s) before running (e.g., page-architecture should refuse to start if grounding_frameworks.md is missing or unapproved). 'Stages run in order; each dispatches its skill' assumes correct sequencing but does not specify a guard.",
+      "fix": "Add a line to 'Operating rules' or 'Pipeline' stating each stage verifies its required input artifact(s) exist and are gate-approved before dispatching, and what it does if not (e.g., halts and tells the author which earlier stage/gate is unresolved)."
+    },
+    {
+      "severity": "minor",
+      "location": "Pipeline table — Stage 8 vs. the unordered '—' Refresh row",
+      "issue": "page-reflect is numbered Stage 8 in the pipeline but page-refresh is given a dash ('—') instead of a stage number, with no sentence explaining why it sits outside the numbered sequence (e.g., that it is a standing periodic task rather than a one-time build stage). L9 in lessons_learned.md motivates refresh/reflect together, but the SKILL.md's table doesn't carry that rationale forward for a cold reader.",
+      "fix": "Add a short clause noting page-refresh runs outside the linear build sequence (periodic, ~90-day cadence) rather than leaving the table's asymmetry unexplained."
+    },
+    {
+      "severity": "minor",
+      "location": "Operating rules (list of 6 numbered rules)",
+      "issue": "The numbered Operating Rules explicitly map to L1, L2, L3, L5, L8, L6 but skip L4 (narrow gates/dependency model) and L7 (single source of truth) as umbrella-level operating rules, even though both are pipeline-wide lessons. They are delegated to page-architecture and page-scaffold respectively, which is defensible, but the omission from the umbrella's own operating-rules list (given the other six lessons are called out by name) reads as inconsistent coverage to a cold reader comparing this section against lessons_learned.md's quick-reference table.",
+      "fix": "Either add one-line L4/L7 operating rules mirroring the pattern used for the other six lessons, or add a sentence explicitly noting 'L4 and L7 are enforced structurally by page-architecture and page-scaffold rather than as umbrella operating rules.'"
+    },
+    {
+      "severity": "minor",
+      "location": "Reference files section / gate mechanics (via gate_design_patterns.md borrow)",
+      "issue": "Critical flag 9 (WCAG operability of generated HITL pages) is relevant to PAGE's own author-facing gates, not just downstream plugins: gate_design_patterns.md recommends adapting POSED's guided HTML gate app as PAGE's own gate mechanism, and the umbrella's 'Human gates (L5)' rule governs how those gates are presented to the author. The SKILL.md never mentions accessibility for its own gate flow, even in passing, despite directing authors through potentially several HTML gate pages across 8 stages.",
+      "fix": "Add a brief pointer in the 'Human gates (L5)' operating rule or the Reference files list noting that PAGE's own gate pages (when using the borrowed guided-app pattern) must meet the same WCAG 2.2 keyboard/screen-reader bar required of the plugins it builds."
+    }
+  ],
+  "recommendation": "approve"
+}
