@@ -22,8 +22,8 @@
     {
       "severity": "minor",
       "location": "Education-specific pressure suite, item 10 (Gate accessibility)",
-      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) \u2014 a single accessible edu-skill-creator does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
-      "fix": "Say 'each distinct generated HITL edu-skill-creator type' or require at least one pass per gate template, not one edu-skill-creator for the whole plugin.",
+      "issue": "Scoped to 'one generated HITL page,' which under-samples plugins with multiple distinct gate UIs (e.g. a six-step wizard like POSED's outline stage) \u2014 a single accessible page does not establish the others are, and the WCAG anchor in edu_grounding_library.md is not scoped to sampling.",
+      "fix": "Say 'each distinct generated HITL page type' or require at least one pass per gate template, not one page for the whole plugin.",
       "status": "accepted",
       "resolution": "'One generated HITL page' is the lite floor; full mode samples each distinct gate UI"
     },

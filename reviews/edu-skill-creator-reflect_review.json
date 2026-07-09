@@ -54,8 +54,8 @@
     {
       "severity": "minor",
       "location": "Whole skill \u2014 gate rendering",
-      "issue": "The skill never states whether reflect_gate is presented as a generated web HITL edu-skill-creator or a simpler CLI/text approval, which matters for critical flag 9 (WCAG operability) applicability; as written it is ambiguous rather than clearly compliant or clearly out of scope.",
-      "fix": "State the gate's presentation mechanism (e.g., reuse the plugin's existing guided-app gate edu-skill-creator per gate_design_patterns.md 'session mechanics', which already carries accessibility properties) so flag 9 applicability is unambiguous.",
+      "issue": "The skill never states whether reflect_gate is presented as a generated web HITL page or a simpler CLI/text approval, which matters for critical flag 9 (WCAG operability) applicability; as written it is ambiguous rather than clearly compliant or clearly out of scope.",
+      "fix": "State the gate's presentation mechanism (e.g., reuse the plugin's existing guided-app gate page per gate_design_patterns.md 'session mechanics', which already carries accessibility properties) so flag 9 applicability is unambiguous.",
       "status": "accepted",
       "resolution": "Gate rendering is harness-dependent; WCAG bar applies whenever pages are generated (umbrella rule 8)"
     }
