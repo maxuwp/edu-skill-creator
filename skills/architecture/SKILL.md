@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-architecture
 description: Edu Skill Creator Stage 3 — Pipeline architecture for a new educational plugin. Designs stages, HITL gates, drafter/reviewer pairings, manifest schema, dependency/stale-state model, and emits the resumable BUILD_PLAN checklist. Triggers - when the edu-skill-creator umbrella dispatches Stage 3, or the user asks to "design the pipeline/stages/gates" for an educational plugin.
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator Stage 3: Architecture
@@ -21,7 +21,14 @@ stale — halt and name the unresolved stage instead.
 
 1. **Stages.** Finalize the stage list from the grounding map (every stage keeps its
    anchor). For each stage: purpose, inputs (exact files/manifest fields), outputs
-   (exact files), refusal conditions (missing or stale inputs).
+   (exact files), refusal conditions (missing or stale inputs). For each stage that
+   produces or transforms teaching artifacts, define a **content-type registry (L10)**:
+   the archetypes the artifact carries (definition, equation, derivation, procedure,
+   worked example, comparison, code, data figure, …), each with its own body grammar,
+   budgets, and per-type reviewer checks — plus the atomic precision-block rule wired
+   into EVERY downstream transformer (humanizer, compiler, notes, final review), not
+   just the drafter. POSED's `slide_content_archetypes.md` is the worked example; one
+   template for all content is the failure L10 records.
 2. **Decompose fat gates (L4).** Any stage whose gate would carry more than one decision
    becomes a wizard of narrow steps (the POSED Stage-3 six-step wizard is the worked
    example). Check the total gate load against the intent's gate budget; if over, design

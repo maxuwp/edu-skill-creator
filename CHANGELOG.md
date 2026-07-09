@@ -3,6 +3,31 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.5 — 2026-07-09
+
+Lesson L10 promoted from the POSED pilot (the reflect pattern, run live): educational
+content is heterogeneous — templates must be content-type-aware.
+
+- **lessons_learned.md L10** (+ quick-reference row, provenance updated to include
+  posed_skill.1.24–1.25): any stage drafting/transforming/rendering teaching artifacts
+  works from an explicit content-type registry (definition, equation, derivation,
+  procedure, worked example, comparison, code, data figure, …), each type with its own
+  body grammar, budgets, and reviewer checks. Corollary: precision blocks are atomic
+  end-to-end, and the registry must be wired into EVERY downstream transformer — a rule
+  that lives only in the drafter dies in the next stage (POSED 1.24 → 1.25 demonstrated
+  both halves).
+- **edu-skill-creator-intent**: A.1 now also asks what content TYPES the artifacts carry.
+- **edu-skill-creator-architecture**: step 1 requires the content-type registry for
+  artifact-producing stages, with the precision-block rule wired into all transformers.
+- **skill_quality_rubric**: critical flag 10 — one-size template on heterogeneous
+  content, or precision content trimmable/paraphrasable anywhere in the pipeline.
+- **edu-skill-creator-test**: pressure scenario 11 — seed a cited definition, equation,
+  and code block; verify wording/notation intact through every transform stage.
+- **edu_grounding_library**: Alley scope limit sharpened — the visual-evidence body
+  applies to data/figure content; precision text is its own evidence.
+- Fixed three 1.4 rename casualties where the common noun "page" had become
+  "edu-skill-creator" ("HITL page", 2× "gate/human page renders").
+
 ## edu_skill_creator.1.4 — 2026-07-06
 
 Rename release: PAGE is now **Edu Skill Creator**.

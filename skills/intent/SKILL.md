@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-intent
 description: Edu Skill Creator Stage 1 — Intent interview for a new educational plugin. Captures purpose, users, artifacts, gates, and the contested-choices inventory (pedagogical decisions that must become explicit options, never defaults). Triggers - when the edu-skill-creator umbrella dispatches Stage 1, or the user says "let's scope the new educational plugin".
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator Stage 1: Intent Interview
@@ -14,7 +14,10 @@ by lesson L2. Output: `intent.md`, approved by the author at the stage gate.
 Ask, in the author's language, and record verbatim answers:
 
 1. **Job.** What teaching task does this plugin do end-to-end? What does "done" look
-   like — name the concrete artifacts (deck, lab sheet, quiz bank, rubric, feedback…)?
+   like — name the concrete artifacts (deck, lab sheet, quiz bank, rubric, feedback…),
+   and what content TYPES those artifacts carry — definitions, equations, derivations,
+   procedures, code, data figures, discussion prompts… (seeds the L10 content-type
+   registry: heterogeneous content needs per-type template grammar, not one template).
 2. **Human.** Who sits at the gates — faculty, TA, instructional designer, student?
    How much time will they realistically give per gate? (This bounds gate count — L4.)
 3. **Inputs.** What does the human bring (syllabus, paper, plan, past materials)? Which

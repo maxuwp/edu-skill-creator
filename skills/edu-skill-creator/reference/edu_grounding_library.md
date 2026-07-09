@@ -46,7 +46,7 @@ For a worked example of a complete per-plugin grounding map, see POSED's
 | Framework | Grounds | Scope limit |
 |---|---|---|
 | Mayer (multimedia learning principles) | Slide/media design: coherence, signaling, redundancy, segmenting | Multimedia materials; not classroom facilitation |
-| Assertion–evidence (Alley) | Slide structure: full-sentence claim + evidence body | Technical presentation slides |
+| Assertion–evidence (Alley) | Slide structure: full-sentence claim + evidence body | Technical presentation slides; the visual-evidence body applies to data/figure content — precision text (definitions, equations, code) is its own evidence (L10) |
 | Doumont (Trees, Maps, and Theorems) | Message-first communication structure | Professional/scientific communication |
 | Kosslyn (Clear and to the Point) | Perception/cognition-based slide rules | Slide perception; overlaps Mayer — pick one anchor per rule |
 | SIFT (Caulfield) + CRAAP | Source vetting and claim tracing | Source evaluation; SIFT for quick vetting, not deep review |

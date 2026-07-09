@@ -27,7 +27,7 @@ in a new plugin's design to specify the fields in "Gate specification" below.
    Every feedback element routes to the pipeline step that OWNS that item; feedback with
    no owner is a design error.
 4. **Review before gate.** The independent reviewer's log is written to disk before the
-   human edu-skill-creator renders; the gate shows the reviewer's summary card (score, top findings,
+   human page renders; the gate shows the reviewer's summary card (score, top findings,
    critical flags) so the human never reviews blind.
 5. **Never accept on the human's behalf.** The assistant may prefill recommended
    defaults; it may never click approve, skip a gate, or interpret "prefer defaults" as

@@ -1,6 +1,6 @@
 {
   "name": "edu-skill-creator",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Edu Skill Creator. A meta-plugin that provides the framework, process, and supervision for creating educational plugins and skill sets. Guides an author from intent interview through framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release hygiene, and post-pilot reflection. Distills the lessons learned building POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d).",
   "author": {
     "name": "Xiaoguang Ma",

@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-grounding
 description: Edu Skill Creator Stage 2 — Framework grounding for a new educational plugin. Maps every anticipated pipeline stage to an established framework (instructional design, assessment, communication, review practice) BEFORE architecture, flags unanchored stages as "invented process — justify or redesign", and enforces scope discipline. Includes an independent fresh-context review of the map before the author gate. Triggers - when the edu-skill-creator umbrella dispatches Stage 2, or the user asks "what frameworks should ground this plugin".
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator Stage 2: Framework Grounding
@@ -58,7 +58,7 @@ Dispatch a fresh subagent session whose inputs are ONLY: the draft map, the appr
 accuracy (does each framework actually ground what the row claims?), scope-limit
 correctness, no silently unanchored stage (every stage has a row with an anchor or a
 recorded resolution), no stance smuggling — and writes findings to
-`reviews/grounding_map_review.json` in the build session BEFORE the gate edu-skill-creator renders.
+`reviews/grounding_map_review.json` in the build session BEFORE the gate page renders.
 Fix blocking findings and re-review; the gate shows the reviewer's summary card. (Like
 the architecture design review, this is a binary inspection with severity-classed
 findings, not a scored /100 rubric — Fagan/IEEE 1028: points belong on quality

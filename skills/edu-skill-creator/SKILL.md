@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator
 description: Edu Skill Creator. Umbrella workflow for creating a NEW educational plugin or skill set (or overhauling an existing one) with an established, framework-grounded process instead of ad-hoc drafting. Guides the author through intent interview, framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release, and post-pilot reflection. Triggers - when the user wants to "make a plugin/skill for <educational task>", "turn this teaching workflow into a plugin", "build a skill set like POSED", or asks how to structure an educational agent pipeline.
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator

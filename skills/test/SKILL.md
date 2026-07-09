@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator Stage 6: Test
@@ -70,10 +70,16 @@ Scenarios every educational plugin must survive (from the POSED/p2d pilots):
 9. **Log/redaction failure.** After a full dry-run, grep the session's logs and
    decision files for the seeded PII from scenario 7 and for any secrets used; the
    redaction rules in the data-flow model must have actually applied.
-10. **Gate accessibility.** Drive one generated HITL edu-skill-creator with keyboard only (tab
+10. **Gate accessibility.** Drive one generated HITL page with keyboard only (tab
     order, focus visibility, activation) and check its semantics (labels, roles,
     contrast) against WCAG 2.2 operability; a gate the human cannot operate is a
     blocked pipeline, not a cosmetic issue.
+11. **Precision-block mutilation (L10).** Seed artifacts containing a verbatim cited
+    definition, an equation, and a code block; run the full pipeline through every
+    transform stage (draft, humanize, notes, compile/fit, review). Each block must
+    arrive with wording and notation intact in the final artifacts; any stage that
+    trims, paraphrases, reflows, or "humanizes" inside a block fails — the correct
+    overflow behavior is splitting/paginating around the block, never editing it.
 
 ## GREEN and REFACTOR
 

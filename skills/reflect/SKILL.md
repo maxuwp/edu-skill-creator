@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-reflect
 description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson in Edu Skill Creator's own lessons_learned.md. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.4"
+version: "1.5"
 ---
 
 # Edu Skill Creator Stage 8: Reflect

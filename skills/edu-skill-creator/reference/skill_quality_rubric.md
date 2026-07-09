@@ -33,6 +33,10 @@ minor −1; floored at 0 within the dimension).
    intake or gate flow.
 9. The skill generates HITL web pages without keyboard and screen-reader operability
    (WCAG 2.2 anchor) — the gate human may be the person who needs it.
+10. A single body grammar/template is imposed on heterogeneous educational content, or
+    precision content (definitions, equations, code, verbatim problem statements) is
+    subject to trimming or paraphrase-to-fit at ANY pipeline stage (L10) — a humanized
+    or shortened definition is a wrong definition.
 
 ## Output schema
 
