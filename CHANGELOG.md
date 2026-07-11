@@ -3,6 +3,39 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.6 — 2026-07-10
+
+Reflect harvest from the POSED 1.15–1.30.1 release run (16 releases, 4 days, the
+three-model review loop): two new lessons, one corollary, and gate-pattern hardening.
+
+- **L11 — prose contracts rot; computed, fail-closed validators.** The defining pilot
+  fact: a deck passed FOUR fresh-context reviews at 94/100 while carrying 13 structural
+  criticals, and its approved outline scored 97/100 with 5 more. LLM review establishes
+  judgment, not structure. Rule: one validator implementation, two callers (drafter
+  pre-gate + reviewer hard gate); `approve` illegal without recorded computed passes.
+  Corollaries: fail closed (missing record/artifact/contract = refusal — six fail-open
+  holes found by adversarial review in 1.30.1); prove by attack, not only by fixture;
+  falsifiability against real failing artifacts + synthetic fixtures (never course
+  content); distribution checks (one sentence ×54 passed a 98% word-count band);
+  anti-softener rubric language; server-stamped decisions (mechanical L5).
+- **L12 — live sessions outlive releases.** `generated_by` + server-owned
+  `session_contract_version` on every artifact; contract upgrades distinguished from
+  quality gaps; schema changes route to TARGETED amendments of the owning step, never
+  full regeneration; unknown contract versions fail closed (a live session carrying
+  "1.13" had disarmed every ≥1.29 check).
+- **L7 corollary — one canonical implementation inside the plugin**: POSED shipped three
+  divergent pacing formulas and two key vocabularies for one concept; prose cites the
+  canonical script, never restates values; near-miss keys hard-fail with "did you mean".
+- **gate_design_patterns 8–11**: AI pre-fills recommend but hard gates still block
+  (`faculty_overrode` audit trail); blank-gate guard + server-stamped decisions; agent
+  silence during human review; gate links never navigate away.
+- **architecture**: item 5 gains the contract axis (L12); new item 11 computed-validation
+  plan (L11). **rubric**: critical flag 11 (prose-only structural enforcement / fail-open
+  guards / approve-without-computed-checks); flag 6 extended to contract staleness.
+  **test**: scenarios 12 (rationalizing reviewer), 13 (fail-open forgery), 14
+  (authoring-context/deixis leakage — students must never see the scaffolding
+  conversation). **draft**: no softener language; rubrics cite validators, never restate.
+
 ## edu_skill_creator.1.5 — 2026-07-09
 
 Lesson L10 promoted from the POSED pilot (the reflect pattern, run live): educational

@@ -25,7 +25,9 @@ minor −1; floored at 0 within the dimension).
 3. A gate can be skipped, or the skill instructs accepting on the human's behalf (L5).
 4. A framework is cited outside its validated scope (L1 corollary).
 5. A token-expensive operation runs without a consent gate (L6).
-6. Downstream artifacts are not invalidated after upstream changes (L4).
+6. Downstream artifacts are not invalidated after upstream changes (L4) — including
+   contract/schema changes: artifacts without `generated_by`/contract-version stamps or
+   without a targeted-amendment re-entry path (L12).
 7. Student data or PII is handled without governance — no retention/deletion,
    de-identification, redaction, or permissions rules where the data-flow model
    requires them (FERPA/PTAC anchor).
@@ -37,6 +39,11 @@ minor −1; floored at 0 within the dimension).
     precision content (definitions, equations, code, verbatim problem statements) is
     subject to trimming or paraphrase-to-fit at ANY pipeline stage (L10) — a humanized
     or shortened definition is a wrong definition.
+11. A structural requirement (required rows/fields/tags, upstream-contract coverage,
+    count bands) is enforced ONLY by prose or rubric language where a computed validator
+    is feasible; or a validator/guard fails open (missing artifact, record, or contract
+    version treated as a pass); or a reviewer may `approve` without recorded computed
+    checks (L11 — prose reviews scored 94/100 over 13 structural criticals).
 
 ## Output schema
 

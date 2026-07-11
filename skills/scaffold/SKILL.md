@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-scaffold
 description: Edu Skill Creator Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the edu-skill-creator umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
-version: "1.5"
+version: "1.6"
 ---
 
 # Edu Skill Creator Stage 4: Scaffold

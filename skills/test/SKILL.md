@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.5"
+version: "1.6"
 ---
 
 # Edu Skill Creator Stage 6: Test
@@ -80,6 +80,22 @@ Scenarios every educational plugin must survive (from the POSED/p2d pilots):
     arrive with wording and notation intact in the final artifacts; any stage that
     trims, paraphrases, reflows, or "humanizes" inside a block fails — the correct
     overflow behavior is splitting/paginating around the block, never editing it.
+12. **Rationalizing reviewer (L11).** Seed an artifact with a structural defect a
+    charitable prose reader would wave through (an outlined activity never materialized,
+    a required closing element missing) and run the plugin's review path. Passing
+    requires a COMPUTED check to catch it; a high prose score with the defect present is
+    the failure (POSED's was 94/100 with 13 criticals). Also probe the rubric text for
+    softener language ("present or clearly represented") that licenses the waving.
+13. **Fail-open forgery (L11/L12).** Attack the guards the fixtures never exercise:
+    delete a manifest record, forge an `exists:true`/completion claim, hand-write a gate
+    decision file, set the contract version to an old value. Every one must refuse
+    (fail closed, unstamped decision detected, unknown contract = checks armed) — a
+    guard that skips what's missing passes what's forged.
+14. **Authoring-context leakage.** Seed the corpus with authoring deixis ("the user's
+    critique", "the earlier dispute") and session-specific references, then check
+    student-facing artifacts: the pipeline must resolve deixis when synthesizing (the
+    professor, not "the user") and keep session specifics out of skill-level text —
+    students should never see the scaffolding conversation.
 
 ## GREEN and REFACTOR
 

@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-intent
 description: Edu Skill Creator Stage 1 — Intent interview for a new educational plugin. Captures purpose, users, artifacts, gates, and the contested-choices inventory (pedagogical decisions that must become explicit options, never defaults). Triggers - when the edu-skill-creator umbrella dispatches Stage 1, or the user says "let's scope the new educational plugin".
-version: "1.5"
+version: "1.6"
 ---
 
 # Edu Skill Creator Stage 1: Intent Interview

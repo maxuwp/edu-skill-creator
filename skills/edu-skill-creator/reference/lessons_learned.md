@@ -125,6 +125,14 @@ rubric sums ≠ 100, missing changelog heading, dangling reference citations.
 Even after merging, a shared variable containing a literal home-directory harness path
 leaked into 17 files — caught by the other harness, then made lintable.
 
+**Corollary — one canonical implementation INSIDE the plugin too.** A formula, constant,
+threshold, or key vocabulary that appears in two places will diverge: POSED shipped three
+different pacing formulas (drafter script, drafter prose, reviewer inline) and two key
+vocabularies for the same corpus-recommendation concept. Rule: one canonical
+implementation (a script or a named reference section); every other mention CITES it,
+never restates the value; near-miss keys hard-fail with "did you mean" rather than being
+silently ignored (posed_skill.1.27/1.30 F7).
+
 **Edu Skill Creator enforcement.** `edu-skill-creator-scaffold` generates this layout from day one, including the
 parameterized lint; `dual_harness_playbook.md` is the specification.
 
@@ -188,6 +196,70 @@ artifact-producing stages; rubric critical flag 10 blocks one-size templates and
 trimmable precision content; `edu-skill-creator-test` pressure scenario 11 seeds
 precision blocks and checks their fidelity through the full pipeline.
 
+## L11 — Prose contracts rot; structural requirements need computed, fail-closed validators
+
+**Rule.** Any requirement that code can check, code MUST check. For each artifact,
+identify the structural requirements (required rows/fields/tags, coverage against an
+upstream contract, count/pacing bands, forbidden markers) and write a computed validator:
+**one implementation, two callers** — the drafter runs it pre-gate as a self-check, and
+the reviewer re-runs the SAME script as a hard gate. A reviewer's `approve` is illegal
+unless the recorded computed checks passed; the orchestrator refuses to open the human
+gate on a review log missing them.
+
+**Failure that taught it.** POSED's pilot deck passed FOUR fresh-context review rounds at
+94/100 while carrying 13 structural criticals (unmaterialized activities, missing
+takeaway, missing subgoal labels); the approved outline scored 97/100 with 5 more. The
+reviews weren't lazy — the requirements were prose, and language models score prose
+charitably. Computed validators (posed_skill.1.27–1.30) failed both artifacts instantly.
+L3's fresh-context reviewer catches *judgment* defects; it does not establish
+*structural* facts. Both layers, always.
+
+**Corollaries, each also paid for:**
+- **Fail closed.** A missing record, absent artifact, unknown contract version, or
+  zero-widget gate page is a refusal, not a skip: POSED's publisher shipped untracked
+  files because a missing manifest record was treated as publishable, and its completion
+  check trusted a forgeable `exists:true` (posed_skill.1.30.1 — six such holes).
+- **Prove by attack, not only by fixture.** Fixture-driven proofs exercise only the paths
+  fixtures cover; an adversarial reviewer forging records/bypassing steps found every
+  fail-open hole the green fixtures never touched (defense-in-depth; NIST SSDF spirit).
+- **Falsifiability against REAL artifacts.** Each validator is proven failing on the
+  actual defective pilot artifact AND passing on a synthetic fixture; fixtures ship in
+  the repo (release lint runs the pairs) and NEVER contain student/faculty course
+  content (the data posture applies to test data too).
+- **Aggregates need distribution checks.** Notes passed a 98% word-count band with one
+  sentence repeated 54× and an identical cue block on 39/39 slides — repetition defeats
+  totals; check uniqueness/variance, not just sums.
+- **Anti-softener rubric language.** Rubric phrasing that permits rationalization
+  ("present *or clearly represented*") is a named defect — the exact phrase let 2 of 3
+  missing activities pass.
+- **Mechanical never-accept-on-behalf (upgrades L5).** Gate decisions are stamped
+  server-side (`submitted_via`, content-derived `decision_id`); a hand-written decision
+  file is the named anti-pattern — the pilot had a gate "accepted by agent action," and
+  no prose rule caught it until the stamp check existed.
+
+## L12 — Live sessions outlive releases: version the contract, route upgrades to targeted amendments
+
+**Rule.** A plugin's artifact schemas WILL change while faculty sessions are in flight.
+Every artifact carries `generated_by` (drafter + skill version) and the session carries a
+server-owned `session_contract_version`; validators distinguish **contract upgrades**
+(old artifact, new rules) from **quality gaps** (bad artifact); a schema change marks
+in-flight artifacts contract-stale and routes faculty to a TARGETED amendment of the
+owning step, seeded with proposed fixes — never a full regeneration, never a downstream
+stage patching around a doomed upstream artifact. Unknown or missing contract versions
+fail closed (treated as current-era, checks armed).
+
+**Failure that taught it.** A live POSED session carried contract version "1.13", which
+disarmed every ≥1.29 enforcement check at once; drafters were re-running against
+approved-but-now-invalid outlines; reflect couldn't tell upgrade findings from quality
+findings (posed_skill.1.28–1.30, F10). L4's stale-state model covers *content* edits;
+this covers *schema* evolution — a different axis that bites exactly when the plugin
+improves fastest.
+
+**Edu Skill Creator enforcement (L11 + L12).** `edu-skill-creator-architecture` items 5
+and 11 require the contract-version fields and a computed-validation plan;
+`skill_quality_rubric` critical flag 11 blocks prose-only structural enforcement and
+fail-open guards; `edu-skill-creator-test` scenarios 12–14 attack exactly these surfaces.
+
 ---
 
 ## Quick-reference table
@@ -204,6 +276,9 @@ precision blocks and checks their fidelity through the full pipeline.
 | L8 | Resumable checklists; verify-then-commit; falsifiable lints | edu-skill-creator-architecture; edu-skill-creator-release |
 | L9 | Refresh + reflect loops | edu-skill-creator-architecture defaults |
 | L10 | Content-type-aware templates; precision blocks atomic end-to-end | edu-skill-creator-architecture registry; rubric critical flag 10; edu-skill-creator-test scenario 11 |
+| L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 11; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 |
+| L12 | Contract versioning + targeted amendment re-entry for live sessions | edu-skill-creator-architecture item 5; edu-skill-creator-test scenario 13 |
 
 *Provenance: POSED CHANGELOG entries posed_skill.1.4–1.14 (L1–L9), posed_skill.1.24–1.25
-(L10), and p2d_skill.1.4–1.6 record the concrete releases behind each lesson.*
+(L10), posed_skill.1.26–1.30.1 (L11–L12 and the L7 corollary), and p2d_skill.1.4–1.6
+record the concrete releases behind each lesson.*

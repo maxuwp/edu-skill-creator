@@ -40,6 +40,26 @@ in a new plugin's design to specify the fields in "Gate specification" below.
 7. **Stage-end summaries.** Each stage ends with a plain-language summary of what was
    decided and what becomes stale; optionally capture gate screenshots for the record.
 
+## Gate mechanics hardening (from POSED 1.18–1.30 pilots)
+
+8. **AI pre-fills recommend, hard gates still block.** Pre-selecting AI-recommended
+   dispositions (marked ★ with a "faculty may change" note) is good UX — but a page never
+   auto-submits, blocking conditions block even when pre-filled, and the decision JSON
+   records both the recommendation and the final value (`recommended_*`,
+   `faculty_overrode`) for the audit/trust trail.
+9. **Blank-gate guard + server-stamped decisions.** A gate page that would render zero
+   decision widgets refuses to open (config error, not an empty approval); every
+   submitted decision is stamped server-side (`submitted_via`, `submitted_at`,
+   content-derived `decision_id`) so a hand-written decision file is mechanically
+   detectable — the enforcement teeth behind principle 5.
+10. **Agent conduct while a human reviews.** Open the page once, send ONE concise
+    message, then wait silently (background polling ≥30–60 s, or no-polling: resume when
+    the human says continue). Updates only on: page open · submission detected · server
+    error · long idle · the human asks. Chat noise during review is a usability defect.
+11. **Links never navigate away.** Source/reference links on a gate page open in a new
+    tab (`target="_blank"` + `rel="noopener noreferrer"`) with a copy button — losing a
+    half-completed review page to a link click is a real pilot failure.
+
 ## Gate specification (required per gate in an architecture doc)
 
 | Field | Meaning |
