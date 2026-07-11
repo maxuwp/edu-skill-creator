@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-draft
 description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.6"
+version: "1.7"
 ---
 
 # Edu Skill Creator Stage 5: Draft

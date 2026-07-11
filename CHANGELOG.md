@@ -3,6 +3,31 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.7 — 2026-07-10
+
+L11 becomes generated, not just required: scaffold ships a validator template.
+
+- New `skills/scaffold/reference/validator_template.py` — self-contained,
+  import-free skeleton embodying every L11 corollary: fail-closed helpers
+  (`require_file`/`require_record` — missing = critical, never a skip; crashing check =
+  failing check; exit 2 when the session can't even be read), L12 contract-era +
+  `generated_by` helpers, per-id upstream-coverage pattern (never count matches), a
+  repetition/distribution helper, report JSON with `passed`/counts/findings, and the
+  fixture-runner lint check in its docstring. Behavior-proven before shipping: exit 2 on
+  bare/unreadable sessions, exit 1 with a written report on missing records, exit 0 on a
+  compliant sample.
+- `edu-skill-creator-scaffold`: new "Validator scaffolding (L11)" section — one
+  instantiation per architecture item-11 artifact; both callers wired into the generated
+  drafter/reviewer/umbrella stubs; `tests/fixtures/<artifact>_{fail,pass}/` in the
+  generated tree; the generated lint gains the fixture-runner check with both-direction
+  falsifiability ("neutralize the negative fixture and watch the LINT fail"); exit check
+  extended (each validator compiles + exits 2 on a bare directory before any session
+  exists).
+- Cross-refs: architecture item 11 notes the plan only names artifacts + requirements
+  (scaffold designs nothing ad hoc); L12's enforcement paragraph records that the
+  template is generated. POSED's `validate_stage5_slides.py`/`validate_outline.py`
+  cited as worked examples.
+
 ## edu_skill_creator.1.6 — 2026-07-10
 
 Reflect harvest from the POSED 1.15–1.30.1 release run (16 releases, 4 days, the

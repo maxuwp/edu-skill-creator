@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-release
 description: Edu Skill Creator Stage 7 — Release hygiene for an educational plugin. Runs the release lint (rule 0), verifies changelog heading and lockstep manifest versions, checks trigger descriptions, applies commit conventions, and gates the actual publish (remote push, marketplace) on the author. Triggers - when the edu-skill-creator umbrella dispatches Stage 7, or the user says "release/ship/publish the plugin".
-version: "1.6"
+version: "1.7"
 ---
 
 # Edu Skill Creator Stage 7: Release

@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-refresh
 description: Edu Skill Creator maintenance — periodic (~90-day) refresh of Edu Skill Creator's own knowledge. Checks for new skill/plugin-authoring best practices, new educational frameworks worth adding to the grounding library, and new AI capabilities that change what educational plugins can offer. Consent-gated research sweep; findings land in a dated ledger reviewed approve-per-item; never auto-applies. Triggers - when ~90 days have passed since the last refresh, or the user says "refresh Edu Skill Creator" or asks whether the authoring guidance is still current.
-version: "1.6"
+version: "1.7"
 ---
 
 # Edu Skill Creator Refresh

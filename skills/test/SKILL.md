@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.6"
+version: "1.7"
 ---
 
 # Edu Skill Creator Stage 6: Test
