@@ -263,6 +263,55 @@ distribution checks, fixture pairs — generated, not just required);
 `skill_quality_rubric` critical flag 11 blocks prose-only structural enforcement and
 fail-open guards; `edu-skill-creator-test` scenarios 12–14 attack exactly these surfaces.
 
+## L13 — Instructions must not teach what the validators refuse; sweep the class, never the cited line
+
+**Rule.** The moment a skill ships both prose and enforcement, the prose acquires a new
+failure mode: teaching a path the code rejects. Whenever a rule changes, or a validator's
+real behaviour is discovered, **sweep every instructional surface for that rule and fix
+them in one pass** — SKILL bodies, references, READMEs, harness-adaptation notes,
+sub-skills. A reviewer's file:line is a symptom; the defect is the class. And superseded
+instructions are **deleted or moved to a marked historical section, never annotated in
+place**: a warning above an executable-looking instruction loses to the instruction.
+
+**Failure that taught it.** POSED 1.66 set out to extract platform mechanism from one
+block and instead spent six review rounds on a single defect that had four more homes than
+anyone first counted. `hitl_protocol.md` listed `approved: true` as the manifest effect of
+a terminal "Approve as-is" that `approval_provenance.py` refuses in every contract era,
+unversioned sessions included — verified by forging one. Round 3 fixed the SKILL.md
+pointer and deferred the reference table; round 4 found the table; round 5 found the
+harness-adaptation note; round 6 found the README and the outline skill's "Upload an
+override" path, which saved pasted content *as the approved outline*. One
+`grep -rn "Approve as-is" skills/` at round 3 would have found all of them. Each partial
+fix bought exactly one more round. An interim repair was worse than the defect: it
+contract-gated the prohibition at `>= 1.29`, which reads as licence for everything below
+it — and a fresh session carries no contract version until its first genuine submission,
+so the exception covered every new session.
+
+**Corollaries, each also paid for:**
+- **Annotation is not repair.** The four-option table survived a round *with an explicit
+  non-approval warning above it*, because a Manifest-effect column reading `approved: true`
+  is an instruction and prose above it is commentary. It ended when the table became three
+  feedback-only options and the historical wording moved to the extracted-source folder.
+  This is Anthropic's "old patterns" rule applied to superseded procedure, not just to
+  time-sensitive facts.
+- **When each round finds a new instance, the fix is at the wrong layer.** The same shape
+  produced POSED's offline-gate arms race: regex, then an HTML parser, then `srcdoc`, then
+  meta refresh, converging only when a deny-by-default Content Security Policy replaced the
+  enumeration. Stop patching instances; remove the affordance.
+- **A contradiction inside one instruction set is one defect with two locations.** Deferring
+  half of it as "scope discipline" is not discipline, it is a scheduled regression. Scope
+  protects against unrelated work, not against the other half of the same sentence.
+- **Report the count, not the fix.** Answer a cited line by publishing how many siblings
+  the sweep found. A count is falsifiable; "fixed as suggested" is not.
+- **Measure the region, not the file.** Four successive word-drop acceptance bars were
+  withdrawn because the whole-file number stopped isolating the change as soon as the CR
+  also corrected text elsewhere. Choose the measurement that brackets the edit before the
+  first review round.
+- **A dispute between two competent reviewers usually indicts your own rule.** Codex read
+  the two-clock versioning rule to require a contract bump for any instruction change; Grok
+  read it to require one only for enforceable floors. Both readings fit the sentence. The
+  durable fix was rewriting the sentence, not winning the argument.
+
 ---
 
 ## Quick-reference table
@@ -281,7 +330,9 @@ fail-open guards; `edu-skill-creator-test` scenarios 12–14 attack exactly thes
 | L10 | Content-type-aware templates; precision blocks atomic end-to-end | edu-skill-creator-architecture registry; rubric critical flag 10; edu-skill-creator-test scenario 11 |
 | L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 11; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 |
 | L12 | Contract versioning + targeted amendment re-entry for live sessions | edu-skill-creator-architecture item 5; edu-skill-creator-test scenario 13 |
+| L13 | Prose never teaches what validators refuse; sweep the class in one pass; delete superseded instructions rather than annotate them | edu-skill-creator-release sweep; rubric critical flag 12; edu-skill-creator-test scenario 15 |
 
 *Provenance: POSED CHANGELOG entries posed_skill.1.4–1.14 (L1–L9), posed_skill.1.24–1.25
 (L10), posed_skill.1.26–1.30.1 (L11–L12 and the L7 corollary), and p2d_skill.1.4–1.6
-record the concrete releases behind each lesson.*
+record the concrete releases behind each lesson. L13 comes from posed_skill.1.64–1.66,
+where the six-round 1.66 review is the primary evidence.*

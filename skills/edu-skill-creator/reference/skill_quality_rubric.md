@@ -44,6 +44,11 @@ minor −1; floored at 0 within the dimension).
     is feasible; or a validator/guard fails open (missing artifact, record, or contract
     version treated as a pass); or a reviewer may `approve` without recorded computed
     checks (L11 — prose reviews scored 94/100 over 13 structural criticals).
+12. An instructional surface teaches an action the shipped validators refuse, or a
+    superseded instruction is left in place under a warning rather than removed (L13) —
+    POSED's terminal gate table listed `approved: true` for a path the provenance checker
+    calls forged in every contract era, and survived one review round with a
+    non-approval warning printed directly above it.
 
 ## Output schema
 

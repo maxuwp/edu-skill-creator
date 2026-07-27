@@ -3,6 +3,34 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.8 — 2026-07-27
+
+L13 — the authoring half of L11: once a skill ships both prose and enforcement, the prose
+can teach what the code refuses.
+
+- New `lessons_learned.md` L13, harvested from posed_skill.1.64–1.66. The evidence is
+  POSED's six-round 1.66 review: `hitl_protocol.md` listed `approved: true` as the manifest
+  effect of a terminal approval that `approval_provenance.py` refuses in every contract era,
+  and the same instruction had four more homes (orchestrator step 4, the README, the
+  harness-adaptation note, and the outline skill's "Upload an override" path, which saved
+  pasted content *as the approved outline*). Each round fixed the cited line and found the
+  next home. The rule: sweep the class in one pass and report the count.
+- **Annotation is not repair.** The four-option table survived a round with an explicit
+  non-approval warning above it. A Manifest-effect column reading `approved: true` is an
+  instruction; prose above it is commentary. Superseded procedure is deleted or moved to a
+  marked historical section — Anthropic's "old patterns" rule applied to procedure, not
+  only to time-sensitive facts.
+- Corollaries also recorded: when each round finds a new instance the fix is at the wrong
+  layer (the 1.64 CSP precedent); a contradiction inside one instruction set is one defect
+  with two locations, so deferring half is a scheduled regression; measure the region, not
+  the file; a dispute between two competent reviewers usually indicts your own rule rather
+  than either reviewer.
+- `skill_quality_rubric.md` gains **critical flag 12** so L13 blocks rather than advises.
+- Quick-reference table and the umbrella's stale "nine lessons" pointer updated (thirteen).
+
+No stage, gate, schema or validator behaviour changes: this release adds a lesson, a
+critical flag, and their citations.
+
 ## edu_skill_creator.1.7 — 2026-07-10
 
 L11 becomes generated, not just required: scaffold ships a validator template.

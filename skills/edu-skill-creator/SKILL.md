@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator
 description: Edu Skill Creator. Umbrella workflow for creating a NEW educational plugin or skill set (or overhauling an existing one) with an established, framework-grounded process instead of ad-hoc drafting. Guides the author through intent interview, framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release, and post-pilot reflection. Triggers - when the user wants to "make a plugin/skill for <educational task>", "turn this teaching workflow into a plugin", "build a skill set like POSED", or asks how to structure an educational agent pipeline.
-version: "1.7"
+version: "1.8"
 ---
 
 # Edu Skill Creator
@@ -77,7 +77,7 @@ for "where are we." On session start, read it first and resume.
 
 ## Reference files
 
-- `reference/lessons_learned.md` — the nine lessons; read first, always.
+- `reference/lessons_learned.md` — the thirteen lessons; read first, always.
 - `reference/edu_grounding_library.md` — starter framework menu + scope rules.
 - `reference/gate_design_patterns.md` — gate spec, decision JSON, stale-state model.
 - `reference/dual_harness_playbook.md` — repo layout, symlinks, lint, release rules.
