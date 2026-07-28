@@ -1,13 +1,49 @@
-# CR 1.10 rev 2 — Harvest triage: POSED 1.31–1.63, the L14–L23 proposal, and the Codex review
+# CR 1.10 rev 3 — Release-history harvest: POSED 1.31–1.63, the L14–L23 proposal, and the Codex reviews
 
-**Prepared by:** Claude (Fable 5) · rev 1 2026-07-28 · **rev 2 2026-07-28, after Codex review of `ea1a9ce`**
+**Prepared by:** Claude (Fable 5) · rev 1, rev 2, **rev 3 2026-07-28 after the Codex review of `e1da31e`**
 **Status:** PROPOSED. Nothing implemented.
-**Decision artifact:** `reflect_ledger.json` (18 rows, `f1`–`f18`). **This document is a readable
-synthesis of that ledger, not the thing being approved.** Where the two differ, the ledger governs.
-**Gate:** Stage 8 per-row, after the independent ledger review in `reviews/reflect_ledger_review.json`.
-Neither this CR, nor the ledger, nor any reviewing document is faculty approval.
+**This is NOT a Stage 8 pilot harvest.** Stage 8 requires the completed pilot's session directory,
+gate decisions and review logs, and refuses to run without final-gate evidence. This harvest's
+primary source is a public changelog, so it is a **release-history harvest** that supplements but
+does not replace the pilot-session reflection Stage 8 requires. Rev 2's label was wrong. The per-row
+gate, redaction record and independent review are retained because those protections still apply.
+**Decision artifact:** `reflect_ledger.json` — 31 rows, **28 decidable**, 3 superseded bundles.
+Where this document and the ledger differ, the ledger governs.
+**Gate:** per-row, and only after a fresh-context **re-review** approves the revised ledger. The
+first review (`reviews/reflect_ledger_review.json`) still reads `fix-blocking-first`; its findings
+are fixed but it is not the approving artifact. Nothing here is faculty approval.
 
-## 0. What changed in rev 2, and why
+## 0. What changed in rev 3
+
+The Codex review of rev 2 returned ten findings, two blocking. All accepted.
+
+**The label was wrong** (blocking). Calling this "the Stage 8 harvest of the POSED pilot" claimed an
+input class it does not have. Route A, importing the pilot session records, was declined: those
+directories carry faculty and student course content deliberately kept out of this repository, and
+importing them to justify a label is the wrong trade. Route B, honest relabelling, is taken above.
+
+**Rows still bundled decisions** (major). Splitting `f8` into two rows of four reduced the bundle
+without removing it, and one row records one disposition. Every independently decidable change now
+has its own row: `f8`, `f17` and `f18` are superseded by `f19`–`f31`, retained for provenance, never
+gated on, with no id recycled.
+
+**Dependencies were circular and factually wrong** (major). `f3` depended on `f8` while `f8`
+depended on `f3`, and `f8` no longer contained the folds `f6` claimed to send there. Shared
+destination is not a decision dependency; the cycle is removed and a merge plan reconciles multiple
+approved edits to the same lesson.
+
+**The implementation-patterns destination was promised but unowned** (major). Rev 2 said mechanisms
+"move to an implementation-patterns reference" that does not exist and that no row created, which
+means they were deleted rather than relocated. `f31` now creates it, in the same release that strips
+them from the lesson text.
+
+**`f4` cannot ship unconditionally** (moderate). "Seek an anchor later" contradicts L1. Its only
+available approval is *approve for grounding investigation*.
+
+Also: review coverage is now risk-proportionate rather than absolute, since skill-only products may
+own no gate application; ellipsis paths resolved; the `f2` recurrence count stated once, falsifiably.
+
+## 0b. What changed in rev 2, and why
 
 Codex reviewed rev 1 and returned **revise before implementation** with nine findings. All nine
 are accepted. Three deserve naming rather than quiet absorption.
@@ -35,7 +71,7 @@ L7 exists to prevent. Rev 2 proposes physical separation with one authoritative 
 | Source | Coverage | Method |
 |---|---|---|
 | POSED `CHANGELOG.md` @ `2ca8f7b` | 1.31–1.63, the whole unharvested span | Four fresh-context readers, one per range, each given the 13 shipped and 10 proposed lessons and told to decline product-specific findings |
-| `docs/PROPOSED_lessons_L14_L23…` | 10 proposed lessons | Read in full; its author's stated limits respected |
+| `docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md` | 10 proposed lessons | Read in full; its author's stated limits respected |
 | Codex improvement report | 12 recommendations | Read in full |
 | Codex review of rev 1 | 9 findings | Read in full; all accepted |
 | This repo @ `ea1a9ce` | Structural audit | Direct measurement |
@@ -72,8 +108,8 @@ narrowing.
 
 **`f2` — Check at the layer the claim is about.** For every criterion, name the observable layer
 where the claim lives and verify at that layer; evidence from a proxy layer cannot satisfy the claim
-unless the proxy-to-target mapping is justified and tested. Five independent discoveries across
-five releases and two documents. The oral case is framed as a rubric that never inspected
+unless the proxy-to-target mapping is justified and tested. Five observed instances: four POSED
+releases and one oral-register investigation. The synthesis and review documents are not counted. The oral case is framed as a rubric that never inspected
 spoken-language features, with zero contractions as one observed symptom rather than a universal
 failure condition.
 
@@ -105,17 +141,19 @@ and worked decision paths are example representations; the requirement is fideli
 
 ## 4. Folds and concrete fixes
 
-Folds are ledger rows `f8` and `f18`, split after independent review: `f8` carries the four folds
-traceable to the L14–L23 document, `f18` the four sourced from named POSED releases, so the faculty
-is not forced into one all-or-nothing call across seven destination lessons. Together they land
-inside L1, L4, L6, L7, L9, L10 and L11 rather than becoming entries. Proposed-L23 is deferred per
-its own author's limits.
+Folds are now one row each — `f19`–`f22` from the L14–L23 document and `f24`–`f27` from named POSED
+releases — landing inside L1, L4, L6, L7, L9, L10 and L11 rather than becoming entries. `f23` records
+the proposed-L23 deferral separately, `f28` completes stage summaries, `f29` and `f30` record the two
+deferrals, and **`f31` creates the implementation-patterns destination** that rev 2 promised without
+owning. Each carries its own disposition.
 
 Concrete fixes: `f9` adds a `require_bool` helper plus fixture to the validator template, which
 currently has no boolean-type guidance and therefore propagates the truthiness gap into every
-generated validator. `f10` adds review coverage to gate patterns **as a capability requirement**,
-not as disabled controls: a gate must provide coverage evidence appropriate to the artifact, must be
-accessible, must disclose what is tracked, and must not treat page visits as proof of understanding.
+generated validator. `f10` adds review coverage as a **risk-proportionate** capability: define coverage
+proportionate to artifact size, risk and presentation surface; record the acknowledgment or coverage
+evidence before acceptance; fail closed where the environment can enforce it, and where it cannot,
+disclose the limitation and use the strongest supported evidence without claiming comprehension.
+Never treat page visits as proof of understanding. Disabled controls suit one product type, not all.
 
 `f11` is POSED's missing registry rows. It stays evidence here and is **routed to a separate POSED
 change request**; rev 1 wrongly placed it inside an edu-skill-creator release.
@@ -160,7 +198,7 @@ absorbing the index. A re-review is required before the gate opens.
 
 Two of the three evidence streams behind this CR are model-authored reviews, and this synthesis is
 model-authored too. The strongest items are those where independent sources converged without
-coordination — `f2` above all, discovered four times in three documents. The weakest are those
+coordination — `f2` above all, with five observed instances across four POSED releases and one independent investigation. The weakest are those
 resting on a single release and no external corroboration; `f4`'s attribution of outcomes to agent
 motivation is labelled `inferred` in the ledger for that reason. Per-row approval exists so those
 can be declined individually.

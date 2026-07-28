@@ -1,8 +1,8 @@
 {
-  "ledger": "edu-skill-creator harvest of the POSED pilot",
+  "ledger": "edu-skill-creator release-history harvest of the POSED repository",
   "prepared_by": "claude-fable-5",
   "prepared_at": "2026-07-28",
-  "status": "PROPOSED — awaiting fresh-context ledger review, then the Stage 8 per-row gate",
+  "status": "PROPOSED — first independent review completed and all findings addressed; fresh-context RE-REVIEW required before any gate opens. Not a Stage 8 pilot harvest (see harvest_type).",
   "sources": {
     "primary": {
       "repo": "github.com/maxuwp/posed",
@@ -21,12 +21,20 @@
       {
         "artifact": "EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md",
         "author": "Codex",
-        "note": "12 recommendations; benefits explicitly labelled hypothesized by their author"
+        "note": "12 recommendations; benefits explicitly labelled hypothesized by their author",
+        "location": "OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md"
       },
       {
         "artifact": "EDU_SKILL_CREATOR_CR_1.10_CODEX_REVIEW_2026-07-28.md",
         "author": "Codex",
-        "note": "review of the first draft of this harvest; verdict revise-before-implementation; all nine findings accepted, and this ledger exists because of finding 1"
+        "note": "review of the first draft of this harvest; verdict revise-before-implementation; all nine findings accepted, and this ledger exists because of finding 1",
+        "location": "OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_CR_1.10_CODEX_REVIEW_2026-07-28.md"
+      },
+      {
+        "artifact": "OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_CR_1.10_REV2_CODEX_REVIEW_2026-07-28.md",
+        "author": "Codex",
+        "reviewed_revision": "e1da31e",
+        "note": "review of rev 2; ten findings, two blocking; all accepted and addressed in rev 3"
       }
     ]
   },
@@ -88,14 +96,15 @@
       "scope": "edu-skill-creator",
       "proposal": "Physically separate the always-read compact index from detailed evidence: reference/lesson_index.md (id, one-sentence rule, applicability, path) plus reference/lessons/L<nn>_<slug>.md, or a small number of stage-oriented bundles. One authoritative applicability mapping only. Lint checks dangling lesson ids and missing enforcement targets. Detailed evidence never duplicated into stage bodies.",
       "cost": "new release, mechanical once decided",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f2",
-      "finding": "An anchor can be real and a check can be computed, and both still miss, when they operate at a different observable layer than the thing being judged. Five independent discoveries: an oral rubric citing AAC&U VALUE and Mayer passed a script whose spoken-register defects sat at the lexico-grammatical layer neither anchor reaches; a module passed two AI reviews and clean validator output while required content sat in comments that render as nothing; a deck of flattened rasters with no extractable text satisfied a format check; a hash-checked directive ledger was blind to an omitted approved chart because its probes were text-only; and, earlier, a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered.",
+      "finding": "An anchor can be real and a check can be computed, and both still miss, when they operate at a different observable layer than the thing being judged. Five observed instances — four POSED releases and one oral-register investigation (the synthesis and review documents are not counted as discoveries): an oral rubric citing AAC&U VALUE and Mayer passed a script whose spoken-register defects sat at the lexico-grammatical layer neither anchor reaches; a module passed two AI reviews and clean validator output while required content sat in comments that render as nothing; a deck of flattened rasters with no extractable text satisfied a format check; a hash-checked directive ledger was blind to an omitted approved chart because its probes were text-only; and, earlier, a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L14)",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L14)",
           "revision": "ea1a9ce",
           "status": "observed"
         },
@@ -118,17 +127,14 @@
           "artifact": "posed CHANGELOG.md ## posed_skill.1.59",
           "revision": "2ca8f7b",
           "status": "observed"
-        },
-        {
-          "artifact": "recurrence across five releases and two independent documents",
-          "status": "inferred"
         }
       ],
       "redactions": "none; q3 is project prose, moved out of the consent bucket after independent review",
       "scope": "edu-skill-creator",
       "proposal": "New lesson, implementation-neutral wording: for every criterion, name the observable layer where the claim lives and verify at that layer; evidence from a proxy layer cannot satisfy the claim unless the proxy-to-target mapping is justified and tested. The oral case is framed as a rubric that did not inspect spoken-language features, with zero contractions as one observed symptom, not a universal failure condition.",
       "cost": "new release",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f3",
@@ -160,18 +166,18 @@
           "status": "observed"
         },
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L16, L18)",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L16, L18)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
-      "proposal": "Do NOT create a broad new lesson. Fold into L11 as a corollary: a verification report is evidence only when its provenance, target binding, freshness and reproducibility are established; a status that reduces scrutiny is assigned by the verifier, never asserted by the producer. Add to L11's testing requirements: the artifact that motivated a rubric or validator change must fail it; numeric thresholds are re-derived by a second implementer from the written definition, never from the code. Also record explicitly that Codex recommendations R8 (reviewer-independence evidence) and R11 (grounding provenance and freshness fields) are absorbed here and by L1/L9 rather than becoming a parallel rule family, so all twelve have a visible disposition.",
+      "proposal": "Do NOT create a broad new lesson. Fold into L11 as a corollary: a verification report is evidence only when its provenance, target binding, freshness and reproducibility are established; a status that reduces scrutiny is assigned by the verifier, never asserted by the producer. Add to L11's testing requirements: the artifact that motivated a rubric or validator change must fail it; numeric thresholds are re-derived by a second implementer from the written definition, never from the code. Also record explicitly that Codex recommendations R8 (reviewer-independence evidence) and R11 (grounding provenance and freshness fields) are absorbed here and by L1/L9 rather than becoming a parallel rule family, so all twelve have a visible disposition. Approval of this row independently authorizes its L11 corollary; where several approved rows edit L11, an implementation merge plan reconciles them. Shared destination is not a decision dependency.",
       "cost": "new release",
-      "independent_of_other_rows": false,
-      "depends_on": "f8 (fold batch) may absorb this if the gate prefers one fold row",
-      "corrected_after_independent_review": "attribution corrected: the changelog says 'cited by a 5h approve', an AI reviewer role"
+      "independent_of_other_rows": true,
+      "corrected_after_independent_review": "attribution corrected: the changelog says 'cited by a 5h approve', an AI reviewer role",
+      "decidable": true
     },
     {
       "id": "f4",
@@ -199,9 +205,15 @@
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
-      "proposal": "New lesson stated as a system consequence rather than an inference about motivation: make compliant recovery paths visible, low-friction and auditable; when the pipeline cannot proceed, provide a governed blocked-or-escalate outcome, otherwise users or agents may stall or bypass the intended process. Grounding stage to look for an applicable usable-security, human-factors or fail-safe-design anchor; POSED incidents remain empirical examples, not the anchor.",
+      "proposal": "New lesson stated as a system consequence rather than an inference about motivation: make compliant recovery paths visible, low-friction and auditable; when the pipeline cannot proceed, provide a governed blocked-or-escalate outcome, otherwise users or agents may stall or bypass the intended process. Grounding stage to look for an applicable usable-security, human-factors or fail-safe-design anchor; POSED incidents remain empirical examples, not the anchor. NOT ready for unconditional adoption: L1 requires grounding before doctrine is adopted where an applicable framework exists. The gate disposition available for this row is 'approve for grounding investigation', not 'approve as a shipped lesson'. Implementation requires identifying an applicable established source, documenting its original scope and limits, mapping it to the recovery-path rule, and revising or rejecting the lesson if no appropriate anchor exists.",
       "cost": "new release",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "gate_dispositions_available": [
+        "approve-for-grounding-investigation",
+        "defer",
+        "reject"
+      ],
+      "decidable": true
     },
     {
       "id": "f5",
@@ -223,7 +235,8 @@
       "proposal": "New lesson, principle only: explicit user decisions are authoritative constraints; preserve their meaning and trace them through every downstream stage that can alter them; only a later user decision may waive or supersede them. Ledgers, hashes, signed decisions and rendered-surface probes move to an implementation-patterns reference as examples; architecture chooses the lightest mechanism that provides traceability for the product type. Distinct from L2, which keeps the author's taste out of the user's defaults.",
       "cost": "new release",
       "independent_of_other_rows": true,
-      "correction_from_first_draft": "the first draft made a hash-bound append-only ledger mandatory doctrine; that is application architecture, not universal skill doctrine"
+      "correction_from_first_draft": "the first draft made a hash-bound append-only ledger mandatory doctrine; that is application architecture, not universal skill doctrine",
+      "decidable": true
     },
     {
       "id": "f6",
@@ -245,17 +258,17 @@
           "status": "observed"
         },
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L19, L20)",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L19, L20)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
       ],
       "redactions": "q2 pending consent",
       "scope": "edu-skill-creator",
-      "proposal": "Split. New lesson keeps only the genuinely new principle: evidence and review burden scale with a claim's specificity, consequence and volatility; precise or time-sensitive claims require correspondingly precise and current support, and low-stakes illustrative claims are not burdened with irrelevant precision; never launder a precision claim through a permissive category tag. Corpus provenance folds into L1; invented-threshold discipline folds into L11; dated world-dependent examples fold into L9. Do not prescribe a named human pre-flight for every plugin: architecture assigns an owner and fallback appropriate to the deployment.",
+      "proposal": "Split. New lesson keeps only the genuinely new principle: evidence and review burden scale with a claim's specificity, consequence and volatility; precise or time-sensitive claims require correspondingly precise and current support, and low-stakes illustrative claims are not burdened with irrelevant precision; never launder a precision claim through a permissive category tag. Approval of this row independently authorizes its three folds: corpus provenance into L1, invented-threshold discipline into L11, dated world-dependent examples into L9. Do not prescribe a named human pre-flight for every plugin: architecture assigns an owner and fallback appropriate to the deployment.",
       "cost": "new release",
-      "independent_of_other_rows": false,
-      "depends_on": "folds land in f8"
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f7",
@@ -272,14 +285,15 @@
       "proposal": "New lesson, representation-neutral: when a learning outcome requires learners to apply a domain process or make a sequence of decisions, the instructional sequence and assessment must preserve the grounded structure of that process. Graphs, state machines, checklists, workflows and worked decision paths are offered as example representations; the requirement is that the representation matches the process, not that every plugin lock a graph. Distinct from L1, which governs how the pipeline is grounded rather than whether the taught material's structure is faithful.",
       "cost": "new release",
       "independent_of_other_rows": true,
-      "correction_from_first_draft": "the first draft implied POSED's locked-graph mechanism as the requirement"
+      "correction_from_first_draft": "the first draft implied POSED's locked-graph mechanism as the requirement",
+      "decidable": true
     },
     {
       "id": "f8",
       "finding": "Four harvested candidates are corollaries of existing lessons rather than peers, and adding them as entries would inflate a ledger that already fails its own disclosure rule. This row covers only the folds traceable to the L14-L23 proposal document; the four sourced from the POSED changelog were split to f18 after an independent review found them carrying a blanket citation no reviewer could open.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L15, L17, L21, L22)",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L15, L17, L21, L22)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
@@ -288,9 +302,17 @@
       "scope": "edu-skill-creator",
       "proposal": "Folds: proposed-L15 operational criterion definitions into L11; proposed-L17 measure-your-own-exemplars into L11 as a falsifiability corollary; proposed-L21 registry completeness into L7 (already implemented for this repo as lint check 11 in 1.9); proposed-L22 anti-tell-versus-genre into L10. Proposed-L23 deferred pending broader evidence, retained as an intent-stage design question per its own author's stated limits.",
       "cost": "new release",
-      "independent_of_other_rows": false,
-      "depends_on": "f3, f6",
-      "split_after_independent_review": "the four changelog-sourced folds moved to f18; this row no longer bundles nine decisions across seven destinations"
+      "independent_of_other_rows": true,
+      "split_after_independent_review": "the four changelog-sourced folds moved to f18; this row no longer bundles nine decisions across seven destinations",
+      "superseded_by": [
+        "f19",
+        "f20",
+        "f21",
+        "f22",
+        "f23"
+      ],
+      "decidable": false,
+      "note": "Superseded after independent review: one ledger row carries one disposition, and this row bundled several. Retained for provenance; do not gate on it."
     },
     {
       "id": "f9",
@@ -311,7 +333,8 @@
       "scope": "edu-skill-creator",
       "proposal": "Add a require_bool helper to the template plus the fixture pair proving it, and a one-line note that gate flags are validated by type.",
       "cost": "small edit",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f10",
@@ -329,9 +352,10 @@
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
-      "proposal": "Add to gate_design_patterns as a capability requirement rather than a mechanism: a gate must provide review-coverage evidence appropriate to the artifact and must not enable final acceptance until the required coverage conditions are met. Examples: viewed sections, answered checks, sampled pages, explicit acknowledgment of unresolved warnings. Implementation must be accessible, must disclose what is tracked, and must not treat page visits as proof of understanding.",
+      "proposal": "Add to gate_design_patterns as a portable, risk-proportionate capability: for a human acceptance gate, define review coverage proportionate to artifact size, risk and presentation surface; record the required acknowledgment or coverage evidence before acceptance; where the environment can enforce the condition mechanically, fail closed; where it cannot, disclose the limitation and use the strongest supported evidence without claiming comprehension. Never treat page visits as proof of understanding. Disabled controls are one implementation for one product type, not the requirement — assuming every product owns a gate application repeats the complexity problem f12 exists to fix.",
       "cost": "small edit",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f11",
@@ -348,7 +372,8 @@
       "proposal": "Keep the missing rows as evidence for the generalized registry-completeness rule folded into L7 (f8). File the repair as a separate POSED change request or handoff. Do NOT claim the POSED correction inside an edu-skill-creator release.",
       "cost": "separate POSED CR",
       "independent_of_other_rows": true,
-      "correction_from_first_draft": "the first draft placed this POSED fix inside an edu-skill-creator release"
+      "correction_from_first_draft": "the first draft placed this POSED fix inside an edu-skill-creator release",
+      "decidable": true
     },
     {
       "id": "f12",
@@ -377,7 +402,8 @@
       "scope": "edu-skill-creator",
       "proposal": "Add a product-type classification at intent, confirmed at architecture: skill only, skill plus reusable scripts, plugin or multi-skill workflow, application or service. Require a short justification for every script, gate application or service naming the failure it prevents, why prose is insufficient, portability implications and a simpler fallback.",
       "cost": "new release",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f13",
@@ -401,7 +427,8 @@
       "scope": "edu-skill-creator",
       "proposal": "One shared metadata parser imported by the lint, with malformed, empty, duplicate and over-cap fixtures. Do not invent a preferred length target below the specification limit.",
       "cost": "small edit",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f14",
@@ -426,7 +453,8 @@
       "proposal": "Add tests/fixtures and tests/evals for this repo, then a versioned routing corpus with stable probe ids run through the actual harness router with the installed roster, reported separately from deterministic lint. Test corpus first; routing evaluations after it exists.",
       "cost": "new release",
       "independent_of_other_rows": false,
-      "depends_on": "corpus precedes routing evaluation"
+      "depends_on": "corpus precedes routing evaluation",
+      "decidable": true
     },
     {
       "id": "f15",
@@ -450,7 +478,8 @@
       "scope": "edu-skill-creator",
       "proposal": "Run a falsifiable probe before any refactor. Test one architecture against a capability-only profile, the current Claude Code adapter, the current Codex adapter and a synthetic third environment. Pass only if the core process contains no named-product requirement, each adapter produces equivalent required evidence, removing one adapter does not change the process contract, unsupported capabilities produce an explicit fallback or blocked state, and no adapter detail leaks into the educational rubric or pedagogy.",
       "cost": "one experiment before any architecture change",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f16",
@@ -474,7 +503,8 @@
       "scope": "edu-skill-creator",
       "proposal": "Later independent slice: freeze ledger, repair classification, delta gate, repair-cycle limit with named conditions for full re-review.",
       "cost": "architecture change",
-      "independent_of_other_rows": true
+      "independent_of_other_rows": true,
+      "decidable": true
     },
     {
       "id": "f17",
@@ -495,7 +525,14 @@
       "proposal": "Stage summaries: audit and complete rather than adopt — add only to the six stages lacking it, generated from approved state where possible. Usage logging and the pipeline graph: defer until a pilot demonstrates need.",
       "cost": "small edit for summaries; deferred for the rest",
       "independent_of_other_rows": true,
-      "correction_from_first_draft": "the first draft listed stage summaries as wholly absent"
+      "correction_from_first_draft": "the first draft listed stage summaries as wholly absent",
+      "superseded_by": [
+        "f28",
+        "f29",
+        "f30"
+      ],
+      "decidable": false,
+      "note": "Superseded after independent review: one ledger row carries one disposition, and this row bundled several. Retained for provenance; do not gate on it."
     },
     {
       "id": "f18",
@@ -532,7 +569,256 @@
       "proposal": "Folds: positional identity into L4 (sharpening the existing stable-id rule to never derive identity from array position); silent resource downgrade into L6 (a silent substitution is an unconsented change); reuse-detector matching semantics into L11 (a detector needs a domain model of legitimate variation, and ambiguous matches route to a human); declared language of instruction into L10 (a content-type property). Each may be approved, deferred or rejected separately.",
       "cost": "new release",
       "independent_of_other_rows": true,
-      "created_by_independent_review": "split out of f8; the blocking finding was that these four had no inspectable anchor"
+      "created_by_independent_review": "split out of f8; the blocking finding was that these four had no inspectable anchor",
+      "superseded_by": [
+        "f24",
+        "f25",
+        "f26",
+        "f27"
+      ],
+      "decidable": false,
+      "note": "Superseded after independent review: one ledger row carries one disposition, and this row bundled several. Retained for provenance; do not gate on it."
+    },
+    {
+      "id": "f19",
+      "finding": "A criterion that names a principle without a behavioural anchor cannot reject anything, whatever severity it carries.",
+      "anchors": [
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L11: every criterion ships a stated observable that would fail it and at least one worked failing example.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f20",
+      "finding": "Authored guidance goes unmeasured; running the skill's own instrument over the skill's own shipped exemplars is cheap and tests whether the guidance produces the behaviour it describes.",
+      "anchors": [
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L11 as a falsifiability corollary: measure the exemplars you ship before release.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f21",
+      "finding": "A central registry decays silently exactly where a later change request adds units.",
+      "anchors": [
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "scripts/release_lint.py check 11",
+          "revision": "e1da31e",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L7: ship a mechanical check that every unit appears in the registry that governs it. Already implemented for this repo as lint check 11 in 1.9; generalize the rule, do not add a lesson.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f22",
+      "finding": "A rule written to suppress synthetic-sounding output can suppress the target register, because attested genre speech is often formulaic.",
+      "anchors": [
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L10: an anti-AI-tell rule is checked against corpus evidence for the target genre before shipping.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f23",
+      "finding": "Naming the domain's central human quality-control act, and what mechanically replaces it if the pipeline removes it, is proposed but rests on one investigation in one domain; its own author calls it the least tested and possibly a special case of existing intent-stage work.",
+      "anchors": [
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "DEFER. Recorded outside the approval set as an intent-stage design question, revisited when a second domain provides evidence.",
+      "cost": "none — deferral",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f24",
+      "finding": "Semantic identity derived from incidental structural position silently relabels or misattaches content when the underlying list is reordered or regrouped.",
+      "anchors": [
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.58.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.63.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L4: sharpen the existing stable-id rule — never derive identity from array position; bind identity through an explicit key captured at creation and verified against the actual output.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f25",
+      "finding": "An automatic, invisible cost-routing policy degrades the user's product without their knowledge, is unjudgeable in advance because capability is only known after the work, and is meaningless where no alternative resource exists.",
+      "anchors": [
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.41.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L6: a silent substitution of a weaker resource is an unconsented change, not merely an unconsented cost.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f26",
+      "finding": "A duplicate detector without a domain model of legitimate variation either blocks deliberate pedagogical variation or misses disguised reuse; a shared given with a new target was 'legal pedagogy that a naive exact gate would have blocked'.",
+      "anchors": [
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.37",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L11: a detector's matching semantics encode what may vary and what must stay fixed, and ambiguous matches route to a human rather than failing closed on legitimate variation.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f27",
+      "finding": "Source-language fragments leak into a supposedly monolingual deliverable when grounding sources are multilingual; the source generalizes this 'to ANY multilingo-source pipeline'.",
+      "anchors": [
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.37.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Fold into L10: declare one language of instruction; sources may be multilingual, student-facing text is monolingual.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f28",
+      "finding": "Verified at ea1a9ce: 4 of 10 stage skills carry the stage-end summary instruction (draft, umbrella, grounding, scaffold); 6 do not (architecture, intent, reflect, refresh, release, test).",
+      "anchors": [
+        {
+          "artifact": "skills/*/SKILL.md stage-end-summary census",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Audit and complete rather than adopt: add the summary to the six stages lacking it, generated from approved state where possible. Codex R12 was wrongly listed as wholly absent.",
+      "cost": "small edit",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f29",
+      "finding": "Recording actual calls, models, repair cycles and package sizes is useful instrumentation rather than a correctness requirement.",
+      "anchors": [
+        {
+          "artifact": "OneDrive/.../EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R7",
+          "status": "observed"
+        },
+        {
+          "artifact": "predicted budgeting benefit",
+          "status": "hypothesized"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "DEFER (Codex R7) until a pilot demonstrates need.",
+      "cost": "none — deferral",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f30",
+      "finding": "A machine-readable pipeline graph is explicitly optional in its own proposal and justified only for complex plugins.",
+      "anchors": [
+        {
+          "artifact": "OneDrive/.../EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R9",
+          "status": "observed"
+        },
+        {
+          "artifact": "predicted invalidation-routing benefit",
+          "status": "hypothesized"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "DEFER (Codex R9) unless a pilot demonstrates need.",
+      "cost": "none — deferral",
+      "independent_of_other_rows": true,
+      "decidable": true
+    },
+    {
+      "id": "f31",
+      "finding": "Rev 2 states that product-specific mechanisms 'move to an implementation-patterns reference', and f5 sends ledgers, hashes, signed decisions and rendered-surface probes there. No such reference exists and no row or release created it, so the mechanisms were removed from the lessons rather than relocated.",
+      "anchors": [
+        {
+          "artifact": "docs/CR_1.10_2026-07-28_harvest_triage.md rev 2 sections 0 and 3",
+          "revision": "e1da31e",
+          "status": "observed"
+        },
+        {
+          "artifact": "absence of any implementation-patterns artifact at e1da31e",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Create the destination and give it a release owner: either reference/implementation_patterns.md, or clearly marked non-normative mechanism sections inside gate_design_patterns.md. Each example records the capability satisfied, the product type it suits, portability implications, a simpler fallback, tested environment and date where applicable, and an explicit label that it is an example rather than universal doctrine. This work ships in the SAME release that removes the mechanisms from the lesson text; otherwise the relocation is fictional.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "decidable": true
     }
   ],
   "declined": {
@@ -602,5 +888,22 @@
     "reviewed_at": "2026-07-28",
     "result": "1 blocking, 2 major, 4 minor; all addressed in this revision",
     "note": "The review spot-checked roughly twenty claims against POSED @2ca8f7b and this repo @ea1a9ce. It caught an overstated attribution (f3), four folds carried through two documents without an inspectable anchor (f8, now split and sourced as f18), an over-bundled gate row, and a miscounted line figure. A re-review is required before the gate opens."
+  },
+  "harvest_type": {
+    "label": "release-history / maintenance harvest",
+    "is_stage_8_pilot_harvest": false,
+    "why": "Stage 8 (skills/reflect/SKILL.md) requires the completed pilot's session directory, its gate decision files, its review logs and its improvements file, and refuses to run without evidence that at least one artifact passed its final gate. This harvest's primary source is POSED's public CHANGELOG.md. It is therefore a release-history harvest, not the Stage 8 pilot reflection, and rev 2's label was wrong.",
+    "relationship_to_stage_8": "Supplements but does not replace the pilot-session reflection Stage 8 requires. The per-row gate, redaction record and independent-review discipline are retained because those protections add value regardless of input class.",
+    "route_not_taken": "Route A (adding the pilot session records) was declined: those directories carry faculty and student course content that is deliberately kept out of this repository, and importing them to justify a label is the wrong trade."
+  },
+  "row_accounting": {
+    "total": 31,
+    "decidable": 28,
+    "superseded_bundles": [
+      "f8",
+      "f17",
+      "f18"
+    ],
+    "rule": "one row, one disposition; superseded rows retained for provenance and never gated on; ids never recycled"
   }
 }
