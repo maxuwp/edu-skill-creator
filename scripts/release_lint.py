@@ -161,6 +161,32 @@ for p in sorted((ROOT / "reviews").glob("*_review.json")):
             errors.append(f"[review] {p.relative_to(ROOT)} finding {i}: "
                           "missing non-empty resolution")
 
+# 11. Every numbered enforcement claim in the lessons quick-reference table resolves
+#     (L13: an instructional surface must not promise enforcement the repo lacks; the
+#     ledger's own "Enforced at" column is such a surface). Only NUMBERED claims are
+#     checkable — that is why the convention is to cite numbered units.
+LL = ROOT / "skills" / "edu-skill-creator" / "reference" / "lessons_learned.md"
+if LL.exists():
+    def _numbered(path):
+        f = ROOT / path
+        return ({int(n) for n in re.findall(r"^\s*(\d+)\.\s", f.read_text(), re.M)}
+                if f.exists() else set())
+    targets = {
+        "rubric critical flag": ("skills/edu-skill-creator/reference/skill_quality_rubric.md",
+                                 _numbered("skills/edu-skill-creator/reference/skill_quality_rubric.md")),
+        "test scenario":        ("skills/test/SKILL.md", _numbered("skills/test/SKILL.md")),
+        "architecture item":    ("skills/architecture/SKILL.md", _numbered("skills/architecture/SKILL.md")),
+        "release step":         ("skills/release/SKILL.md", _numbered("skills/release/SKILL.md")),
+    }
+    for lesson, claim in re.findall(r"^\| (L\d+) \| [^|]+ \| ([^|]+) \|$", LL.read_text(), re.M):
+        for label, (where, present) in targets.items():
+            for m in re.finditer(label.replace(" ", r"\s") + r"s?\s+(\d+)(?:\s*[\u2013-]\s*(\d+))?", claim):
+                for n in [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else []):
+                    if n not in present:
+                        errors.append(f"[ledger] {lesson} claims '{label} {n}' but {where} "
+                                      f"has no numbered item {n} — L13: the claim or the "
+                                      f"enforcement must change, not neither")
+
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)
 print(f"\nrelease_lint: {len(errors)} error(s), {len(warnings)} warning(s)")

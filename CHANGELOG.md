@@ -3,6 +3,39 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.9 — 2026-07-28
+
+L13 applied to L13: the lesson that forbids promising enforcement the code refuses had
+shipped promising two enforcement points that did not exist.
+
+- **The defect.** L13's "Enforced at" column claimed `edu-skill-creator-release sweep`
+  and `edu-skill-creator-test scenario 15`. The release skill carried only the older,
+  narrower "semantic-drift grep" (scoped to rules changed *this* release, no count
+  requirement), and the test suite ended at scenario 14. Only `rubric critical flag 12`
+  was real. L13 was also the sole lesson with no enforcement paragraph (L11's is
+  deliberately shared with L12).
+- **Swept the class, reporting the count** (L13's own rule): all 13 rows audited, 29
+  resolvable claims checked, **1 unresolved** — plus one claim ("release sweep") that
+  proved *unverifiable as written*, because a bare skill name plus a noun cannot be
+  checked. Claims now cite numbered units for exactly that reason.
+- **`release_lint` check 11** resolves every numbered enforcement claim in the ledger's
+  quick-reference table against the numbered items actually present in the rubric, test,
+  architecture and release skills. Falsifiability came free and in the honest direction:
+  the check FAILED on the real shipped defect before any fix, and a seeded `architecture
+  item 99` fails on restore. This makes the ledger's enforcement column computed rather
+  than asserted, which is L11 applied to L13.
+- **The enforcement now exists.** `edu-skill-creator-release` step 2 is rewritten as the
+  **class sweep**: two triggers (rules changed this release; any review finding citing a
+  file:line), one pass, report the count rather than "fixed as suggested", delete or
+  move superseded instructions rather than annotate them, table cells whose value is the
+  instruction named explicitly, and the wrong-layer signal when a second round finds
+  another instance. `edu-skill-creator-test` scenario 15 plants one instruction in four
+  surfaces and cites one, with the table-cell variant. `edu-skill-creator-draft` step 3
+  carries the same rule at the layer where review findings are actually handled.
+- L13 gains its enforcement paragraph.
+
+No stage, gate, schema or product-behaviour changes.
+
 ## edu_skill_creator.1.8 — 2026-07-27
 
 L13 — the authoring half of L11: once a skill ships both prose and enforcement, the prose

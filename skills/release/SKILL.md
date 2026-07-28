@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-release
 description: Edu Skill Creator Stage 7 — Release hygiene for an educational plugin. Runs the release lint (rule 0), verifies changelog heading and lockstep manifest versions, checks trigger descriptions, applies commit conventions, and gates the actual publish (remote push, marketplace) on the author. Triggers - when the edu-skill-creator umbrella dispatches Stage 7, or the user says "release/ship/publish the plugin".
-version: "1.8"
+version: "1.9"
 ---
 
 # Edu Skill Creator Stage 7: Release
@@ -23,9 +23,18 @@ entry, and `release_gate_decision.json` (below).
    have pushed (dual-harness playbook release rule 2). Confirm every BUILD_PLAN item claimed done is
    actually on disk as described — a mid-session abort once produced a bad partial
    commit because edit-then-commit was chained blindly. Spot-read, don't trust memory.
-2. **Semantic-drift grep.** For every rule or schema changed this release, grep the
-   whole skills tree for the OLD phrasing. New-rule-on-top with stale text below is the
-   one drift class the lint cannot catch; the grep is the defense.
+2. **Class sweep (L13).** Two triggers, one discipline. (a) For every rule or schema
+   changed this release, grep the whole skills tree for the OLD phrasing — new-rule-on-top
+   with stale text below is the drift class the lint cannot catch. (b) For every review
+   finding that cites a file:line, treat the citation as a symptom and grep for the
+   CLASS: the same instruction reaches SKILL bodies, reference tables, READMEs,
+   harness-adaptation notes, and sub-skills' alternate paths. Fix every instance in ONE
+   pass and **report the count found**, not "fixed as suggested" — a count is
+   falsifiable. Superseded instructions are deleted or moved to a marked historical
+   section, never annotated in place: a warning above an executable-looking instruction
+   loses to the instruction, and a table cell whose value is the superseded rule is an
+   instruction. If a second round finds a new instance of the same class, the fix was at
+   the wrong layer — remove the affordance instead of enumerating instances.
 3. **Rule 0.** `python3 scripts/release_lint.py` exits 0. If this release added a lint
    check, demonstrate it failing on a seeded violation first (falsifiability, L8).
    Also verify structural validity beyond the drift-lint: both manifests parse and

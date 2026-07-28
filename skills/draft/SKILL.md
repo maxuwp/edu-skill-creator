@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-draft
 description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.8"
+version: "1.9"
 ---
 
 # Edu Skill Creator Stage 5: Draft
@@ -61,7 +61,11 @@ validator (item 11), and the rubric CITES the validator rather than restating it
    apply them). It returns the rubric's output JSON; save it to
    `reviews/<skill>_review.json` BEFORE anything is shown to the author.
 3. **Iterate** per the rubric's policy (≥85 and no critical flags → done; 80–84 → revise
-   with findings, max 3 rounds; <80 → escalate to the author with top findings).
+   with findings, max 3 rounds; <80 → escalate to the author with top findings). A
+   finding that cites a file:line is a symptom of a class (L13): grep for the class
+   before fixing, repair every instance in one pass, and report the count in the
+   revision note. If the next round finds another instance of the same class, stop
+   patching instances and fix the layer that permits them.
 4. Mark the BUILD_PLAN item.
 
 ## Author gate (batched)

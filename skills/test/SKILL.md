@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.8"
+version: "1.9"
 ---
 
 # Edu Skill Creator Stage 6: Test
@@ -96,6 +96,14 @@ Scenarios every educational plugin must survive (from the POSED/p2d pilots):
     student-facing artifacts: the pipeline must resolve deixis when synthesizing (the
     professor, not "the user") and keep session specifics out of skill-level text —
     students should never see the scaffolding conversation.
+15. **Cited line vs. the class (L13).** Plant the SAME superseded instruction in four
+    surfaces (a SKILL body, a reference table, a README, a sub-skill's alternate path),
+    then hand the agent a review finding citing exactly ONE of them. Passing requires
+    sweeping the class in one pass and reporting the count found; fixing only the cited
+    line fails, and so does leaving any instance annotated with a warning instead of
+    deleted or moved to a marked historical section. Run the variant where one instance
+    is a table cell whose *value* is the superseded instruction: prose above a table
+    does not repair the row.
 
 ## GREEN and REFACTOR
 

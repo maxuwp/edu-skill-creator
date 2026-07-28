@@ -312,6 +312,14 @@ so the exception covered every new session.
   read it to require one only for enforceable floors. Both readings fit the sentence. The
   durable fix was rewriting the sentence, not winning the argument.
 
+**Edu Skill Creator enforcement.** `edu-skill-creator-release` step 2 is the class sweep
+(both triggers, count reported, delete rather than annotate); `edu-skill-creator-test`
+scenario 15 plants one instruction in four surfaces and cites one; `skill_quality_rubric`
+critical flag 12 blocks the shipped defect. And because this lesson's own "Enforced at"
+column is an instructional surface, `release_lint` check 11 resolves every NUMBERED
+enforcement claim in the table below — which is why claims cite numbered units: a bare
+skill name plus a noun cannot be checked. That check found this lesson's own broken claim.
+
 ---
 
 ## Quick-reference table
@@ -330,7 +338,7 @@ so the exception covered every new session.
 | L10 | Content-type-aware templates; precision blocks atomic end-to-end | edu-skill-creator-architecture registry; rubric critical flag 10; edu-skill-creator-test scenario 11 |
 | L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 11; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 |
 | L12 | Contract versioning + targeted amendment re-entry for live sessions | edu-skill-creator-architecture item 5; edu-skill-creator-test scenario 13 |
-| L13 | Prose never teaches what validators refuse; sweep the class in one pass; delete superseded instructions rather than annotate them | edu-skill-creator-release sweep; rubric critical flag 12; edu-skill-creator-test scenario 15 |
+| L13 | Prose never teaches what validators refuse; sweep the class in one pass; delete superseded instructions rather than annotate them | edu-skill-creator-release step 2; rubric critical flag 12; edu-skill-creator-test scenario 15; release_lint check 11 (this column) |
 
 *Provenance: POSED CHANGELOG entries posed_skill.1.4–1.14 (L1–L9), posed_skill.1.24–1.25
 (L10), posed_skill.1.26–1.30.1 (L11–L12 and the L7 corollary), and p2d_skill.1.4–1.6
