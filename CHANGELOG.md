@@ -3,6 +3,27 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.10 — 2026-07-28
+
+Gate row `f1` only: the lessons ledger becomes an always-read card plus detail files. No doctrine
+changes; the approved lessons and folds land in 1.11.
+
+- **The defect.** `skills/draft/SKILL.md` tells authors that depth belongs in references "loaded on
+  demand", while the umbrella ordered `lessons_learned.md` read "before doing anything". That file
+  was 346 lines and 3,297 words with its index at line 325, so an agent reading top-down consumed
+  the whole evidence corpus before reaching the summary.
+- **The split.** `reference/lesson_index.md` is now the always-read card: 25 lines, one row per
+  lesson, carrying the single authoritative applicability map. Each lesson's full entry moved to
+  `reference/lessons/L01…L13_*.md`, pulled when a stage appears in its Applies-to column.
+  `lessons_learned.md` remains as a pointer only. Stage skills cite lesson ids; they do not restate
+  the rules, because a second map would drift from the first (L7).
+- **Lint check 11 hardened.** It previously parsed the quick-reference table inside
+  `lessons_learned.md`. After the split it found no table and passed vacuously — a check that
+  silently checks nothing. It now reads the card, **fails closed when it parses zero rows**, and
+  additionally verifies that every lesson id resolves to an existing detail file (the dangling-id
+  requirement in `f1`). Proven both directions: a seeded `L01_MISSING.md` path fails, restore passes.
+- Decided at the gate recorded in `reflect_gate_decision.json` (28 rows, 8 grouped calls).
+
 ## edu_skill_creator.1.9 — 2026-07-28
 
 L13 applied to L13: the lesson that forbids promising enforcement the code refuses had

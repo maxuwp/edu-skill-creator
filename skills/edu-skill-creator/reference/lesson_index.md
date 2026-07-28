@@ -1,0 +1,25 @@
+# Lesson index — the always-read card
+
+One line per lesson. **Read this file always; read a lesson's full entry when your stage appears in its
+Applies-to column.** This is the single authoritative applicability map: stage skills cite lesson ids, they
+do not restate the rules (L7 — a second map would drift from this one).
+
+| # | Rule | Applies to | Detail |
+|---|---|---|---|
+| L1 | Ground in published frameworks, original scope only | edu-skill-creator-grounding gate | [`lessons/L01_grounding.md`](lessons/L01_grounding.md) |
+| L2 | Contested choices are explicit options, never defaults | edu-skill-creator-intent inventory; rubric critical flag | [`lessons/L02_author_defaults.md`](lessons/L02_author_defaults.md) |
+| L3 | Independent fresh-context reviewer per content stage | edu-skill-creator-architecture; edu-skill-creator-draft rubrics | [`lessons/L03_drafter_not_reviewer.md`](lessons/L03_drafter_not_reviewer.md) |
+| L4 | Narrow gates + dependency/stale-state model | edu-skill-creator-architecture | [`lessons/L04_narrow_gates.md`](lessons/L04_narrow_gates.md) |
+| L5 | Structured decision JSON; never accept on the human's behalf | gate_design_patterns.md | [`lessons/L05_structured_decisions.md`](lessons/L05_structured_decisions.md) |
+| L6 | Cost-consent ladder for expensive runs | edu-skill-creator-test; simulation stage designs | [`lessons/L06_cost_consent.md`](lessons/L06_cost_consent.md) |
+| L7 | Single source + symlinks + release lint | edu-skill-creator-scaffold | [`lessons/L07_single_source.md`](lessons/L07_single_source.md) |
+| L8 | Resumable checklists; verify-then-commit; falsifiable lints | edu-skill-creator-architecture; edu-skill-creator-release | [`lessons/L08_resumable_falsifiable.md`](lessons/L08_resumable_falsifiable.md) |
+| L9 | Refresh + reflect loops | edu-skill-creator-architecture defaults | [`lessons/L09_refresh_reflect.md`](lessons/L09_refresh_reflect.md) |
+| L10 | Content-type-aware templates; precision blocks atomic end-to-end | edu-skill-creator-architecture registry; rubric critical flag 10; edu-skill-creator-test scenario 11 | [`lessons/L10_content_types.md`](lessons/L10_content_types.md) |
+| L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 11; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 | [`lessons/L11_computed_validators.md`](lessons/L11_computed_validators.md) |
+| L12 | Contract versioning + targeted amendment re-entry for live sessions | edu-skill-creator-architecture item 5; edu-skill-creator-test scenario 13 | [`lessons/L12_contract_versioning.md`](lessons/L12_contract_versioning.md) |
+| L13 | Prose never teaches what validators refuse; sweep the class in one pass; delete superseded instructions rather than annotate them | edu-skill-creator-release step 2; rubric critical flag 12; edu-skill-creator-test scenario 15; release_lint check 11 (this column) | [`lessons/L13_sweep_the_class.md`](lessons/L13_sweep_the_class.md) |
+
+*Provenance: POSED CHANGELOG posed_skill.1.4–1.14 (L1–L9), 1.24–1.25 (L10), 1.26–1.30.1 (L11–L12),
+1.64–1.66 (L13); p2d_skill.1.4–1.6. Detailed evidence lives in the per-lesson files, never duplicated
+into stage bodies.*

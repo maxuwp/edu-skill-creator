@@ -165,7 +165,7 @@ for p in sorted((ROOT / "reviews").glob("*_review.json")):
 #     (L13: an instructional surface must not promise enforcement the repo lacks; the
 #     ledger's own "Enforced at" column is such a surface). Only NUMBERED claims are
 #     checkable — that is why the convention is to cite numbered units.
-LL = ROOT / "skills" / "edu-skill-creator" / "reference" / "lessons_learned.md"
+LL = ROOT / "skills" / "edu-skill-creator" / "reference" / "lesson_index.md"
 if LL.exists():
     def _numbered(path):
         f = ROOT / path
@@ -178,7 +178,14 @@ if LL.exists():
         "architecture item":    ("skills/architecture/SKILL.md", _numbered("skills/architecture/SKILL.md")),
         "release step":         ("skills/release/SKILL.md", _numbered("skills/release/SKILL.md")),
     }
-    for lesson, claim in re.findall(r"^\| (L\d+) \| [^|]+ \| ([^|]+) \|$", LL.read_text(), re.M):
+    _idx = LL.read_text()
+    _rows = re.findall(r"^\| (L\d+) \| [^|]+ \| ([^|]+) \| \[`([^`]+)`\][^|]*\|$", _idx, re.M)
+    if not _rows:  # fail closed: a check that silently checks nothing is worse than no check
+        errors.append("[ledger] lesson_index.md parsed zero rows — check 11 would pass vacuously")
+    for _lid, _claim, _path in _rows:  # f1: dangling lesson detail files
+        if not (LL.parent / _path).exists():
+            errors.append(f"[ledger] {_lid} points at {_path}, which does not exist")
+    for lesson, claim in [(a, b) for a, b, _ in _rows]:
         for label, (where, present) in targets.items():
             for m in re.finditer(label.replace(" ", r"\s") + r"s?\s+(\d+)(?:\s*[\u2013-]\s*(\d+))?", claim):
                 for n in [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else []):

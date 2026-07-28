@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator
 description: Edu Skill Creator. Umbrella workflow for creating a NEW educational plugin or skill set (or overhauling an existing one) with an established, framework-grounded process instead of ad-hoc drafting. Guides the author through intent interview, framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release, and post-pilot reflection. Triggers - when the user wants to "make a plugin/skill for <educational task>", "turn this teaching workflow into a plugin", "build a skill set like POSED", or asks how to structure an educational agent pipeline.
-version: "1.9"
+version: "1.10"
 ---
 
 # Edu Skill Creator
@@ -9,7 +9,9 @@ version: "1.9"
 You are supervising the creation of an **educational plugin**: a HITL-gated agent
 pipeline that produces teaching artifacts (lessons, decks, labs, assessments, feedback,
 advising flows…). Edu Skill Creator exists because building POSED and p2d taught nine expensive
-lessons — read `<edu-skill-creator-skill-dir>/reference/lessons_learned.md` before doing anything.
+lessons — read `<edu-skill-creator-skill-dir>/reference/lesson_index.md` before doing anything. It is the
+always-read card, one line per lesson; pull a lesson's full entry from `reference/lessons/` when your stage
+appears in its Applies-to column.
 Every lesson there is a design requirement for the plugin you are about to build.
 
 ## Operating rules (apply to every stage)
@@ -77,7 +79,8 @@ for "where are we." On session start, read it first and resume.
 
 ## Reference files
 
-- `reference/lessons_learned.md` — the thirteen lessons; read first, always.
+- `reference/lesson_index.md` — the always-read card: thirteen lessons, one line each, with the single
+  authoritative applicability map. Full entries in `reference/lessons/`, loaded on demand.
 - `reference/edu_grounding_library.md` — starter framework menu + scope rules.
 - `reference/gate_design_patterns.md` — gate spec, decision JSON, stale-state model.
 - `reference/dual_harness_playbook.md` — repo layout, symlinks, lint, release rules.
