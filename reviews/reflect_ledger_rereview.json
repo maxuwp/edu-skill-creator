@@ -1,0 +1,175 @@
+{
+  "review": "reflect_ledger_rereview",
+  "round": 2,
+  "reviewer": "independent-fresh-context",
+  "reviewed_artifact": "reflect_ledger.json rev 3",
+  "reviewed_revision": "5b09e97",
+  "reviewed_at": "2026-07-28",
+  "first_review_findings_verified": [
+    {
+      "finding": "f8: four folded candidates (positional identity, silent resource downgrade, reuse-detector semantics, multilingual leakage) had no inspectable anchor — only a blanket 'four reader reports' citation carried through two documents.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "Split to f18 (superseded) and then to f24-f27, each citing a named POSED release. Opened posed-plugin CHANGELOG.md at 2ca8f7b directly and confirmed every one verbatim: 1.58.1 'Semantic decision numbering never derives from array position' (f24); 1.63.1 'captured from actual addSlide order (never file-order-inferred)' (f24); 1.41.1 'a downgrade the user cannot see degrades their product without their knowledge' and 'single-model environments... have no menu to route across' (f25); 1.37 'a shared given with a NEW target' reported as warning, 'legal pedagogy that a naive exact gate would have blocked' (f26); 1.37.1 'generalized to ANY multilingo-source pipeline' (f27). All four are now genuinely inspectable and accurately quoted."
+    },
+    {
+      "finding": "f3: the forged 128-byte report was described as 'cited by a human approval', but the changelog says it was cited by a '5h approve' (an AI reviewer role).",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "f3 now reads 'cited by an AI reviewer's approval (the 5h instructional-designer role)... an AI reviewer fooled by another agent's forgery, not a human gate fooled; the human-gate forgery case is the separate 1.34 anchor.' Verified against CHANGELOG 1.38 ('cited by a 5h approve while the live validator failed 7 criticals') and 1.35 (which introduces 5h = posed-instructional-designer, a fresh-context AI role, not a human gate). Correction is accurate and the separated 1.34 anchor (15 hand-written gate decisions) genuinely is a human-gate forgery case."
+    },
+    {
+      "finding": "f8 bundled nine independent fold-decisions across seven destinations into one all-or-nothing row.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "f8 is now superseded (decidable:false) and split first into f8/f18, then fully atomized into f19-f23 (from the L14-L23 document) and f24-f27 (from named POSED releases). Each of f19-f27 carries exactly one fold and one disposition. Row-accounting block (31 total, 28 decidable, superseded_bundles [f8,f17,f18]) verified programmatically against the actual rows: correct, no dangling superseded_by references, no duplicate or recycled ids."
+    },
+    {
+      "finding": "f1: 'L13 alone 81' lines was computed to end-of-file rather than to the next section header; correct figure is 59.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "f1 now reads 'L13 alone 59 (measured header-to-next-header; an earlier figure of 81 counted to end of file and silently absorbed the 22-line index)'. Consistent with the first reviewer's own direct wc/grep measurement."
+    },
+    {
+      "finding": "f2: prose named four discoveries but the anchor list cited a fifth release (1.40) never connected to the prose.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "f2 now states 'Five observed instances' and the fifth clause ('a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered') is an accurate paraphrase of CHANGELOG 1.40 verified directly: 'Stage 5 review happened on markdown source while the faculty's real review unit is the instructional slide as experienced — nine pilot defects ... were invisible at every gate and obvious the moment the deck rendered.'"
+    },
+    {
+      "finding": "Ledger-wide: Codex recommendations R8 and R11 had no visible disposition anywhere in the ledger.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "f3's proposal now states explicitly: 'record explicitly that Codex recommendations R8 (reviewer-independence evidence) and R11 (grounding provenance and freshness fields) are absorbed here and by L1/L9 rather than becoming a parallel rule family, so all twelve have a visible disposition.' Cross-checked all twelve Codex recommendations (R1-R12) against current rows: all resolve to f12-f16, f28-f30, or the R8/R11 absorption in f3 -- none orphaned in the ledger itself (see major finding below regarding the CR document's stale citations for R7/R9/R12)."
+    },
+    {
+      "finding": "redaction_record bucketed q3 (non-faculty project prose) together with q1/q2 (genuine faculty verbatim) under faculty_verbatim_pending_consent.",
+      "claimed": "fixed",
+      "verdict": "confirmed",
+      "note": "q3 now lives in a separate 'non_faculty_source_prose' array with its own note ('POSED changelog release-note prose with no faculty attribution in the source'); faculty_verbatim_pending_consent contains only q1 and q2. redaction_record.note explicitly states quote_consent covers only q1/q2."
+    }
+  ],
+  "anchors_spot_checked": [
+    {
+      "row": "f24 (ex-f18)",
+      "anchor": "posed CHANGELOG.md ### posed_skill.1.58.1, 1.63.1 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'Semantic decision numbering never derives from array position' and 'captured from actual addSlide order (never file-order-inferred)' both verbatim."
+    },
+    {
+      "row": "f25 (ex-f18)",
+      "anchor": "posed CHANGELOG.md ### posed_skill.1.41.1 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "Withdrawal of cost-routing doctrine, invisible downgrade and single-model-environment reasoning both verbatim."
+    },
+    {
+      "row": "f26 (ex-f18)",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.37 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'a shared given with a NEW target ... legal pedagogy that a naive exact gate would have blocked' verbatim."
+    },
+    {
+      "row": "f27 (ex-f18)",
+      "anchor": "posed CHANGELOG.md ### posed_skill.1.37.1 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'generalized to ANY multilingo-source pipeline' verbatim."
+    },
+    {
+      "row": "f3",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.38 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "5h-approve/forged-report attribution verbatim; role confirmed as posed-instructional-designer via 1.35."
+    },
+    {
+      "row": "f3",
+      "anchor": "posed CHANGELOG.md ### posed_skill.1.48.2 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'a FIRST review launched with --changed \"\" could approve a whole deck nobody viewed' verbatim, substantiating the delta-re-gate clause."
+    },
+    {
+      "row": "f3",
+      "anchor": "posed CHANGELOG.md ### posed_skill.1.63.2 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'the independence stamp must be a JSON boolean -- \"independent\":\"false\" (a truthy string that defeats every is False check) now fails' verbatim."
+    },
+    {
+      "row": "f3",
+      "anchor": "docs/PROPOSED_lessons_L14_L23...md (L18)",
+      "verdict": "confirmed",
+      "note": "'Eight markers ... Three died ... inflated roughly threefold and had already been quoted in three documents' verbatim, substantiating the thresholds clause."
+    },
+    {
+      "row": "f9",
+      "anchor": "skills/scaffold/reference/validator_template.py",
+      "verdict": "confirmed",
+      "note": "Reworded claim now precise: exactly three isinstance() calls in the file, all checking dict or str, none checking bool -- matches direct grep."
+    },
+    {
+      "row": "f21",
+      "anchor": "scripts/release_lint.py check 11",
+      "verdict": "confirmed",
+      "note": "Literal '# 11. Every numbered enforcement claim in the lessons quick-reference table resolves' at line 164; matches CHANGELOG.md's own 1.9 entry describing check 11."
+    },
+    {
+      "row": "f19-f23",
+      "anchor": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (bare filename, no lesson number)",
+      "verdict": "misstated",
+      "note": "Content of each row matches its corresponding lesson exactly (f19~L15, f20~L17, f21~L21, f22~L22, f23~L23, confirmed by direct read of the source document), but unlike sibling rows f2/f3/f6/f18 (which all cite the specific L-number inline, e.g. '(L14)', '(L16, L18)'), f19-f23's anchor field cites only the bare document path. The mapping is recoverable only by cross-referencing the superseded f8 row's proposal text and matching order to f8's superseded_by list -- an extra hop the other rows in this same ledger do not require of a reviewer."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "row": "ledger-wide (docs/CR_1.10_2026-07-28_harvest_triage.md section 5)",
+      "issue": "Section 4 of the CR ('Folds and concrete fixes') correctly cites the rev-3 split rows f28/f29/f30 for stage summaries and the two Codex deferrals. Section 5 ('The Codex twelve'), a few lines below, was not updated to match: it still reads 'R12 changes from adopt to audit-and-complete (f17)' and 'Defer: R7, R9 (f17)'. f17 is superseded (decidable:false, 'do not gate on it') and its three decisions now live in f28 (R12), f29 (R7) and f30 (R9). A reader following section 5's citations lands on a row explicitly marked not-to-be-gated-on, for three of the twelve Codex recommendations.",
+      "fix": "Update section 5 to read 'R12 changes from adopt to audit-and-complete (f28)' and 'Defer: R7 (f29), R9 (f30)', matching section 4 and the ledger. The ledger itself is correct; this is confined to the CR narrative, and the CR's own line 11 states the ledger governs where the two differ -- but the stale citation should not stand uncorrected in a document meant to be read as the human-facing synthesis.",
+      "status": "fixed",
+      "resolution": "CR section 5 now cites f28 for R12 and f29/f30 for the R7/R9 deferrals, matching section 4 and the ledger."
+    },
+    {
+      "severity": "major",
+      "row": "f11",
+      "issue": "f11's proposal text still reads 'Keep the missing rows as evidence for the generalized registry-completeness rule folded into L7 (f8)'. f8 is superseded and explicitly marked 'do not gate on it'; the specific registry-completeness fold into L7 now lives in f21, not f8. This is a stale cross-reference inside the decision artifact itself (not just the CR), which is a more direct risk than the CR-side staleness above: a faculty member reading f11 during the per-row gate and following '(f8)' to check where the corresponding lesson decision lives will land on a row the ledger tells them to ignore.",
+      "fix": "Change the parenthetical in f11 from '(f8)' to '(f21)'.",
+      "status": "fixed",
+      "resolution": "f11's parenthetical corrected from the superseded f8 to f21, where the registry-completeness fold actually lives."
+    },
+    {
+      "severity": "minor",
+      "row": "f29, f30",
+      "issue": "The CR's section 0 claims 'ellipsis paths resolved', but f29 and f30 (both created in rev 3) still cite their source as 'OneDrive/.../EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R7' and '...R9' -- a literal mid-path ellipsis. The full path is recoverable from sources.secondary earlier in the same file ('OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md'), so this does not block traceability, but it directly contradicts the stated fix and is exactly the defect class the rev-2 review asked to have resolved everywhere.",
+      "fix": "Expand the two anchors to the full path already given in sources.secondary.",
+      "status": "fixed",
+      "resolution": "f29 and f30 anchors expanded to the full path. Noted honestly: the rev-3 edit resolved the pre-existing ellipses and introduced these two in the same pass, so the CR's claim was inaccurate when written."
+    },
+    {
+      "severity": "minor",
+      "row": "f19, f20, f21, f22, f23",
+      "issue": "These five rows (split out of f8) cite only the bare filename of the L14-L23 document as their anchor, omitting the specific lesson number that every comparable row elsewhere in this ledger (f2, f3, f6, and f18's own successors f24-f27) does cite. The content is verifiably correct in every case, but the anchor format is inconsistent with the ledger's own established practice and reintroduces -- at a smaller scale -- the 'which specific claim does this point to' friction the original blocking finding was about.",
+      "fix": "Append the specific lesson id to each anchor: f19 (L15), f20 (L17), f21 (L21), f22 (L22), f23 (L23).",
+      "status": "fixed",
+      "resolution": "f19-f23 anchors now name their specific lesson (L15, L17, L21, L22, L23), matching the format used by f2, f3, f6 and f24-f27."
+    },
+    {
+      "severity": "minor",
+      "row": "f5 / f31",
+      "issue": "f31 was created specifically to fix 'the implementation-patterns destination was promised but unowned' and correctly ties its own creation to same-release delivery ('otherwise the relocation is fictional'). However f5 -- the row whose language originally created this promise ('Ledgers, hashes, signed decisions and rendered-surface probes move to an implementation-patterns reference as examples') -- still carries that exact promissory language and still declares independent_of_other_rows:true, with no note that its fold is only meaningful if f31 (or an equivalent) is also approved. If f5 is approved and f31 is deferred or rejected, f5's own mechanisms recreate the promised-but-unowned defect f31 exists to close.",
+      "fix": "Add a one-line note to f5 (parallel to f3's 'shared destination is not a decision dependency; an implementation merge plan reconciles them') acknowledging that f5's relocation clause is only fulfilled once a destination exists, so the release sequencing (not the ledger's approve/defer/reject axis) carries that obligation.",
+      "status": "fixed",
+      "resolution": "f5 now states that its relocation clause is fulfilled only once f31's destination exists, and that approving f5 without f31 would delete the mechanisms rather than relocate them."
+    }
+  ],
+  "counts": {
+    "blocking": 0,
+    "major": 2,
+    "minor": 3
+  },
+  "gate_recommendation": "open-the-gate",
+  "note": "The substantive work this re-review exists to check holds up under direct verification against primary sources. All four previously-unanchored folds (positional identity, silent resource downgrade, reuse-detector semantics, multilingual leakage) now cite named POSED releases, and I opened posed-plugin's CHANGELOG.md at 2ca8f7b and confirmed every one of the load-bearing quotes verbatim -- these are genuine anchors, not relabeled guesses. The f3 attribution correction (AI reviewer, not human gate, cited the forged report) is accurate and independently confirmed against the 1.35/1.38 entries. The f3<->f8 dependency cycle is gone (no depends_on field references another row id anywhere in the ledger), ids are never recycled, and a full programmatic check of all 31 rows found no missing required fields, no dangling superseded_by references, and row_accounting's stated totals (31/28/3) match the actual data exactly. The Stage-8-versus-release-history relabeling is consistent everywhere I looked in both documents; no stray 'Stage 8 pilot harvest' framing survives. All twelve Codex recommendations resolve to a traceable row or absorption inside the ledger itself. What I found instead is smaller-scale residue from the scripted split: two stale cross-references to superseded rows (the CR's section 5 still cites f17 for three Codex recommendations that section 4 of the same document correctly reassigns to f28/f29/f30, and ledger row f11 still cites f8 for a fold that now lives in f21), a literal ellipsis surviving in two of the newest rows' anchors despite an explicit claim that ellipsis paths were resolved, a consistency gap where five split-out rows (f19-f23) lost the specific lesson-number citation their siblings carry, and a latent dependency between f5 and f31 that the ledger's 'independent_of_other_rows' flag does not actually capture. None of these change any row's substance or evidence; all are two-line, mechanical fixes. Given zero blocking-severity findings and full independent confirmation of everything the first review flagged as unresolved, the gate should open, with the two major findings patched promptly so the CR and the ledger stop pointing to a row marked 'do not gate on it.'",
+  "resolution_pass": {
+    "resolved_against": "reflect_ledger.json rev 3.1",
+    "date": "2026-07-28",
+    "legend": "status=fixed: addressed in the named revision; status=accepted: deliberate documented deviation",
+    "note": "0 blocking, 2 major, 3 minor; all fixed. Both majors were stale cross-references to superseded rows introduced by the scripted rev-3 split -- the predictable collateral of a mechanical edit."
+  }
+}

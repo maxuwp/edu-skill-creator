@@ -161,11 +161,11 @@ change request**; rev 1 wrongly placed it inside an edu-skill-creator release.
 ## 5. The Codex twelve
 
 Adopt: R2 (`f12`), R5 (`f13`), R10 then R4 (`f14`), R8 and R11 via lessons rather than a parallel
-rule family. **R12 changes from adopt to audit-and-complete** (`f17`): verified at `ea1a9ce`, 4 of 10
+rule family. **R12 changes from adopt to audit-and-complete** (`f28`): verified at `ea1a9ce`, 4 of 10
 stages carry the stage-end summary instruction and 6 do not, so describing the capability as absent
 was wrong. Probe before adopting: R1/R6 (`f15`), with the five falsifiable pass criteria Codex
 supplied, since "completes without naming a product" was itself an unfalsifiable proxy. Later
-independent slice: R3 (`f16`). Defer: R7, R9 (`f17`).
+independent slice: R3 (`f16`). Defer: R7 (`f29`), R9 (`f30`).
 
 ## 6. Release sequence, split by risk and ownership
 

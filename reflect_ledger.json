@@ -2,7 +2,7 @@
   "ledger": "edu-skill-creator release-history harvest of the POSED repository",
   "prepared_by": "claude-fable-5",
   "prepared_at": "2026-07-28",
-  "status": "PROPOSED — first independent review completed and all findings addressed; fresh-context RE-REVIEW required before any gate opens. Not a Stage 8 pilot harvest (see harvest_type).",
+  "status": "PROPOSED — two independent review rounds completed, all findings addressed; the round-2 re-review (reviews/reflect_ledger_rereview.json) returns 0 blocking with a gate recommendation of open-the-gate, and its 2 major + 3 minor findings are fixed. GATE-READY, pending faculty per-row decisions and quote consent. Not a Stage 8 pilot harvest (see harvest_type).",
   "sources": {
     "primary": {
       "repo": "github.com/maxuwp/posed",
@@ -232,7 +232,7 @@
       ],
       "redactions": "the specific anecdote's subject is described generically",
       "scope": "edu-skill-creator",
-      "proposal": "New lesson, principle only: explicit user decisions are authoritative constraints; preserve their meaning and trace them through every downstream stage that can alter them; only a later user decision may waive or supersede them. Ledgers, hashes, signed decisions and rendered-surface probes move to an implementation-patterns reference as examples; architecture chooses the lightest mechanism that provides traceability for the product type. Distinct from L2, which keeps the author's taste out of the user's defaults.",
+      "proposal": "New lesson, principle only: explicit user decisions are authoritative constraints; preserve their meaning and trace them through every downstream stage that can alter them; only a later user decision may waive or supersede them. Ledgers, hashes, signed decisions and rendered-surface probes move to an implementation-patterns reference as examples; architecture chooses the lightest mechanism that provides traceability for the product type. Distinct from L2, which keeps the author's taste out of the user's defaults. The relocation clause in this row is fulfilled only once a destination exists: f31 creates it, and the release sequence must deliver f31 in the same release that strips the mechanisms from this lesson's text. Approving f5 without f31 would delete the mechanisms rather than relocate them.",
       "cost": "new release",
       "independent_of_other_rows": true,
       "correction_from_first_draft": "the first draft made a hash-bound append-only ledger mandatory doctrine; that is application architecture, not universal skill doctrine",
@@ -369,7 +369,7 @@
       ],
       "redactions": "none",
       "scope": "plugin",
-      "proposal": "Keep the missing rows as evidence for the generalized registry-completeness rule folded into L7 (f8). File the repair as a separate POSED change request or handoff. Do NOT claim the POSED correction inside an edu-skill-creator release.",
+      "proposal": "Keep the missing rows as evidence for the generalized registry-completeness rule folded into L7 (f21). File the repair as a separate POSED change request or handoff. Do NOT claim the POSED correction inside an edu-skill-creator release.",
       "cost": "separate POSED CR",
       "independent_of_other_rows": true,
       "correction_from_first_draft": "the first draft placed this POSED fix inside an edu-skill-creator release",
@@ -584,7 +584,7 @@
       "finding": "A criterion that names a principle without a behavioural anchor cannot reject anything, whatever severity it carries.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L15)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
@@ -601,7 +601,7 @@
       "finding": "Authored guidance goes unmeasured; running the skill's own instrument over the skill's own shipped exemplars is cheap and tests whether the guidance produces the behaviour it describes.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L17)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
@@ -618,7 +618,7 @@
       "finding": "A central registry decays silently exactly where a later change request adds units.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L21)",
           "revision": "ea1a9ce",
           "status": "observed"
         },
@@ -640,7 +640,7 @@
       "finding": "A rule written to suppress synthetic-sounding output can suppress the target register, because attested genre speech is often formulaic.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L22)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
@@ -657,7 +657,7 @@
       "finding": "Naming the domain's central human quality-control act, and what mechanically replaces it if the pipeline removes it, is proposed but rests on one investigation in one domain; its own author calls it the least tested and possibly a special case of existing intent-stage work.",
       "anchors": [
         {
-          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md",
+          "artifact": "docs/PROPOSED_lessons_L14_L23_from_the_oral_register_investigation.md (L23)",
           "revision": "ea1a9ce",
           "status": "observed"
         }
@@ -764,7 +764,7 @@
       "finding": "Recording actual calls, models, repair cycles and package sizes is useful instrumentation rather than a correctness requirement.",
       "anchors": [
         {
-          "artifact": "OneDrive/.../EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R7",
+          "artifact": "OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R7",
           "status": "observed"
         },
         {
@@ -784,7 +784,7 @@
       "finding": "A machine-readable pipeline graph is explicitly optional in its own proposal and justified only for complex plugins.",
       "anchors": [
         {
-          "artifact": "OneDrive/.../EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R9",
+          "artifact": "OneDrive/Research/2026 nsf/faculty pilot/EDU_SKILL_CREATOR_IMPROVEMENT_RECOMMENDATIONS_2026-07-28.md R9",
           "status": "observed"
         },
         {
@@ -884,10 +884,20 @@
   },
   "process_note": "This ledger exists because the first harvest produced a narrative synthesis and skipped the Stage 8 artifacts the plugin requires of every other plugin. The four harvesting readers were drafters, not the independent reviewer of the completed ledger; that review is still required before the gate opens. No part of this file, the CR, or the reviewing document constitutes faculty approval.",
   "independent_review": {
-    "artifact": "reviews/reflect_ledger_review.json",
-    "reviewed_at": "2026-07-28",
-    "result": "1 blocking, 2 major, 4 minor; all addressed in this revision",
-    "note": "The review spot-checked roughly twenty claims against POSED @2ca8f7b and this repo @ea1a9ce. It caught an overstated attribution (f3), four folds carried through two documents without an inspectable anchor (f8, now split and sourced as f18), an over-bundled gate row, and a miscounted line figure. A re-review is required before the gate opens."
+    "round_1": {
+      "artifact": "reviews/reflect_ledger_review.json",
+      "result": "1 blocking, 2 major, 4 minor — all fixed",
+      "caught": "four folds carried through two documents on an uninspectable citation; an AI reviewer's approval described as a human one"
+    },
+    "round_2": {
+      "artifact": "reviews/reflect_ledger_rereview.json",
+      "reviewed_revision": "5b09e97",
+      "result": "0 blocking, 2 major, 3 minor — all fixed",
+      "gate_recommendation": "open-the-gate",
+      "caught": "two stale cross-references to superseded rows, introduced by the scripted rev-3 split, plus two mid-path ellipses created by the same edit that claimed to resolve ellipses",
+      "verification": "opened POSED CHANGELOG @2ca8f7b and confirmed verbatim every load-bearing quote behind the four previously-unanchored folds"
+    },
+    "note": "Each round found real defects, and each defect was the drafter's. None was caught by the drafter re-reading its own work."
   },
   "harvest_type": {
     "label": "release-history / maintenance harvest",
