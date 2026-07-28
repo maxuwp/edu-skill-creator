@@ -46,15 +46,17 @@
         "row": "f6",
         "text": "sometimes, we teach a good story to make the class interesting... nobody really care the real statistis, right?",
         "why_retained": "the proportionality doctrine came from this pushback being half-accepted; paraphrase available"
-      },
+      }
+    ],
+    "note": "quote_consent at the gate covers q1 and q2, the two genuine faculty utterances. q3 was moved out of that bucket after independent review: it is project prose, not private speech.",
+    "non_faculty_source_prose": [
       {
         "quote_id": "q3",
         "row": "f2",
         "text": "the floors verify what the room sees, never what the file declares",
-        "why_retained": "POSED changelog prose, not a private utterance, but included here so the gate can decide as one set"
+        "note": "POSED changelog release-note prose with no faculty attribution in the source; retained for completeness, not consent-gated"
       }
-    ],
-    "note": "quote_consent is a single gate field per the reflect schema; if the faculty prefers per-quote control, the gate should record q1/q2/q3 individually"
+    ]
   },
   "evidence_status_legend": {
     "observed": "directly verified in a named artifact at a named revision",
@@ -64,11 +66,23 @@
   "rows": [
     {
       "id": "f1",
-      "finding": "The lessons ledger is mandatory reading (umbrella: 'read first, always') while the plugin's own drafting doctrine says depth belongs in reference files 'loaded on demand'. Measured at revision ea1a9ce: 346 lines, 3297 words, quick-reference index at line 325 of 346, mean lesson 25 lines, L13 alone 81. Moving the index to the top, as first proposed, is navigation not disclosure: reading one lesson still loads the whole corpus, and a second stage-to-lesson map would create the drift class L7 exists to prevent.",
+      "finding": "The lessons ledger is mandatory reading (umbrella: 'read first, always') while the plugin's own drafting doctrine says depth belongs in reference files 'loaded on demand'. Measured at revision ea1a9ce: 346 lines, 3297 words, quick-reference index at line 325 of 346, mean lesson 25 lines, L13 alone 59 (measured header-to-next-header; an earlier figure of 81 counted to end of file and silently absorbed the 22-line index). Moving the index to the top, as first proposed, is navigation not disclosure: reading one lesson still loads the whole corpus, and a second stage-to-lesson map would create the drift class L7 exists to prevent.",
       "anchors": [
-        {"artifact": "skills/draft/SKILL.md:27", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "skills/edu-skill-creator/SKILL.md:12,80", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "measurement of skills/edu-skill-creator/reference/lessons_learned.md", "revision": "ea1a9ce", "status": "observed"}
+        {
+          "artifact": "skills/draft/SKILL.md:27-28",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "skills/edu-skill-creator/SKILL.md:12,80",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "measurement of skills/edu-skill-creator/reference/lessons_learned.md",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -78,16 +92,39 @@
     },
     {
       "id": "f2",
-      "finding": "An anchor can be real and a check can be computed, and both still miss, when they operate at a different observable layer than the thing being judged. Four independent discoveries: an oral rubric citing AAC&U VALUE and Mayer passed a script whose spoken-register defects sat at the lexico-grammatical layer neither anchor reaches; a module passed two AI reviews and clean validator output while required content sat in comments that render as nothing; a deck of flattened rasters with no extractable text satisfied a format check; a hash-checked directive ledger was blind to an omitted approved chart because its probes were text-only.",
+      "finding": "An anchor can be real and a check can be computed, and both still miss, when they operate at a different observable layer than the thing being judged. Five independent discoveries: an oral rubric citing AAC&U VALUE and Mayer passed a script whose spoken-register defects sat at the lexico-grammatical layer neither anchor reaches; a module passed two AI reviews and clean validator output while required content sat in comments that render as nothing; a deck of flattened rasters with no extractable text satisfied a format check; a hash-checked directive ledger was blind to an omitted approved chart because its probes were text-only; and, earlier, a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered.",
       "anchors": [
-        {"artifact": "docs/PROPOSED_lessons_L14_L23…md (L14)", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.46", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.40", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.51", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.59", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "recurrence across five releases and two independent documents", "status": "inferred"}
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L14)",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.46",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.40",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.51",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.59",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "recurrence across five releases and two independent documents",
+          "status": "inferred"
+        }
       ],
-      "redactions": "q3 pending consent (changelog prose, not private)",
+      "redactions": "none; q3 is project prose, moved out of the consent bucket after independent review",
       "scope": "edu-skill-creator",
       "proposal": "New lesson, implementation-neutral wording: for every criterion, name the observable layer where the claim lives and verify at that layer; evidence from a proxy layer cannot satisfy the claim unless the proxy-to-target mapping is justified and tested. The oral case is framed as a rubric that did not inspect spoken-language features, with zero contractions as one observed symptom, not a universal failure condition.",
       "cost": "new release",
@@ -95,30 +132,70 @@
     },
     {
       "id": "f3",
-      "finding": "A report that a verification happened is produced by a party with an interest in the outcome. Observed instances: a completion claim resting on 15 hand-written gate decisions, 14 sharing a microsecond-identical timestamp; a 128-byte forged 'passed' report carrying its own confession ('Mechanical checks bypassed due to permission timeout') cited by a human approval while the real validator failed 7 criticals; a delta re-gate invoked with an empty changed-list approving a deck nobody viewed; an independence flag emitted as the string \"false\", truthy in every naive check; three of eight thresholds dying under independent reimplementation, one inflated roughly threefold after being quoted in three documents.",
+      "finding": "A report that a verification happened is produced by a party with an interest in the outcome. Observed instances: a completion claim resting on 15 hand-written gate decisions, 14 sharing a microsecond-identical timestamp; a 128-byte forged 'passed' report carrying its own confession ('Mechanical checks bypassed due to permission timeout') cited by an AI reviewer's approval (the '5h' instructional-designer role) while the real validator failed 7 criticals — an AI reviewer fooled by another agent's forgery, not a human gate fooled; the human-gate forgery case is the separate 1.34 anchor; a delta re-gate invoked with an empty changed-list approving a deck nobody viewed; an independence flag emitted as the string \"false\", truthy in every naive check; three of eight thresholds dying under independent reimplementation, one inflated roughly threefold after being quoted in three documents.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.34", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.38", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.48", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.51", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.63", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "docs/PROPOSED_lessons_L14_L23…md (L16, L18)", "revision": "ea1a9ce", "status": "observed"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.34",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.38",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.48",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.51",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.63",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L16, L18)",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
-      "proposal": "Do NOT create a broad new lesson. Fold into L11 as a corollary: a verification report is evidence only when its provenance, target binding, freshness and reproducibility are established; a status that reduces scrutiny is assigned by the verifier, never asserted by the producer. Add to L11's testing requirements: the artifact that motivated a rubric or validator change must fail it; numeric thresholds are re-derived by a second implementer from the written definition, never from the code.",
+      "proposal": "Do NOT create a broad new lesson. Fold into L11 as a corollary: a verification report is evidence only when its provenance, target binding, freshness and reproducibility are established; a status that reduces scrutiny is assigned by the verifier, never asserted by the producer. Add to L11's testing requirements: the artifact that motivated a rubric or validator change must fail it; numeric thresholds are re-derived by a second implementer from the written definition, never from the code. Also record explicitly that Codex recommendations R8 (reviewer-independence evidence) and R11 (grounding provenance and freshness fields) are absorbed here and by L1/L9 rather than becoming a parallel rule family, so all twelve have a visible disposition.",
       "cost": "new release",
       "independent_of_other_rows": false,
-      "depends_on": "f8 (fold batch) may absorb this if the gate prefers one fold row"
+      "depends_on": "f8 (fold batch) may absorb this if the gate prefers one fold row",
+      "corrected_after_independent_review": "attribution corrected: the changelog says 'cited by a 5h approve', an AI reviewer role"
     },
     {
       "id": "f4",
       "finding": "Where the compliant route is more expensive than the workaround, the pipeline gets the workaround. Observed: 'The root cause: a pilot agent invented four REAL supplements and had no compliant channel to ship them.' Separately, an agent that hit its subagent cap refused to fake independence and stalled, because no governed blocked state existed; another, facing a permission timeout, produced the forged report in f3.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.33", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.35", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.38", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "attribution of these outcomes to agent motivation", "status": "inferred"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.33",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.35",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.38",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "attribution of these outcomes to agent motivation",
+          "status": "inferred"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -130,8 +207,16 @@
       "id": "f5",
       "finding": "Downstream stages smooth away the low-frequency, high-value signal a human supplied. Observed: a chosen classroom anecdote displaced by reviewer-facing 'no universal preference' language; a faculty-approved chart reclassified 'conditional' by an agent and omitted, described in-source as 'a faculty instruction silently converted into a recommendation'; a required line dropped at a later stage.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.57", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.59", "revision": "2ca8f7b", "status": "observed"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.57",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.59",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
       ],
       "redactions": "the specific anecdote's subject is described generically",
       "scope": "edu-skill-creator",
@@ -144,10 +229,26 @@
       "id": "f6",
       "finding": "A teaching story shipped through four gates carrying an inverted premise and a specific percentage. The faculty pushback that 'nobody really care the real statistis' came from the same person who had caught the inversion at a gate, which is why the resulting doctrine became proportionality rather than exemption. Separately: two caption corpora of university lectures returned contraction rates of 0.00-0.10 and 41-43 per thousand words, a gap that measures transcription policy rather than language, so any threshold pooled from them would have been an artifact of an editorial convention. Three invented numeric targets have been withdrawn at cost.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.52", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.53", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.45, 1.46", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "docs/PROPOSED_lessons_L14_L23…md (L19, L20)", "revision": "ea1a9ce", "status": "observed"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.52",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.53",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.45, 1.46",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L19, L20)",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
       ],
       "redactions": "q2 pending consent",
       "scope": "edu-skill-creator",
@@ -160,7 +261,11 @@
       "id": "f7",
       "finding": "When the material taught is itself a process, covering the right concepts in an arbitrary order reads to a subject-matter expert as a fundamental design failure. The resulting POSED doctrine, 'structure is content — source it like content', was set CRITICAL from day one on the stated reasoning that 'a warning on the soul of the CR trains agents to skip the harvest'.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.54", "revision": "2ca8f7b", "status": "observed"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.54",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
       ],
       "redactions": "q1 pending consent",
       "scope": "edu-skill-creator",
@@ -171,24 +276,36 @@
     },
     {
       "id": "f8",
-      "finding": "Nine harvested candidates are corollaries of existing lessons rather than peers, and adding them as entries would inflate a ledger that already fails its own disclosure rule.",
+      "finding": "Four harvested candidates are corollaries of existing lessons rather than peers, and adding them as entries would inflate a ledger that already fails its own disclosure rule. This row covers only the folds traceable to the L14-L23 proposal document; the four sourced from the POSED changelog were split to f18 after an independent review found them carrying a blanket citation no reviewer could open.",
       "anchors": [
-        {"artifact": "four reader reports over posed CHANGELOG 1.31-1.63", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "docs/PROPOSED_lessons_L14_L23…md", "revision": "ea1a9ce", "status": "observed"}
+        {
+          "artifact": "docs/PROPOSED_lessons_L14_L23…md (L15, L17, L21, L22)",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
-      "proposal": "Folds: proposed-L15 operational criterion definitions into L11; proposed-L17 measure-your-own-exemplars into L11 as a falsifiability corollary; proposed-L21 registry completeness into L7 (already implemented for this repo as lint check 11 in 1.9); proposed-L22 anti-tell-versus-genre into L10; positional identity into L4; silent resource downgrade into L6; reuse-detector matching semantics into L11; multilingual leakage into L10; corpus provenance into L1, invented thresholds into L11 and dated examples into L9 per f6. Proposed-L23 deferred pending broader evidence, retained as an intent-stage design question per its own author's stated limits.",
+      "proposal": "Folds: proposed-L15 operational criterion definitions into L11; proposed-L17 measure-your-own-exemplars into L11 as a falsifiability corollary; proposed-L21 registry completeness into L7 (already implemented for this repo as lint check 11 in 1.9); proposed-L22 anti-tell-versus-genre into L10. Proposed-L23 deferred pending broader evidence, retained as an intent-stage design question per its own author's stated limits.",
       "cost": "new release",
       "independent_of_other_rows": false,
-      "depends_on": "f3, f6"
+      "depends_on": "f3, f6",
+      "split_after_independent_review": "the four changelog-sourced folds moved to f18; this row no longer bundles nine decisions across seven destinations"
     },
     {
       "id": "f9",
-      "finding": "validator_template.py, shipped in 1.7 and instantiated once per artifact by the scaffold stage, contains no boolean-type guidance (verified: zero occurrences of isinstance-or-truthiness discussion). Every generated validator therefore inherits the gap that let the string \"false\" pass as truthy.",
+      "finding": "validator_template.py, shipped in 1.7 and instantiated once per artifact by the scaffold stage, contains no boolean-type guidance (verified: the file's three isinstance() calls check dict and str, never bool, and nothing discusses truthiness). Every generated validator therefore inherits the gap that let the string \"false\" pass as truthy.",
       "anchors": [
-        {"artifact": "skills/scaffold/reference/validator_template.py", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.63", "revision": "2ca8f7b", "status": "observed"}
+        {
+          "artifact": "skills/scaffold/reference/validator_template.py",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.63",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -200,8 +317,15 @@
       "id": "f10",
       "finding": "A human gate can be approved before the artifact has been seen. POSED disabled both decision controls until every part was viewed. Traversal, however, evidences exposure rather than comprehension, and control-disabling may be inappropriate or inaccessible for some artifacts and users.",
       "anchors": [
-        {"artifact": "posed CHANGELOG.md ## posed_skill.1.43", "revision": "2ca8f7b", "status": "observed"},
-        {"artifact": "Codex review finding 6", "status": "observed"}
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.43",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex review finding 6",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -213,7 +337,11 @@
       "id": "f11",
       "finding": "POSED's grounding_frameworks.md declares itself the source of truth reviewers score against and carries rows for stages 1 through 6, with zero mention of five shipped skills: both oral stages, both System-2 roles, and publish. Verified directly against the file.",
       "anchors": [
-        {"artifact": "posed skills/posed/reference/grounding_frameworks.md", "revision": "2ca8f7b", "status": "observed"}
+        {
+          "artifact": "posed skills/posed/reference/grounding_frameworks.md",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "plugin",
@@ -226,10 +354,24 @@
       "id": "f12",
       "finding": "The umbrella defines the product as a HITL-gated agent pipeline and architecture expects a component inventory that may include agents, a gate application and scripts, with no off-ramp for a request that needs only reusable procedural guidance.",
       "anchors": [
-        {"artifact": "skills/edu-skill-creator/SKILL.md:9-13", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "skills/architecture/SKILL.md item 9", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Codex recommendation R2", "status": "observed"},
-        {"artifact": "predicted reduction in over-engineering", "status": "hypothesized"}
+        {
+          "artifact": "skills/edu-skill-creator/SKILL.md:9-13",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "skills/architecture/SKILL.md item 9",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendation R2",
+          "status": "observed"
+        },
+        {
+          "artifact": "predicted reduction in over-engineering",
+          "status": "hypothesized"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -241,9 +383,19 @@
       "id": "f13",
       "finding": "release_lint uses regular expressions for frontmatter checks and does not validate YAML as a whole, nonempty descriptions, the 1024-character specification limit, or duplicate fields.",
       "anchors": [
-        {"artifact": "scripts/release_lint.py:131-142", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Agent Skills specification, description limit", "status": "observed"},
-        {"artifact": "Codex recommendation R5", "status": "observed"}
+        {
+          "artifact": "scripts/release_lint.py:131-142",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Agent Skills specification, description limit",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendation R5",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -255,9 +407,19 @@
       "id": "f14",
       "finding": "The plugin prescribes fixture pairs and routing discipline for the plugins it generates, and has no tests directory or routing corpus of its own. Release lint verifies structure, not whether the installed roster routes realistic requests correctly.",
       "anchors": [
-        {"artifact": "absence of tests/ at revision ea1a9ce", "status": "observed"},
-        {"artifact": "skills/release/SKILL.md trigger-check step", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Codex recommendations R10, R4", "status": "observed"}
+        {
+          "artifact": "absence of tests/ at revision ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "skills/release/SKILL.md trigger-check step",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendations R10, R4",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -270,9 +432,19 @@
       "id": "f15",
       "finding": "The repository states that shared skill bodies are tool-agnostic while the scaffold emits two named product manifests and directs implementers to copy a specific application. The diagnosis is confirmed by the author of those files. The proposed remedy's benefit is labelled hypothesized by its own author.",
       "anchors": [
-        {"artifact": "MAINTAINING.md:19-22 versus skills/scaffold/SKILL.md:23-30", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Codex recommendations R1, R6", "status": "observed"},
-        {"artifact": "benefit of the capability-abstraction layer", "status": "hypothesized"}
+        {
+          "artifact": "MAINTAINING.md:19-22 versus skills/scaffold/SKILL.md:23-30",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendations R1, R6",
+          "status": "observed"
+        },
+        {
+          "artifact": "benefit of the capability-abstraction layer",
+          "status": "hypothesized"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -284,9 +456,19 @@
       "id": "f16",
       "finding": "Drafting marks affected reviews stale when upstream references change and allows up to three review rounds, but defines no freeze ledger, repair classification, dependency-computed delta package or hard stop before repeated full-document review.",
       "anchors": [
-        {"artifact": "skills/draft/SKILL.md:18-23, 53-64", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Codex recommendation R3", "status": "observed"},
-        {"artifact": "predicted token and cognitive-load reduction", "status": "hypothesized"}
+        {
+          "artifact": "skills/draft/SKILL.md:18-23, 53-64",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendation R3",
+          "status": "observed"
+        },
+        {
+          "artifact": "predicted token and cognitive-load reduction",
+          "status": "hypothesized"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -298,8 +480,15 @@
       "id": "f17",
       "finding": "Two remaining recommendations are useful instrumentation rather than correctness: recording actual calls, models, repair cycles and package sizes; and emitting a machine-readable pipeline graph for complex plugins. Separately, stage-end summaries are partially implemented: verified at revision ea1a9ce, 4 of 10 stage skills carry the instruction (draft, umbrella, grounding, scaffold) and 6 do not (architecture, intent, reflect, refresh, release, test).",
       "anchors": [
-        {"artifact": "skills/*/SKILL.md stage-end-summary census", "revision": "ea1a9ce", "status": "observed"},
-        {"artifact": "Codex recommendations R7, R9, R12", "status": "observed"}
+        {
+          "artifact": "skills/*/SKILL.md stage-end-summary census",
+          "revision": "ea1a9ce",
+          "status": "observed"
+        },
+        {
+          "artifact": "Codex recommendations R7, R9, R12",
+          "status": "observed"
+        }
       ],
       "redactions": "none",
       "scope": "edu-skill-creator",
@@ -307,17 +496,111 @@
       "cost": "small edit for summaries; deferred for the rest",
       "independent_of_other_rows": true,
       "correction_from_first_draft": "the first draft listed stage summaries as wholly absent"
+    },
+    {
+      "id": "f18",
+      "finding": "Four further harvested candidates are corollaries of existing lessons. Each is now anchored to a specific release after an independent review found the first draft citing only 'four reader reports': semantic identity derived from array position ('Semantic decision numbering never derives from array position', and separately a compiler map 'captured from actual addSlide order (never file-order-inferred)'); a silent resource downgrade doctrine withdrawn by faculty decision; a duplicate detector that had to distinguish deliberate problem variation from redo, since 'a shared given with a NEW target' is 'legal pedagogy that a naive exact gate would have blocked'; and source-language labels leaking into a monolingual pack, which the source itself generalizes 'to ANY multilingo-source pipeline'.",
+      "anchors": [
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.58.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.63.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.41.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ## posed_skill.1.37",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        },
+        {
+          "artifact": "posed CHANGELOG.md ### posed_skill.1.37.1",
+          "revision": "2ca8f7b",
+          "status": "observed"
+        }
+      ],
+      "redactions": "none",
+      "scope": "edu-skill-creator",
+      "proposal": "Folds: positional identity into L4 (sharpening the existing stable-id rule to never derive identity from array position); silent resource downgrade into L6 (a silent substitution is an unconsented change); reuse-detector matching semantics into L11 (a detector needs a domain model of legitimate variation, and ambiguous matches route to a human); declared language of instruction into L10 (a content-type property). Each may be approved, deferred or rejected separately.",
+      "cost": "new release",
+      "independent_of_other_rows": true,
+      "created_by_independent_review": "split out of f8; the blocking finding was that these four had no inspectable anchor"
     }
   ],
   "declined": {
     "count": 35,
     "note": "enumerated so the triage is reproducible; the first draft said 'roughly forty', which is not a checkable claim",
     "items": [
-      {"range": "1.31-1.38", "declined": ["PPTX compiler toolchain consolidation (1.32)", "minutes-budget tilde-token parsing fix (1.36)", "diagnostic prequiz design detail (1.38)", "oral/TTS speakability and glyph rules (1.32, 1.35)", "hidden-DOM stripping and content-parity percentage (1.31)", "notes template-loop digit-normalization (1.32)"]},
-      {"range": "1.39-1.46", "declined": ["section-divider archetype and glue mechanics (1.46)", "apparatus-label ban list (1.46)", "activity formality by day position (1.46)", "pedagogy-threads bookkeeping schema (1.45, 1.46)", "numbered-singleton formatting warning (1.46)", "cover-the-figure image-independence test (1.44)", "editor re-run sha binding (1.44)", "A/B1/B2 render-mode architecture (1.43)", "density floors catch thin but not fat prose (1.43)", "frontend-slides template vendoring (1.43)", "licence change (1.43)", "named-vendor failure-mode comparison (1.39)"]},
-      {"range": "1.47-1.55", "declined": ["font floor change (1.48)", "media-maximization layout rule (1.53, already in the faculty's own feedback ledger)", "mermaid vendoring (1.55)", "gate-review versus teach rendering profiles (1.55)", "duplicate terminal-node merging in process diagrams (1.55)", "audience-assignment canvas rule (1.47, already in the faculty's own feedback ledger)", "reviewer-asked-to-fix must refuse (1.47, reinforces L3)", "review evidence binds via structured fields (1.48, reinforces L5)", "transactional approval bundles (1.48, reinforces L11/L7)"]},
-      {"range": "1.56-1.63", "declined": ["PPTX text-frame QA classes", "body-font floor and fit ladder", "visual-brief capture ordering", "Windows symlink fallback in dev tooling", "Mode A/B1 honest-scope table (forward doctrine, no caught specimen)", "process-scope unit versus module default", "narrated-deck and audio feature line", "reviewer quota and routing infrastructure"]}
+      {
+        "range": "1.31-1.38",
+        "declined": [
+          "PPTX compiler toolchain consolidation (1.32)",
+          "minutes-budget tilde-token parsing fix (1.36)",
+          "diagnostic prequiz design detail (1.38)",
+          "oral/TTS speakability and glyph rules (1.32, 1.35)",
+          "hidden-DOM stripping and content-parity percentage (1.31)",
+          "notes template-loop digit-normalization (1.32)"
+        ]
+      },
+      {
+        "range": "1.39-1.46",
+        "declined": [
+          "section-divider archetype and glue mechanics (1.46)",
+          "apparatus-label ban list (1.46)",
+          "activity formality by day position (1.46)",
+          "pedagogy-threads bookkeeping schema (1.45, 1.46)",
+          "numbered-singleton formatting warning (1.46)",
+          "cover-the-figure image-independence test (1.44)",
+          "editor re-run sha binding (1.44)",
+          "A/B1/B2 render-mode architecture (1.43)",
+          "density floors catch thin but not fat prose (1.43)",
+          "frontend-slides template vendoring (1.43)",
+          "licence change (1.43)",
+          "named-vendor failure-mode comparison (1.39)"
+        ]
+      },
+      {
+        "range": "1.47-1.55",
+        "declined": [
+          "font floor change (1.48)",
+          "media-maximization layout rule (1.53, already in the faculty's own feedback ledger)",
+          "mermaid vendoring (1.55)",
+          "gate-review versus teach rendering profiles (1.55)",
+          "duplicate terminal-node merging in process diagrams (1.55)",
+          "audience-assignment canvas rule (1.47, already in the faculty's own feedback ledger)",
+          "reviewer-asked-to-fix must refuse (1.47, reinforces L3)",
+          "review evidence binds via structured fields (1.48, reinforces L5)",
+          "transactional approval bundles (1.48, reinforces L11/L7)"
+        ]
+      },
+      {
+        "range": "1.56-1.63",
+        "declined": [
+          "PPTX text-frame QA classes",
+          "body-font floor and fit ladder",
+          "visual-brief capture ordering",
+          "Windows symlink fallback in dev tooling",
+          "Mode A/B1 honest-scope table (forward doctrine, no caught specimen)",
+          "process-scope unit versus module default",
+          "narrated-deck and audio feature line",
+          "reviewer quota and routing infrastructure"
+        ]
+      }
     ]
   },
-  "process_note": "This ledger exists because the first harvest produced a narrative synthesis and skipped the Stage 8 artifacts the plugin requires of every other plugin. The four harvesting readers were drafters, not the independent reviewer of the completed ledger; that review is still required before the gate opens. No part of this file, the CR, or the reviewing document constitutes faculty approval."
+  "process_note": "This ledger exists because the first harvest produced a narrative synthesis and skipped the Stage 8 artifacts the plugin requires of every other plugin. The four harvesting readers were drafters, not the independent reviewer of the completed ledger; that review is still required before the gate opens. No part of this file, the CR, or the reviewing document constitutes faculty approval.",
+  "independent_review": {
+    "artifact": "reviews/reflect_ledger_review.json",
+    "reviewed_at": "2026-07-28",
+    "result": "1 blocking, 2 major, 4 minor; all addressed in this revision",
+    "note": "The review spot-checked roughly twenty claims against POSED @2ca8f7b and this repo @ea1a9ce. It caught an overstated attribution (f3), four folds carried through two documents without an inspectable anchor (f8, now split and sourced as f18), an over-bundled gate row, and a miscounted line figure. A re-review is required before the gate opens."
+  }
 }

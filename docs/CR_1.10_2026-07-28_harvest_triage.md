@@ -2,7 +2,7 @@
 
 **Prepared by:** Claude (Fable 5) · rev 1 2026-07-28 · **rev 2 2026-07-28, after Codex review of `ea1a9ce`**
 **Status:** PROPOSED. Nothing implemented.
-**Decision artifact:** `reflect_ledger.json` (17 rows, `f1`–`f17`). **This document is a readable
+**Decision artifact:** `reflect_ledger.json` (18 rows, `f1`–`f18`). **This document is a readable
 synthesis of that ledger, not the thing being approved.** Where the two differ, the ledger governs.
 **Gate:** Stage 8 per-row, after the independent ledger review in `reviews/reflect_ledger_review.json`.
 Neither this CR, nor the ledger, nor any reviewing document is faculty approval.
@@ -46,7 +46,7 @@ ledger's `declined` block. Rev 1 said "roughly forty," which is not a checkable 
 ## 2. Progressive disclosure (ledger row `f1`)
 
 Measured at `ea1a9ce`: 346 lines, 3,297 words, index at line 325 of 346, mean lesson 25 lines,
-L13 alone 81. The umbrella orders it read "before doing anything" while `skills/draft/SKILL.md:27`
+L13 alone 59 (an earlier figure of 81 counted to end of file and absorbed the index). The umbrella orders it read "before doing anything" while `skills/draft/SKILL.md:27-28`
 tells authors that depth belongs in references "loaded on demand."
 
 Proposed structure:
@@ -72,7 +72,7 @@ narrowing.
 
 **`f2` — Check at the layer the claim is about.** For every criterion, name the observable layer
 where the claim lives and verify at that layer; evidence from a proxy layer cannot satisfy the claim
-unless the proxy-to-target mapping is justified and tested. Four independent discoveries across
+unless the proxy-to-target mapping is justified and tested. Five independent discoveries across
 five releases and two documents. The oral case is framed as a rubric that never inspected
 spoken-language features, with zero contractions as one observed symptom rather than a universal
 failure condition.
@@ -105,8 +105,11 @@ and worked decision paths are example representations; the requirement is fideli
 
 ## 4. Folds and concrete fixes
 
-Folds are ledger row `f8`: nine candidates land inside L1, L4, L6, L7, L9, L10 and L11 rather than
-becoming entries. Proposed-L23 is deferred per its own author's limits.
+Folds are ledger rows `f8` and `f18`, split after independent review: `f8` carries the four folds
+traceable to the L14–L23 document, `f18` the four sourced from named POSED releases, so the faculty
+is not forced into one all-or-nothing call across seven destination lessons. Together they land
+inside L1, L4, L6, L7, L9, L10 and L11 rather than becoming entries. Proposed-L23 is deferred per
+its own author's limits.
 
 Concrete fixes: `f9` adds a `require_bool` helper plus fixture to the validator template, which
 currently has no boolean-type guidance and therefore propagates the truthiness gap into every
@@ -142,7 +145,18 @@ Rev 1 called the restructure plus six lessons plus all folds "large but mechanic
 is mechanical; deciding doctrine, enforcement ownership and lesson boundaries is not, and bundling
 them let a judgment call ride on an editorial one.
 
-## 7. Standing caution
+## 7. Independent review of this ledger
+
+`reviews/reflect_ledger_review.json` — 1 blocking, 2 major, 4 minor, all addressed. It spot-checked
+roughly twenty claims against POSED @`2ca8f7b` and this repo @`ea1a9ce`, confirming several verbatim
+quotes letter-for-letter and the stage-summary census exactly. It caught four things worth recording:
+`f3` described an AI reviewer's approval as a human one, inflating an AI-fooled-by-AI incident;
+four folds had been carried through two documents on a blanket citation no reviewer could open, and
+are now split to `f18` with named releases; `f8` bundled nine decisions across seven destinations,
+the same over-broad gate L4 warns against; and "L13 alone 81" was measured to end-of-file, silently
+absorbing the index. A re-review is required before the gate opens.
+
+## 8. Standing caution
 
 Two of the three evidence streams behind this CR are model-authored reviews, and this synthesis is
 model-authored too. The strongest items are those where independent sources converged without

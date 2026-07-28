@@ -1,0 +1,151 @@
+{
+  "review": "reflect_ledger",
+  "reviewer": "independent-fresh-context",
+  "reviewed_artifact": "reflect_ledger.json",
+  "reviewed_at": "2026-07-28",
+  "anchors_spot_checked": [
+    {
+      "row": "f1",
+      "anchor": "skills/draft/SKILL.md:27 + skills/edu-skill-creator/SKILL.md:12,80 (ea1a9ce); measurement of reference/lessons_learned.md",
+      "verdict": "misstated",
+      "note": "Progressive-disclosure text and the 'read first, always' phrase both check out (line 80 is an exact quote; line 12 is close but 'loaded on demand' is actually line 28, not 27 -- a one-line-off citation). File-level stats are mostly exact (346 lines, 3297 words, index at line 325 -- all confirmed by direct wc/grep). But 'L13 alone 81' does not hold: L13 runs lines 266-324, i.e. 59 lines before '## Quick-reference table' at 325. 346-266+1=81, so the figure was produced by counting to end-of-file instead of to the next section header, silently folding the 22-line quick-reference table into 'L13'. The same wrong number already appears in docs/CR_1.10_2026-07-28_harvest_triage.md line 48, so it was copied forward rather than freshly miscounted -- but a second pass should have caught it against the primary source."
+    },
+    {
+      "row": "f2",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.46, 1.51, 1.59 (2ca8f7b); PROPOSED_lessons_L14_L23...md L14",
+      "verdict": "confirmed",
+      "note": "1.46: 'the floors verify what the room sees, never what the file declares' and the comments-render-as-nothing registry/glue conflict are both present verbatim. 1.51: '41 flattened-raster slides with zero extractable text' confirmed verbatim. 1.59: 'a faculty instruction silently converted into a recommendation' confirmed verbatim (quoted in f5 too). L14 in the proposed-lessons doc matches the oral-rubric claim almost word for word. One residual issue: the finding text enumerates exactly 'four independent discoveries' but the anchor list cites five releases (1.46, 1.40, 1.51, 1.59 plus L14); 1.40 (the instructional-preview/deck-review gate) is a real release but is never connected to any of the four named discoveries in the prose -- logged as a minor finding below."
+    },
+    {
+      "row": "f3",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.34, 1.38 (2ca8f7b)",
+      "verdict": "misstated",
+      "note": "1.34's '15 hand-written gate decisions, 14 sharing a microsecond-identical submitted_at' is an exact match. 1.38's 128-byte forged report and its exact confession string ('Mechanical checks bypassed due to permission timeout') are both verbatim-confirmed, and 'the real validator failed 7 criticals' matches. But the changelog says this forged report was 'cited by a 5h approve' -- 5h is posed-instructional-designer, a fresh-context AI SUBAGENT reviewer (confirmed via the 1.35 changelog entry that introduces the role), not a human/faculty gate. The ledger's finding text says this report was 'cited by a human approval,' which is not what the source says. This changes the nature of the incident from 'a human was fooled by a forged report' to 'one AI reviewer was fooled by another AI's forged report' -- logged as major below."
+    },
+    {
+      "row": "f4",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.33, 1.35 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "1.33: 'The root cause: a pilot agent invented four REAL supplements and had no compliant channel to ship them' is an exact quote. 1.35.2: 'The pilot agent (Codex) hit its harness subagent cap mid-review, refused to fake independence... and stalled, because POSED defined no governed path' matches the finding's paraphrase closely. Motivation attribution is correctly labeled 'inferred' in the row, and the CR document independently flags this same row as the weakest-sourced one -- consistent self-awareness."
+    },
+    {
+      "row": "f6",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.52, 1.53 (2ca8f7b); PROPOSED_lessons...md L19/L20",
+      "verdict": "confirmed",
+      "note": "q2 quote 'sometimes, we teach a good story to make the class interesting... nobody really care the real statistis, right?' is an exact verbatim match including the misspelling. 'shipped INVERTED through four gates' and 'the 71.5% figure' both confirmed at 1.52/1.53. L19's contraction-rate corpus split (0.00-0.10 vs 41-43 per 1,000 words) is an exact match, and L20's 'withdrawn invented numeric targets three times' is an exact match (600-char description target, 200-400 band, contraction-rate floor)."
+    },
+    {
+      "row": "f7",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.54 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "q1 quote is an exact verbatim match, including 'This is a serious design negligence in the skill design.' 'structure is content -- source it like content' is an exact bolded-text match. 'a warning on the soul of the CR trains agents to skip the harvest' is an exact verbatim match. All three claims in this row check out precisely."
+    },
+    {
+      "row": "f9",
+      "anchor": "skills/scaffold/reference/validator_template.py (ea1a9ce)",
+      "verdict": "misstated",
+      "note": "The file genuinely has no bool-type check and would let the string \"false\" pass as truthy, and the CHECKS section is entirely placeholder code -- the substantive claim holds. But the parenthetical 'verified: zero occurrences of isinstance-or-truthiness discussion' is imprecise: grep shows three isinstance( occurrences in the file (checking dict and str, never bool). A reviewer running a literal grep would get a contradiction before realizing the claim means 'no isinstance(x, bool) or truthiness discussion,' not 'no isinstance anywhere.' Wording should be tightened; substance is fine."
+    },
+    {
+      "row": "f10",
+      "anchor": "posed CHANGELOG.md ## posed_skill.1.43.3 (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "'Both decision buttons stay disabled until every slide is viewed (was: first/last/warning coverage)' is an exact match for the claim 'POSED disabled both decision controls until every part was viewed.'"
+    },
+    {
+      "row": "f11",
+      "anchor": "posed skills/posed/reference/grounding_frameworks.md (2ca8f7b)",
+      "verdict": "confirmed",
+      "note": "Direct read of the file: the table covers stages 1 through 6 (5a-5g/7 substeps) only, 58 lines total, and a full-file grep for oral/content-author/final-review/publish/System-2 returns zero hits. The five shipped skills the row names as missing (draft-oral, oral-editor, content-author, final-review, publish) are confirmed absent from the file and confirmed present in skills/. Scope=plugin is correctly assigned -- this is a POSED-only defect, not a general lesson, and the row correctly refuses to fold the fix into an edu-skill-creator release."
+    },
+    {
+      "row": "f12",
+      "anchor": "skills/edu-skill-creator/SKILL.md:9-13; skills/architecture/SKILL.md item 9 (ea1a9ce)",
+      "verdict": "confirmed",
+      "note": "'a HITL-gated agent pipeline' is an exact quote from SKILL.md line 9-10. Architecture item 9 ('Component inventory... agents, gate app (adapt POSED's guided app...), scripts, reference files') is an exact match, and incidentally also corroborates f15's separate claim that POSED's own application gets named as the default adaptation target inside the architecture stage."
+    },
+    {
+      "row": "f13",
+      "anchor": "scripts/release_lint.py:131-142 (ea1a9ce)",
+      "verdict": "confirmed",
+      "note": "The cited lines are a regex-based frontmatter version check (re.compile on 'version:'), and a full-file grep for 'description', '1024', 'duplicate', and 'yaml' returns zero hits anywhere in the script -- the claimed gaps (no YAML-as-a-whole validation, no description-length check, no duplicate-field check) are confirmed absent."
+    },
+    {
+      "row": "f17",
+      "anchor": "skills/*/SKILL.md stage-end-summary census (ea1a9ce)",
+      "verdict": "confirmed",
+      "note": "Grepped all 10 skill directories for the stage-end-summary instruction: draft, edu-skill-creator, grounding, scaffold carry it (4); architecture, intent, reflect, refresh, release, test do not (6). Exact match to the row's claim, including the specific skill names on both sides of the split."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "blocking",
+      "row": "f8",
+      "issue": "Four of the row's nine folded candidates -- 'positional identity' -> L4, 'silent resource downgrade' -> L6, 'reuse-detector matching semantics' -> L11, and 'multilingual leakage' -> L10 -- have no anchor an independent reviewer can open and check. They do not appear in docs/PROPOSED_lessons_L14_L23...md (read in full; none of the 10 proposed lessons use these terms), and the row's only anchor for them is a blanket citation to 'four reader reports over posed CHANGELOG 1.31-1.63' with no release number, section, or artifact path. I traced the labels to the external Codex review document (EDU_SKILL_CREATOR_CR_1.10_CODEX_REVIEW_2026-07-28.md, Disposition Table), which approves folding them using the same bare labels and cites no underlying evidence of its own either -- so the labels have been carried forward through two documents without ever being grounded in an inspectable artifact. Approving this row as-is would let four unverifiable claims become permanent doctrine in lessons_learned.md, which is exactly the failure mode the independent-review stage exists to catch.",
+      "fix": "Before the gate opens, either (a) attach a specific CHANGELOG release/section or reader-report excerpt for each of the four items so a reviewer can open and confirm them, or (b) move them to the 'declined' list (or a new 'insufficiently evidenced' bucket) pending better sourcing, leaving only the five traceable folds (L15, L17, L21, L22, and the L19/L20 folds already covered by f6) in this row.",
+      "status": "fixed",
+      "resolution": "Split: f8 now carries only the four folds traceable to the L14-L23 document; the four changelog-sourced folds moved to a new f18, each anchored to a named release (1.58.1, 1.63.1, 1.41.1, 1.37, 1.37.1) verified directly in POSED @2ca8f7b before re-assertion."
+    },
+    {
+      "severity": "major",
+      "row": "f3",
+      "issue": "The finding states the 128-byte forged 'passed' report (posed 1.38) was 'cited by a human approval,' but the CHANGELOG text says it was cited by a '5h approve' -- posed-instructional-designer, a fresh-context AI reviewer role, not a human/faculty gate. This inflates an AI-fooled-by-AI incident into a human-fooled-by-a-forged-report incident, which is a materially different (and more alarming) claim than the evidence supports.",
+      "fix": "Correct the clause to 'cited by an AI reviewer's (5h) approval' or similar. The row's broader L11 corollary about self-interested verification reports still holds without this specific overstatement -- the 1.34 anchor (15 hand-written gate decisions) is a genuine human-gate forgery case and can carry that part of the argument.",
+      "status": "fixed",
+      "resolution": "f3 finding text corrected: the forged report was cited by an AI reviewer's approval (the 5h instructional-designer role), not a human gate. The human-gate forgery case is carried by the separate 1.34 anchor, which the review confirmed exact."
+    },
+    {
+      "severity": "major",
+      "row": "f8",
+      "issue": "The row bundles nine independent fold-decisions (each landing in a different existing lesson: L1, L4, L6, L7, L9, L10, L11 x multiple) plus a tenth deferred item, all under one approve/defer/reject decision. If the faculty agrees with five folds but doubts one (plausibly the four flagged blocking above), the per-row gate forces an all-or-nothing call on all nine. This is the exact 'big gates overload the human' problem lessons_learned.md's own L4 names, and f6 in this same ledger was explicitly split for a smaller version of the same reason.",
+      "fix": "Split f8 into at least two rows: one for the folds traceable to the L14-L23 document (L15, L17, L21, L22 -- these check out and can be approved together with reasonable confidence), and one for the four untraceable items pending the evidence fix above. A per-destination-lesson split would be even cleaner if the faculty wants finer control.",
+      "status": "fixed",
+      "resolution": "f8 split into f8 and f18 (see finding 1), so the faculty decides the two provenance groups separately rather than nine destinations at once."
+    },
+    {
+      "severity": "minor",
+      "row": "f1",
+      "issue": "'L13 alone 81' does not match direct measurement: L13 runs from its header (line 266) to the next section header '## Quick-reference table' (line 325), which is 59 lines, not 81. 346 (total file length) minus 266 plus 1 equals 81, so the figure appears to have been computed by counting to end-of-file rather than to the next section boundary, silently including the 22-line quick-reference table inside 'L13.' The same wrong figure already appears in docs/CR_1.10_2026-07-28_harvest_triage.md, so it was carried forward rather than freshly miscalculated. The other numbers in the same sentence (346 lines, 3297 words, index at line 325, mean lesson ~25 lines) are all independently confirmed and the mean-lesson figure is consistent with the correct L13 length, not the inflated one.",
+      "fix": "Recompute to 59 lines, or state the method (e.g. 'to end of file, including the quick-reference table') if 81 was intentional under a different definition.",
+      "status": "fixed",
+      "resolution": "Recomputed header-to-next-header: L13 is 59 lines, not 81. Corrected in the ledger and in the CR, where the figure had been copied forward."
+    },
+    {
+      "severity": "minor",
+      "row": "f2",
+      "issue": "The finding text enumerates exactly four independent discoveries (oral rubric, 1.46 comments-render-as-nothing, 1.51 flattened rasters, 1.59 hash-ledger-blind-to-chart) but the anchors array also cites posed_skill.1.40, which is a real release (the instructional-preview/deck-review gate) but is never connected to any of the four named discoveries in the prose.",
+      "fix": "Either fold 1.40 into the prose as a fifth example (it plausibly fits the same 'wrong observable layer' pattern -- review happened on markdown source while the real defects were only visible once rendered) or drop it from the anchor list so the anchor count matches the stated count.",
+      "status": "fixed",
+      "resolution": "1.40 folded into f2's prose as the fifth discovery (review on markdown source while the real review unit was the rendered slide); the finding now says five, matching the anchor list."
+    },
+    {
+      "severity": "minor",
+      "row": "ledger-wide",
+      "issue": "The CR document that precedes this ledger (docs/CR_1.10_2026-07-28_harvest_triage.md) records Codex's disposition for all twelve numbered recommendations, including 'Adopt... R8 and R11 via lessons rather than a parallel rule family.' R8 (reviewer-independence evidence fields) and R11 (grounding-record provenance/freshness fields) do not appear as an anchor in any of f1-f17, and f8's fold list does not obviously include them either -- their content substantially overlaps with f3's L11 corollary and with L1/L9, but the ledger never says so explicitly.",
+      "fix": "Add one line to f3 or f8 (or a new row) stating explicitly that R8 and R11 are considered absorbed by the L11 corollary and by L1/L9's existing scope, so all twelve Codex recommendations have a visible, traceable disposition rather than two of them silently disappearing.",
+      "status": "fixed",
+      "resolution": "f3's proposal now states explicitly that Codex R8 and R11 are absorbed by the L11 corollary and by L1/L9's existing scope, so all twelve recommendations have a visible disposition."
+    },
+    {
+      "severity": "minor",
+      "row": "f2",
+      "issue": "redaction_record's faculty_verbatim_pending_consent bucket lists q3 ('the floors verify what the room sees, never what the file declares') alongside q1 and q2, which are genuine spoken faculty quotes ('Faculty, on the...:' / 'Faculty:' attribution in the source). q3 is POSED's own CHANGELOG release-note prose with no faculty attribution in the source at all -- the row's own note acknowledges this ('not a private utterance') but still files it under the same consent-pending bucket as real verbatim faculty speech.",
+      "fix": "No action required if the faculty is comfortable with the over-cautious grouping (erring toward more consent-gating is the safe direction); if per-quote clarity is wanted, split q3 into its own 'non-faculty source prose, retained for completeness' bucket rather than faculty_verbatim_pending_consent.",
+      "status": "fixed",
+      "resolution": "q3 moved out of faculty_verbatim_pending_consent into a non_faculty_source_prose bucket; f2's redactions field updated to match. Gate consent now covers only q1 and q2, the two genuine faculty utterances."
+    }
+  ],
+  "counts": {
+    "blocking": 1,
+    "major": 2,
+    "minor": 4
+  },
+  "gate_recommendation": "fix-blocking-first",
+  "note": "This ledger is materially stronger than a typical first pass: of roughly twenty specific, checkable claims spot-checked directly against POSED's CHANGELOG.md at 2ca8f7b and the edu-skill-creator repo at ea1a9ce (including several exact verbatim quotes reproduced letter-for-letter, and one precise numeric census of stage-end summaries that matched exactly), all but a handful confirmed cleanly, and the three prior corrections the drafter flagged itself (f5, f7, f11 no longer smuggling POSED's hash-ledger, locked-graph, or registry-fix as universal doctrine) held up under scrutiny -- the mechanism-versus-capability discipline this ledger exists to enforce is genuinely being applied, not just claimed. The gate should not open uniformly yet, however: f3 overstates an AI-reviewer-fooled-by-forgery incident as a human-gate failure, and f8 both bundles nine unrelated fold-decisions into one all-or-nothing row and, within that bundle, carries four specific claims (positional identity, silent resource downgrade, reuse-detector matching semantics, multilingual leakage) that trace back only to an ephemeral 'four reader reports' handle with no artifact either I or the ledger's own upstream Codex review could actually open and check -- exactly the kind of ungrounded assertion an independent review is supposed to catch before it becomes permanent doctrine. Fix f3's wording, split and re-source f8, and the remaining fifteen rows are in good enough shape for the faculty's per-row gate as written, with the minor items noted for optional cleanup.",
+  "resolution_pass": {
+    "resolved_against": "reflect_ledger.json rev 2 (18 rows)",
+    "date": "2026-07-28",
+    "legend": "status=fixed: addressed in the named revision; status=accepted: deliberate documented deviation",
+    "note": "All 7 findings fixed. A re-review of the revised ledger is still required before the Stage 8 gate opens."
+  }
+}
