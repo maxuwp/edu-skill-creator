@@ -2,7 +2,7 @@
   "ledger": "edu-skill-creator release-history harvest of the POSED repository",
   "prepared_by": "claude-fable-5",
   "prepared_at": "2026-07-28",
-  "status": "PROPOSED — two independent review rounds completed, all findings addressed; the round-2 re-review (reviews/reflect_ledger_rereview.json) returns 0 blocking with a gate recommendation of open-the-gate, and its 2 major + 3 minor findings are fixed. GATE-READY, pending faculty per-row decisions and quote consent. Not a Stage 8 pilot harvest (see harvest_type).",
+  "status": "GATED — 28 rows decided in reflect_gate_decision.json (2026-07-28). Implementation follows the release sequence; 1.10 is f1 alone. Not a Stage 8 pilot harvest (see harvest_type).",
   "sources": {
     "primary": {
       "repo": "github.com/maxuwp/posed",
@@ -47,22 +47,25 @@
         "quote_id": "q1",
         "row": "f7",
         "text": "the flow of the presentation should be re-organized to reflect the real human decision process rather than randomly collect and exhibit the concepts together. This is a serious design negligence in the skill design.",
-        "why_retained": "the rule's force comes from the faculty framing it as a design failure, not a preference; paraphrase available if consent is withheld"
-      },
-      {
-        "quote_id": "q2",
-        "row": "f6",
-        "text": "sometimes, we teach a good story to make the class interesting... nobody really care the real statistis, right?",
-        "why_retained": "the proportionality doctrine came from this pushback being half-accepted; paraphrase available"
+        "why_retained": "the rule's force comes from the faculty framing it as a design failure, not a preference; paraphrase available if consent is withheld",
+        "consent": "RETAINED verbatim per reflect_gate_decision.json"
       }
     ],
-    "note": "quote_consent at the gate covers q1 and q2, the two genuine faculty utterances. q3 was moved out of that bucket after independent review: it is project prose, not private speech.",
+    "note": "q1 retained verbatim with consent; q2 paraphrased by faculty decision; q3 is project prose, not consent-gated.",
     "non_faculty_source_prose": [
       {
         "quote_id": "q3",
         "row": "f2",
         "text": "the floors verify what the room sees, never what the file declares",
         "note": "POSED changelog release-note prose with no faculty attribution in the source; retained for completeness, not consent-gated"
+      }
+    ],
+    "paraphrased_by_faculty_decision": [
+      {
+        "quote_id": "q2",
+        "row": "f6",
+        "paraphrase": "faculty pushback that classroom stories are told to hold attention, and that students may not scrutinise the underlying statistics",
+        "note": "verbatim wording withheld from this public repository by faculty decision; the rule's derivation is unaffected"
       }
     ]
   },
@@ -213,7 +216,8 @@
         "defer",
         "reject"
       ],
-      "decidable": true
+      "decidable": true,
+      "gate_disposition": "approve-for-grounding-investigation"
     },
     {
       "id": "f5",
@@ -240,7 +244,7 @@
     },
     {
       "id": "f6",
-      "finding": "A teaching story shipped through four gates carrying an inverted premise and a specific percentage. The faculty pushback that 'nobody really care the real statistis' came from the same person who had caught the inversion at a gate, which is why the resulting doctrine became proportionality rather than exemption. Separately: two caption corpora of university lectures returned contraction rates of 0.00-0.10 and 41-43 per thousand words, a gap that measures transcription policy rather than language, so any threshold pooled from them would have been an artifact of an editorial convention. Three invented numeric targets have been withdrawn at cost.",
+      "finding": "A teaching story shipped through four gates carrying an inverted premise and a specific percentage. The faculty pushback — that classroom stories are told to hold attention and that students may not scrutinise the underlying statistics — came from the same person who had caught the inversion at a gate, which is why the resulting doctrine became proportionality rather than exemption. Separately: two caption corpora of university lectures returned contraction rates of 0.00-0.10 and 41-43 per thousand words, a gap that measures transcription policy rather than language, so any threshold pooled from them would have been an artifact of an editorial convention. Three invented numeric targets have been withdrawn at cost.",
       "anchors": [
         {
           "artifact": "posed CHANGELOG.md ## posed_skill.1.52",

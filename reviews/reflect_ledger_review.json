@@ -32,7 +32,8 @@
       "row": "f6",
       "anchor": "posed CHANGELOG.md ## posed_skill.1.52, 1.53 (2ca8f7b); PROPOSED_lessons...md L19/L20",
       "verdict": "confirmed",
-      "note": "q2 quote 'sometimes, we teach a good story to make the class interesting... nobody really care the real statistis, right?' is an exact verbatim match including the misspelling. 'shipped INVERTED through four gates' and 'the 71.5% figure' both confirmed at 1.52/1.53. L19's contraction-rate corpus split (0.00-0.10 vs 41-43 per 1,000 words) is an exact match, and L20's 'withdrawn invented numeric targets three times' is an exact match (600-char description target, 200-400 band, contraction-rate floor)."
+      "note": "q2 (the classroom-anecdote line, verbatim wording withheld by faculty decision) is an exact verbatim match including the misspelling. 'shipped INVERTED through four gates' and 'the 71.5% figure' both confirmed at 1.52/1.53. L19's contraction-rate corpus split (0.00-0.10 vs 41-43 per 1,000 words) is an exact match, and L20's 'withdrawn invented numeric targets three times' is an exact match (600-char description target, 200-400 band, contraction-rate floor).",
+      "redaction_note": "verbatim quote removed after the faculty gate chose paraphrase; the verification it recorded stands"
     },
     {
       "row": "f7",

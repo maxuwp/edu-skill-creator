@@ -1,0 +1,166 @@
+{
+  "gate": "reflect_gate (release-history harvest 1.10)",
+  "decided_by": "faculty (Dr. Ma)",
+  "decided_at": "2026-07-28",
+  "decision_surface": "docs/GATE_1.10_decision_sheet.md, 8 grouped calls over 28 rows",
+  "artifact": "reflect_ledger.json rev 3.1",
+  "reviews": [
+    "reviews/reflect_ledger_review.json",
+    "reviews/reflect_ledger_rereview.json"
+  ],
+  "rows": [
+    {
+      "id": "f1",
+      "disposition": "approve",
+      "group": "A"
+    },
+    {
+      "id": "f2",
+      "disposition": "approve",
+      "group": "B"
+    },
+    {
+      "id": "f3",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f4",
+      "disposition": "approve-for-grounding-investigation",
+      "group": "C"
+    },
+    {
+      "id": "f5",
+      "disposition": "approve",
+      "group": "B"
+    },
+    {
+      "id": "f6",
+      "disposition": "approve",
+      "group": "B"
+    },
+    {
+      "id": "f7",
+      "disposition": "approve",
+      "group": "B"
+    },
+    {
+      "id": "f9",
+      "disposition": "approve",
+      "group": "E"
+    },
+    {
+      "id": "f10",
+      "disposition": "approve",
+      "group": "E"
+    },
+    {
+      "id": "f11",
+      "disposition": "route-to-separate-posed-cr",
+      "group": "H"
+    },
+    {
+      "id": "f12",
+      "disposition": "approve-sequenced",
+      "group": "F"
+    },
+    {
+      "id": "f13",
+      "disposition": "approve-sequenced",
+      "group": "F"
+    },
+    {
+      "id": "f14",
+      "disposition": "approve-sequenced",
+      "group": "F"
+    },
+    {
+      "id": "f15",
+      "disposition": "approve-sequenced",
+      "group": "F"
+    },
+    {
+      "id": "f16",
+      "disposition": "approve-sequenced",
+      "group": "F"
+    },
+    {
+      "id": "f19",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f20",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f21",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f22",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f23",
+      "disposition": "defer",
+      "group": "G"
+    },
+    {
+      "id": "f24",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f25",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f26",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f27",
+      "disposition": "approve",
+      "group": "D"
+    },
+    {
+      "id": "f28",
+      "disposition": "approve",
+      "group": "E"
+    },
+    {
+      "id": "f29",
+      "disposition": "defer",
+      "group": "G"
+    },
+    {
+      "id": "f30",
+      "disposition": "defer",
+      "group": "G"
+    },
+    {
+      "id": "f31",
+      "disposition": "approve",
+      "group": "E"
+    }
+  ],
+  "quote_consent": {
+    "schema_note": "The reflect schema defines quote_consent as a single boolean. The decision actually given is per-quote, which that field cannot express. Recorded per-quote below; the schema should be corrected (candidate row for the next harvest).",
+    "q1": {
+      "decision": "retain verbatim",
+      "rationale": "a critique of the tool; reads as rigorous in a public repo"
+    },
+    "q2": {
+      "decision": "paraphrase",
+      "rationale": "informal reflection on teaching that, stripped of context on a public repository, reads as indifference to accuracy — the opposite of what happened, since the same person caught the inverted statistic"
+    }
+  },
+  "guidance": "All eight groups approved as recommended. f4 carries the conditional disposition only: it ships solely if a published anchor is found, otherwise it returns revised or is dropped. Implementation follows the release sequence — 1.10 is the progressive-disclosure restructure (f1) alone.",
+  "note": "Not a Stage 8 pilot harvest; see reflect_ledger.json harvest_type."
+}
