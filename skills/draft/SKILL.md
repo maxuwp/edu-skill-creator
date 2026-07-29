@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-draft
 description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.11"
+version: "1.12"
 ---
 
 # Edu Skill Creator Stage 5: Draft
@@ -58,9 +58,10 @@ validator (item 11), and the rubric CITES the validator rather than restating it
 2. **Independent review**: dispatch a fresh subagent session whose input is ONLY the
    draft (+ its references), the plugin's `grounding_frameworks.md`, this skill's spec
    in `architecture.md`, Edu Skill Creator's `<edu-skill-creator-skill-dir>/reference/skill_quality_rubric.md`,
-   and `<edu-skill-creator-skill-dir>/reference/lessons_learned.md` (the rubric's critical-flag
-   language references the lessons by number — a reviewer without the ledger can't
-   apply them). It returns the rubric's output JSON; save it to
+   `<edu-skill-creator-skill-dir>/reference/lesson_index.md` AND the specific
+   `reference/lessons/L<nn>_*.md` files the rubric's critical flags reference by number (the flag
+   language cites lessons by id, so a reviewer without those detail files cannot apply them; do NOT
+   pass `lessons_learned.md`, a pointer stub with no rule text since 1.10). It returns the rubric's output JSON; save it to
    `reviews/<skill>_review.json` BEFORE anything is shown to the author.
 3. **Iterate** per the rubric's policy (≥85 and no critical flags → done; 80–84 → revise
    with findings, max 3 rounds; <80 → escalate to the author with top findings). A

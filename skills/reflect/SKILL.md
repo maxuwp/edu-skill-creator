@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-reflect
-description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson in Edu Skill Creator's own lessons_learned.md. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.11"
+description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson file plus its lesson_index.md row. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
+version: "1.12"
 ---
 
 # Edu Skill Creator Stage 8: Reflect
@@ -35,7 +35,7 @@ approved edits routed as described under "Gate".
 Gate comments and session artifacts can contain names, student work fragments, grades,
 or course-identifying detail. Before any harvested text enters `reflect_ledger.json` —
 and doubly before anything is promoted to a shared, committed file like Edu Skill Creator's
-`lessons_learned.md` — apply the plugin's own data posture (its architecture data-flow
+a lesson detail file — apply the plugin's own data posture (its architecture data-flow
 model governs its session data): strip student PII entirely; replace personal names
 and course identifiers with roles ("the TA", "the intro course"); keep the educator's
 own verbatim words only with their consent at this stage's gate, otherwise paraphrase.
@@ -56,7 +56,8 @@ across pilots:
 | proposal | The concrete change (skill text, rubric, gate, architecture) |
 | cost | Small edit / new release / architecture change |
 
-**Scope discipline for lessons:** promote a finding to Edu Skill Creator's `lessons_learned.md` only
+**Scope discipline for lessons:** promote a finding to a new `reference/lessons/L<nn>_<slug>.md` file
+WITH its row added to `reference/lesson_index.md` (both, or the lesson is unreachable) only
 if it would plausibly bite a *different* educational plugin; one-plugin quirks stay
 local. When promoting, follow the ledger format there (rule / failure that taught it /
 enforcement point) and link the enforcement into the relevant Edu Skill Creator skill in the same

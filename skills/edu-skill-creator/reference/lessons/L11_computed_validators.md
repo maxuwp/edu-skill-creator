@@ -36,8 +36,8 @@ L3's fresh-context reviewer catches *judgment* defects; it does not establish
 - **Anti-softener rubric language.** Rubric phrasing that permits rationalization
   ("present *or clearly represented*") is a named defect — the exact phrase let 2 of 3
   missing activities pass.
-- **Mechanical never-accept-on-behalf (upgrades L5).** Gate decisions are stamped
-  server-side (`submitted_via`, content-derived `decision_id`); a hand-written decision
+- **Mechanical never-accept-on-behalf (upgrades L5).** Where the environment offers a surface
+  the agent cannot write to, gate decisions are stamped there (`submitted_via`, content-derived `decision_id`); a hand-written decision
   file is the named anti-pattern — the pilot had a gate "accepted by agent action," and
   no prose rule caught it until the stamp check existed.
 
@@ -72,3 +72,5 @@ release; it is cheap and it tests whether authored guidance produces the behavio
 *Detectors need a domain model of legitimate variation.* Pure similarity either blocks deliberate
 variation or misses disguised reuse. A shared problem stem with a new target was legal pedagogy a naive
 exact-match gate would have blocked; ambiguous matches route to a human rather than failing closed.
+
+*Enforcement status: the self-interested-report corollary is covered by test scenario 13. Threshold re-derivation, exemplar self-measurement and domain-model-aware detectors are guidance only — no dedicated check yet, recorded rather than implied (L13).*

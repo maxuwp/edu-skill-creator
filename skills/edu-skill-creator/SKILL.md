@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator
 description: Edu Skill Creator. Umbrella workflow for creating a NEW educational plugin or skill set (or overhauling an existing one) with an established, framework-grounded process instead of ad-hoc drafting. Guides the author through intent interview, framework grounding, pipeline architecture, dual-harness scaffolding, skill drafting with independent review, TDD-style testing, release, and post-pilot reflection. Triggers - when the user wants to "make a plugin/skill for <educational task>", "turn this teaching workflow into a plugin", "build a skill set like POSED", or asks how to structure an educational agent pipeline.
-version: "1.11"
+version: "1.12"
 ---
 
 # Edu Skill Creator
@@ -53,7 +53,7 @@ Every lesson there is a design requirement for the plugin you are about to build
 | 5 Draft | `edu-skill-creator-draft` | SKILL.md files + rubrics, each independently reviewed | per-skill review ≥85, no critical flags → author gate (batched¹) |
 | 6 Test | `edu-skill-creator-test` | RED/GREEN/REFACTOR log + eval results | author accepts results; per-finding decisions on anything that changes design (test_gate) |
 | 7 Release | `edu-skill-creator-release` | lint-clean tagged release, CHANGELOG entry | rule-0 lint + author approves publish |
-| 8 Reflect | `edu-skill-creator-reflect` | pilot-lesson harvest → updates to the plugin AND to Edu Skill Creator's lessons_learned.md | author approves each harvested item |
+| 8 Reflect | `edu-skill-creator-reflect` | pilot-lesson harvest → updates to the plugin AND a new `reference/lessons/` file plus its `lesson_index.md` row | author approves each harvested item |
 | — Refresh | `edu-skill-creator-refresh` | ~90-day authoring-practice/framework refresh ledger | approve-per-item |
 
 Stages run in order; each dispatches its skill after the operating-rule-7 input check.
@@ -67,6 +67,10 @@ per-skill by the independent reviews (one decision each, already logged); the ba
 gate is only the author's sign-off over those verdicts, and any skill the author wants
 to examine is pulled out into its own decision on request.
 
+**Skill name to path.** A stage's qualified name (`edu-skill-creator-intent`) is its frontmatter
+`name:`, not a directory. The directory drops the prefix: `edu-skill-creator-<stage>` lives at
+`skills/<stage>/SKILL.md`; the umbrella itself is `skills/edu-skill-creator/`.
+
 ## Session state
 
 Keep a working directory for the build (default: alongside the new plugin's repo,
@@ -79,7 +83,7 @@ for "where are we." On session start, read it first and resume.
 
 ## Reference files
 
-- `reference/lesson_index.md` — the always-read card: thirteen lessons, one line each, with the single
+- `reference/lesson_index.md` — the always-read card: eighteen lessons, one line each, with the single
   authoritative applicability map. Full entries in `reference/lessons/`, loaded on demand.
 - `reference/edu_grounding_library.md` — starter framework menu + scope rules.
 - `reference/gate_design_patterns.md` — gate spec, decision JSON, stale-state model.

@@ -19,8 +19,15 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
      the plugin manifests' major.minor. Skill versions are bumped together on every
      release, so a stale frontmatter is mechanical drift, not history.
   9. Review evidence is mechanically resolved: every reviews/*_review.json finding
-     has status fixed|accepted plus a resolution, and every review file has a
-     resolution_pass block.
+     has status fixed|accepted plus a resolution, and every review file carries a
+     resolution_pass block (required whether or not it reports findings — a review
+     claiming none must still record that it was resolved).
+ 11. Every numbered enforcement claim in the lesson index resolves to a real numbered
+     item in the skill it names, and every lesson id resolves to an existing detail
+     file. Fails closed if the index itself is missing. (There is no check 10; the
+     numbering follows the order checks were added.)
+ 12. Registry completeness: every file in reference/lessons/ is referenced by the
+     index, so no lesson is unreachable.
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
@@ -52,7 +59,7 @@ if len(set(vers.values())) > 1:
 plugin_version = next(iter(vers.values()), None)
 
 # 3. Deprecated repo URLs outside the changelog (none at birth; add as they retire)
-DEPRECATED = ()
+DEPRECATED = ("maxuwp/page",)  # pre-rename repo; live check, not a placeholder
 for p in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.json")):
     rel = p.relative_to(ROOT)
     if rel.parts[0] in {".git", "node_modules"} or p.name == "CHANGELOG.md":
@@ -149,7 +156,7 @@ for p in sorted((ROOT / "reviews").glob("*_review.json")):
         errors.append(f"[review] {p.relative_to(ROOT)}: invalid JSON ({e})")
         continue
     findings = data.get("findings", [])
-    if findings and not isinstance(data.get("resolution_pass"), dict):
+    if not isinstance(data.get("resolution_pass"), dict):
         errors.append(f"[review] {p.relative_to(ROOT)}: missing resolution_pass block")
     for i, finding in enumerate(findings, 1):
         status = finding.get("status")
@@ -166,7 +173,10 @@ for p in sorted((ROOT / "reviews").glob("*_review.json")):
 #     ledger's own "Enforced at" column is such a surface). Only NUMBERED claims are
 #     checkable — that is why the convention is to cite numbered units.
 LL = ROOT / "skills" / "edu-skill-creator" / "reference" / "lesson_index.md"
-if LL.exists():
+if not LL.exists():
+    errors.append("[ledger] lesson_index.md is missing — the enforcement ledger cannot be checked; "
+                  "a vanished input is a failure, not a skip")
+else:
     def _numbered(path):
         f = ROOT / path
         return ({int(n) for n in re.findall(r"^\s*(\d+)\.\s", f.read_text(), re.M)}
@@ -196,6 +206,20 @@ if LL.exists():
                         errors.append(f"[ledger] {lesson} claims '{label} {n}' but {where} "
                                       f"has no numbered item {n} — L13: the claim or the "
                                       f"enforcement must change, not neither")
+
+# 12. Registry completeness (L7 fold): every lesson detail file appears in the index.
+#     Check 11 verifies index->file; this verifies file->index. An orphan lesson is a
+#     rule nobody will ever read. This is the check L7's fold previously mis-attributed
+#     to check 11, which does something else entirely.
+_ldir = ROOT / "skills" / "edu-skill-creator" / "reference" / "lessons"
+if _ldir.is_dir():
+    _idx_text = LL.read_text() if LL.exists() else ""
+    _orphans = [f.name for f in sorted(_ldir.glob("*.md")) if f.name not in _idx_text]
+    for _o in _orphans:
+        errors.append(f"[registry] lessons/{_o} exists but no lesson_index.md row references it — "
+                      f"an unreachable lesson (L7: every unit appears in the registry that governs it)")
+    if not list(_ldir.glob("*.md")):
+        errors.append("[registry] reference/lessons/ contains no lesson files — fail closed")
 
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)

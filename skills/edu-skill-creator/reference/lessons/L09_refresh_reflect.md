@@ -21,3 +21,5 @@ that depends on a real-world system's current behaviour is framed as a dated sto
 present tense, and a named owner re-verifies it in the current environment before each live use, with
 a documented fallback. This is a different trigger from the periodic refresh above: a different actor,
 at time of use, rather than the plugin's own knowledge on a schedule.
+
+*Enforcement status: the example-decay corollary is guidance only — no rubric flag, test scenario or computed check covers it yet. Recorded rather than implied (L13); a future release adds the mechanism or withdraws the corollary.*

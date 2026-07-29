@@ -22,3 +22,5 @@ identity is bound through an explicit key captured at creation and verified agai
 never inferred from array index or file order. A tree builder that enumerated records positionally
 renumbered a pilot's decisions and mislabelled a release; the fix was an owner-assigned id. Anything
 that reorders or regroups the underlying list silently relabels content otherwise.
+
+*Enforcement status: the positional-identity corollary is guidance only — no rubric flag, test scenario or computed check covers it yet. Recorded rather than implied (L13); a future release adds the mechanism or withdraws the corollary.*

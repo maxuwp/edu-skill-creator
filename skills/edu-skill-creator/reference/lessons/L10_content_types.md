@@ -38,3 +38,5 @@ corpus evidence for the genre before shipping such a rule. *Declare one language
 Sources may be multilingual; student-facing text is monolingual in the declared language. Source-
 language labels leaked into an English pack from grounding material, a failure the source itself
 generalizes to any multilingual-source pipeline.
+
+*Enforcement status: the genre-check and language-of-instruction corollary is guidance only — no rubric flag, test scenario or computed check covers it yet. Recorded rather than implied (L13); a future release adds the mechanism or withdraws the corollary.*

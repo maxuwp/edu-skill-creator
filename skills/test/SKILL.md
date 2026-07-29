@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.11"
+version: "1.12"
 ---
 
 # Edu Skill Creator Stage 6: Test
@@ -9,7 +9,7 @@ version: "1.11"
 Adapts obra's writing-skills discipline — **TDD for process documentation** — plus
 skill-creator's eval mechanics. The iron law, softened one notch for practicality: a
 skill's key constraints should each trace to a demonstrated failure (RED) or to a lesson
-in `<edu-skill-creator-skill-dir>/reference/lessons_learned.md` (already-paid-for RED).
+in `<edu-skill-creator-skill-dir>/reference/lesson_index.md` and its detail files (already-paid-for RED).
 
 **Inputs (exact):** the new plugin's drafted skills with their `reviews/*_review.json`
 logs all at ≥85 and zero critical flags, plus the approved `architecture.md` (whose

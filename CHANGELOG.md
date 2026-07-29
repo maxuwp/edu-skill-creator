@@ -3,6 +3,60 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.12 — 2026-07-28
+
+**Everything here was found by testing the shipped code, not by review.** Three independent agents
+were pointed at 0c09837: one executed the skills cold on a real request, one audited every
+enforcement claim against its cited target, one ran the scripts. All three found defects that three
+prior review rounds and a passing lint had missed.
+
+### The serious one: 1.10 broke the fresh-context reviewer
+
+`lessons_learned.md` became an 18-line pointer stub in 1.10, but **fifteen citations across nine
+files still treated it as the substantive ledger** — including `skill_quality_rubric.md` and
+`draft/SKILL.md`, which define the independent reviewer's **input allowlist**. `lesson_index.md` and
+`reference/lessons/` were not on that allowlist. A Stage 5 reviewer following the documented inputs
+exactly would open an empty file and be unable to interpret the numbered critical flags it exists to
+enforce. The plugin's central quality gate, operating rule 3, was wired to nothing for two releases.
+All fifteen citations swept; Stage 8's write side now targets a new `lessons/` file plus its index row.
+
+### A false enforcement claim that survived two review rounds
+
+L7's fold stated registry completeness was "implemented as release_lint check 11." Check 11 resolves
+numbered enforcement claims; **no registry-completeness check existed anywhere.** The claim originated
+in ledger row `f21` and passed both independent reviews, because reviewers verified that cited numbers
+resolve rather than that claimed implementations exist. New **check 12** now does what was claimed
+(every `lessons/` file is referenced by the index), and the lesson records how the false claim survived.
+
+### Three fail-open holes in the lint that polices fail-open holes
+
+- **Check 3 was dead code.** `DEPRECATED = ()` — an empty tuple no content could ever trigger. The
+  repo does have a deprecated URL (the pre-rename `maxuwp/page`); populated, and it now fires.
+- **Check 11 silently skipped** when `lesson_index.md` was deleted: `if LL.exists()` bypassed its own
+  fail-closed guard, so deleting the entire enforcement ledger produced exit 0. Now an error.
+- **Check 9 was bypassable** via `findings: []`, which skipped the `resolution_pass` requirement
+  entirely. Now required unconditionally.
+Each fixed check was seeded with a violation and observed firing; all four proofs recorded.
+
+### The validator template violated its own doctrine
+
+Three uncaught crashes outside the CHECKS loop, each breaking the documented exit-2 contract: a
+manifest that is valid JSON but not an object, an unwritable report directory, and `--report` given
+with no path. All now exit 2 with a stated reason. And `stamped()` used truthiness where the template's
+own lesson says gate flags are validated by type — fixed, plus the `require_bool` helper that lesson
+demanded and the template never had.
+
+### Honest enforcement accounting
+
+Eight of the nine 1.11 folds shipped as prose with no mechanical check — the failure L11 and L13 name,
+committed in the release that refined L11 and L13. Rather than imply coverage, each now carries an
+explicit *Enforcement status* line stating it is guidance only, so a future release adds the mechanism
+or withdraws the corollary. Also fixed: L12's detail file cited `architecture item 11` (now Lifecycle
+stages) and `scenarios 12–14` (14 is unrelated); `implementation_patterns.md` declared everything in it
+an example while P3's mechanism stayed a live mandate in two files; the umbrella claimed "nine lessons"
+in one place and "thirteen" in another against an actual eighteen; rubric flags ran 1–10, 13, 14, 11, 12;
+and the umbrella never explained that `edu-skill-creator-<stage>` lives at `skills/<stage>/`.
+
 ## edu_skill_creator.1.11 — 2026-07-28
 
 The doctrine release. Gate rows f2–f7, f9(partial), f19–f22, f24–f27, f31 as decided in

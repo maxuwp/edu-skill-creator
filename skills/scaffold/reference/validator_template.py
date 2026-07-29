@@ -6,7 +6,7 @@ in the architecture's computed-validation plan (architecture item 11): replace A
 fill in CHECKS, delete the sample bodies. Everything import-free and self-contained on
 purpose — a validator with dependencies is a validator someone will skip.
 
-Why this exists (L11, lessons_learned.md): prose contracts rot. A POSED pilot deck
+Why this exists (L11, reference/lessons/L11_computed_validators.md): prose contracts rot. A POSED pilot deck
 passed FOUR fresh-context prose reviews at 94/100 while carrying 13 structural
 criticals; the computed validator failed it instantly. LLM review establishes judgment;
 this script establishes structure. Both layers, always.
@@ -86,6 +86,18 @@ def require_record(manifest, key, check):
     return rec if isinstance(rec, dict) else None
 
 
+def require_bool(container, key, check, location=""):
+    """A gate flag must be a JSON boolean. The string "false" is truthy in every naive
+    check and has defeated a real independence gate — validate by TYPE, never by truth."""
+    v = (container or {}).get(key) if isinstance(container, dict) else None
+    if not isinstance(v, bool):
+        crit(check, location or key,
+             f"{key} is {type(v).__name__} {v!r}, not a JSON boolean",
+             'emit true/false unquoted; the string "false" is truthy and passes naive checks')
+        return None
+    return v
+
+
 def contract_era(manifest):
     """L12: which contract governs this session? Missing or unknown version = checks
     ARMED (fail closed) — a stale value once disarmed a whole release's enforcement."""
@@ -96,9 +108,15 @@ def contract_era(manifest):
 def stamped(rec, check):
     """L12: every artifact carries generated_by; validators use it to tell contract
     upgrades (old artifact, new rules) from quality gaps (bad artifact)."""
-    if rec is not None and not rec.get("generated_by"):
+    if rec is None:
+        return
+    g = rec.get("generated_by")
+    if g is None:
         warn(check, "generated_by", "artifact predates contract stamping",
              "possible contract upgrade, not a quality gap — see the amendment path")
+    elif not isinstance(g, str) or not g.strip():
+        crit(check, "generated_by", f"generated_by is {type(g).__name__} {g!r}, not a "
+             f"non-empty identity string", "stamp it with the drafter name and version")
 
 
 # ---------- distribution helper (L11: repetition defeats totals) ----------
@@ -151,12 +169,20 @@ def main():
     if not args:
         print(__doc__.split("\n\n")[0]); sys.exit(2)
     session = pathlib.Path(args[0])
-    report_path = (pathlib.Path(args[args.index("--report") + 1]) if "--report" in args
-                   else session / "review_logs" / "ARTIFACT_validation.json")
+    if "--report" in args:
+        i = args.index("--report") + 1
+        if i >= len(args):
+            print("validate_ARTIFACT: --report given with no path — fail closed"); sys.exit(2)
+        report_path = pathlib.Path(args[i])
+    else:
+        report_path = session / "review_logs" / "ARTIFACT_validation.json"
     try:
         manifest = json.loads((session / "manifest.json").read_text())
     except (OSError, json.JSONDecodeError) as e:
         print(f"validate_ARTIFACT: cannot read manifest ({e}) — fail closed"); sys.exit(2)
+    if not isinstance(manifest, dict):
+        print(f"validate_ARTIFACT: manifest is {type(manifest).__name__}, not an object — "
+              f"fail closed"); sys.exit(2)
 
     for check in CHECKS:
         try:
@@ -170,8 +196,13 @@ def main():
               "session": str(session), "passed": not crits,
               "counts": {"critical": len(crits), "warning": len(findings) - len(crits)},
               "findings": findings}
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=True) + "\n")
+    try:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(json.dumps(report, indent=2, ensure_ascii=True) + "\n")
+    except OSError as e:
+        print(f"validate_ARTIFACT: cannot write report to {report_path} ({e}) — fail closed. "
+              f"Findings were computed but are unpersisted, so this run did not validate.")
+        sys.exit(2)
     for f in findings:
         print(f"{f['severity'].upper():8} [{f['check']}] {f['location']}: {f['issue']}")
     print(f"\nvalidate_ARTIFACT: {len(crits)} critical(s), "

@@ -19,3 +19,5 @@ invisible policy of routing work to a cheaper capable resource was withdrawn on 
 property of the policy rather than the product: capability per task is only knowable after the work,
 a downgrade the user cannot see degrades their product without their knowledge, and single-resource
 environments have nothing to route across. Consent governs substitutions, not only spend.
+
+*Enforcement status: the silent-substitution corollary is guidance only — no rubric flag, test scenario or computed check covers it yet. Recorded rather than implied (L13); a future release adds the mechanism or withdraws the corollary.*

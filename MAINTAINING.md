@@ -52,4 +52,4 @@ See the script docstring.
 ## Sibling repos
 
 POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d) are the plugins whose
-development produced Edu Skill Creator's `lessons_learned.md`; their pilots feed `edu-skill-creator-reflect`.
+development produced Edu Skill Creator's lesson ledger (`reference/lesson_index.md` + `reference/lessons/`); their pilots feed `edu-skill-creator-reflect`.

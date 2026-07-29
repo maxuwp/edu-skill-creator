@@ -19,9 +19,10 @@ this covers *schema* evolution — a different axis that bites exactly when the 
 improves fastest.
 
 **Edu Skill Creator enforcement (L11 + L12).** `edu-skill-creator-architecture` items 5
-and 11 require the contract-version fields and a computed-validation plan;
+and 12 require the contract-version fields and a computed-validation plan;
 `edu-skill-creator-scaffold` instantiates each planned validator from
 `scaffold/reference/validator_template.py` (fail-closed helpers, per-id coverage,
 distribution checks, fixture pairs — generated, not just required);
 `skill_quality_rubric` critical flag 11 blocks prose-only structural enforcement and
-fail-open guards; `edu-skill-creator-test` scenarios 12–14 attack exactly these surfaces.
+fail-open guards; `edu-skill-creator-test` scenario 13 attacks exactly this surface (scenario 12 is L11's
+rationalizing reviewer; scenario 14 is unrelated authoring-context leakage).

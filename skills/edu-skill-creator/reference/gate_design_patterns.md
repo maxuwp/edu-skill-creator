@@ -1,7 +1,7 @@
 # HITL Gate Design Patterns — for educational plugins
 
 Distilled from POSED's guided app (`posed_app.py`, the reference implementation) and the
-pilot failures in `lessons_learned.md` (L4, L5). `edu-skill-creator-architecture` requires every gate
+pilot failures in `lessons/L04_narrow_gates.md` and `lessons/L05_structured_decisions.md`. `edu-skill-creator-architecture` requires every gate
 in a new plugin's design to specify the fields in "Gate specification" below.
 
 ## Principles
@@ -47,7 +47,10 @@ in a new plugin's design to specify the fields in "Gate specification" below.
    auto-submits, blocking conditions block even when pre-filled, and the decision JSON
    records both the recommendation and the final value (`recommended_*`,
    `faculty_overrode`) for the audit/trust trail.
-9. **Blank-gate guard + server-stamped decisions.** A gate page that would render zero
+9. **Blank-gate guard + decision provenance.** *(The stamping mechanism below is one
+   implementation — see `implementation_patterns.md` P3 for portability limits and the fallback
+   where no such surface exists. The requirement is that a hand-written decision be detectable,
+   not that a local server exist.)* A gate page that would render zero
    decision widgets refuses to open (config error, not an empty approval); every
    submitted decision is stamped server-side (`submitted_via`, `submitted_at`,
    content-derived `decision_id`) so a hand-written decision file is mechanically

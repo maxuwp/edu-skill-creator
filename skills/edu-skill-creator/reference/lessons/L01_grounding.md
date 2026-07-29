@@ -27,3 +27,5 @@ measures its production process as well as its subject. Name that process and as
 contaminates before deriving anything. Two caption corpora of university lectures returned contraction
 rates of 0.00–0.10 and 41–43 per thousand words; the gap measures transcription policy, not language,
 so any threshold pooled from them would have been an artifact of an editorial convention.
+
+*Enforcement status: the corpus-provenance corollary is guidance only — no rubric flag, test scenario or computed check covers it yet. Recorded rather than implied (L13); a future release adds the mechanism or withdraws the corollary.*

@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-refresh
 description: Edu Skill Creator maintenance — periodic (~90-day) refresh of Edu Skill Creator's own knowledge. Checks for new skill/plugin-authoring best practices, new educational frameworks worth adding to the grounding library, and new AI capabilities that change what educational plugins can offer. Consent-gated research sweep; findings land in a dated ledger reviewed approve-per-item; never auto-applies. Triggers - when ~90 days have passed since the last refresh, or the user says "refresh Edu Skill Creator" or asks whether the authoring guidance is still current.
-version: "1.11"
+version: "1.12"
 ---
 
 # Edu Skill Creator Refresh
@@ -52,7 +52,7 @@ implications (a new AI capability is still subject to the educator's AI stance �
 *Grounding note (L1, resolution b — recorded justification):* unlike Parts A and B,
 no published framework governs "watch for AI-capability change"; this part is an
 invented process justified by L9's documented failure (the frozen-skill-text /
-FFT-IFFT case in `<edu-skill-creator-skill-dir>/reference/lessons_learned.md`). If a citable
+FFT-IFFT case in `<edu-skill-creator-skill-dir>/reference/lessons/L09_refresh_reflect.md`). If a citable
 practice for capability-watch emerges, a future refresh should anchor Part C to it and
 retire this note.
 
@@ -77,7 +77,7 @@ check directly — no drafter judgment to re-derive, so no independent reviewer
 inclusion-bar fit and "materially changed standing"; C maps capabilities to "the plugin
 stages it would enhance" and their contested-choice implications. Dispatch a fresh
 subagent session whose inputs are ONLY the Part B + C ledger rows,
-`lessons_learned.md`, and `edu_grounding_library.md`; it checks that each claim is
+`lesson_index.md` with the relevant detail files, and `edu_grounding_library.md`; it checks that each claim is
 sourced, each inclusion/enhancement judgment is supported by the row's own evidence
 against the library's "Rules of use" bar, and no row smuggles a pedagogical stance
 (L2). Log to `docs/refresh_ledger_<date>_review.json` BEFORE the gate opens.
@@ -92,7 +92,7 @@ against the library's "Rules of use" bar, and no row smuggles a pedagogical stan
 | reviewer | Part A: none (scoped waiver above); Parts B/C: the fresh-context review above |
 | decision_file | `docs/refresh_ledger_<date>_decision.json` — `{rows:[{id, disposition, comment}], guidance}` |
 | owns | approved rows are applied as a normal Edu Skill Creator release through `edu-skill-creator-release` |
-| invalidates | rows that change lessons_learned.md or the grounding library mark dependent Edu Skill Creator skills for the semantic-drift grep in that release |
+| invalidates | rows that change a lesson detail file or the grounding library mark dependent Edu Skill Creator skills for the semantic-drift grep in that release |
 | consent | the full/lite/skip ladder above, recorded in the ledger header |
 
 **After the gate closes** (explicit steps, not implied): (1) update the `last_refresh`

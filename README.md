@@ -17,7 +17,7 @@ instead of ad-hoc drafting — and starts from the lessons already paid for whil
 - **obra's writing-skills** ([obra/superpowers](https://github.com/obra/superpowers)) —
   TDD for skills: RED baseline pressure scenarios → GREEN minimal skill → REFACTOR
   loopholes closed.
-- **The POSED/p2d lessons ledger** (`skills/edu-skill-creator/reference/lessons_learned.md`) — nine
+- **The POSED/p2d lessons ledger** (`skills/edu-skill-creator/reference/lesson_index.md` + `reference/lessons/`) — eighteen
   design requirements paid for by real pilot failures: framework grounding with scope
   discipline; contested pedagogical choices as explicit options, never author defaults;
   drafter ≠ reviewer; narrow dependency-aware gates; structured decision JSON; consent

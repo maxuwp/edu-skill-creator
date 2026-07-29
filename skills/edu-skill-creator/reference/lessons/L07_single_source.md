@@ -28,4 +28,9 @@ parameterized lint; `dual_harness_playbook.md` is the specification.
 skill maintains a central registry, ship a mechanical check that every unit is in it. Registries decay
 silently exactly where a later change request adds units: a grounding registry that declared itself
 the source of truth reviewers score against was found missing five shipped stages. Implemented here as
-release_lint check 11.
+release_lint **check 12** (every lessons/ file is referenced by the index).
+
+*An earlier version of this line cited check 11, which resolves numbered enforcement claims and does
+something else entirely. That false enforcement claim survived two independent review rounds, because
+reviewers verified that cited numbers resolve rather than that claimed implementations exist — the
+exact shape L11's own corollary warns about, committed in the lesson about single sources of truth.*

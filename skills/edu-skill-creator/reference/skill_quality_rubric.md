@@ -3,7 +3,10 @@
 Used by `edu-skill-creator-draft`'s independent reviewer. The reviewer runs in a **fresh context**
 with this input allowlist ONLY: the drafted SKILL.md (+ its reference files), the new
 plugin's grounding map, the architecture doc's spec for this skill, and
-`lessons_learned.md`. Never the drafter's reasoning or chat context (L3).
+`lesson_index.md` PLUS the specific `lessons/L<nn>_*.md` detail files whose Applies-to column names
+this skill or whose numbered critical flags the rubric cites. (`lessons_learned.md` is a pointer stub
+since 1.10 and carries no rule text; a reviewer given only that file cannot interpret a numbered
+flag.) Never the drafter's reasoning or chat context (L3).
 
 ## Scored dimensions (sum = 100 points)
 
@@ -39,11 +42,6 @@ minor −1; floored at 0 within the dimension).
     precision content (definitions, equations, code, verbatim problem statements) is
     subject to trimming or paraphrase-to-fit at ANY pipeline stage (L10) — a humanized
     or shortened definition is a wrong definition.
-13. A criterion is verified at a proxy layer, or anchored to a framework that describes a
-    different observable layer than the criterion judges, with no justified and tested
-    proxy-to-target mapping (L14).
-14. A user's explicit decision can be altered, reclassified or dropped by a downstream stage
-    without a later decision from that same user (L15).
 11. A structural requirement (required rows/fields/tags, upstream-contract coverage,
     count bands) is enforced ONLY by prose or rubric language where a computed validator
     is feasible; or a validator/guard fails open (missing artifact, record, or contract
@@ -54,6 +52,11 @@ minor −1; floored at 0 within the dimension).
     POSED's terminal gate table listed `approved: true` for a path the provenance checker
     calls forged in every contract era, and survived one review round with a
     non-approval warning printed directly above it.
+13. A criterion is verified at a proxy layer, or anchored to a framework that describes a
+    different observable layer than the criterion judges, with no justified and tested
+    proxy-to-target mapping (L14).
+14. A user's explicit decision can be altered, reclassified or dropped by a downstream stage
+    without a later decision from that same user (L15).
 
 ## Output schema
 

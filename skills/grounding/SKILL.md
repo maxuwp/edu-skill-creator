@@ -1,14 +1,14 @@
 ---
 name: edu-skill-creator-grounding
 description: Edu Skill Creator Stage 2 — Framework grounding for a new educational plugin. Maps every anticipated pipeline stage to an established framework (instructional design, assessment, communication, review practice) BEFORE architecture, flags unanchored stages as "invented process — justify or redesign", and enforces scope discipline. Includes an independent fresh-context review of the map before the author gate. Triggers - when the edu-skill-creator umbrella dispatches Stage 2, or the user asks "what frameworks should ground this plugin".
-version: "1.11"
+version: "1.12"
 ---
 
 # Edu Skill Creator Stage 2: Framework Grounding
 
 Runs BEFORE architecture: design decisions get anchored to frameworks, not the other way
 around. This ordering is itself grounded — lesson L1 in
-`<edu-skill-creator-skill-dir>/reference/lessons_learned.md` (the POSED grounding releases,
+`<edu-skill-creator-skill-dir>/reference/lessons/L01_grounding.md` (the POSED grounding releases,
 posed_skill.1.10/1.11, where re-anchoring ended the re-litigating of home-made criteria).
 Output: the new plugin's `grounding_frameworks.md`, independently reviewed, then
 gate-approved.
