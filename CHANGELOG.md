@@ -3,6 +3,25 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.13 — 2026-07-28
+
+Ledger row `f14`: the one-off testers become a suite. The plugin prescribed fixture pairs and TDD for
+every plugin it generates and had no tests of its own.
+
+- **`tests/run_deterministic.py`** — 18 checks, seconds, no model calls. Every case corresponds to a
+  defect that actually shipped: nine seeded lint violations (including the three fail-open holes fixed
+  in 1.12 — dead `DEPRECATED` tuple, silent skip on a deleted index, `findings: []` bypass), five
+  validator-template probes covering its three former crash paths, and three reachability checks that
+  would have caught 1.10's broken reviewer allowlist. Runs on a throwaway copy; never touches the tree.
+- **`tests/evals/E1`, `E2`** — the two behavioural prompts that cannot be scripted: cold-start
+  execution, and the semantic enforcement audit that caught a false "implemented as check 11" claim
+  two review rounds had passed. Reported separately from deterministic results, never overwriting them.
+- **Lint check 13** runs the deterministic suite before every push, so a guard that stops firing is
+  caught at release rather than discovered by a tester months later. Proven by disabling the check-3
+  guard and watching check 13 fail. `--skip-suite` breaks the recursion when the suite calls the lint.
+
+The suite is not proof of correctness. It is proof that specific known failures stay fixed.
+
 ## edu_skill_creator.1.12 — 2026-07-28
 
 **Everything here was found by testing the shipped code, not by review.** Three independent agents

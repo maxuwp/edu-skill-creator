@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-test
 description: Edu Skill Creator Stage 6 — TDD-style testing of a drafted educational plugin. RED (baseline pressure scenarios without the skill, capturing failure rationalizations), GREEN (verify the skill fixes them), REFACTOR (close loopholes), plus consent-gated eval sweeps and education-specific pressure scenarios (canonical-fact drift, reviewer rationalization, gate bypass). Triggers - when the edu-skill-creator umbrella dispatches Stage 6, or the user says "test the plugin/skills".
-version: "1.12"
+version: "1.13"
 ---
 
 # Edu Skill Creator Stage 6: Test
@@ -17,6 +17,13 @@ gate specs and data posture define what scenarios 3–5 and 7–10 assert). **Re
 run** on unreviewed or stale drafts — testing text that is about to change is spent
 tokens. If a skill is revised after its GREEN pass (by this stage's own REFACTOR or
 anything else), its scenarios are stale and re-run.
+
+## This plugin's own suite
+
+`tests/run_deterministic.py` (18 checks, seconds, no model calls) and `tests/evals/E1`–`E2`
+(fresh-context prompts). Release lint check 13 runs the deterministic layer before every push, so a
+guard that goes dead is caught rather than discovered later. Every case corresponds to a defect that
+actually shipped; the suite proves known failures stay fixed, not that the plugin is correct.
 
 ## Consent first (L6)
 

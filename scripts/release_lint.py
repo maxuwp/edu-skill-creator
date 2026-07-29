@@ -221,6 +221,18 @@ if _ldir.is_dir():
     if not list(_ldir.glob("*.md")):
         errors.append("[registry] reference/lessons/ contains no lesson files — fail closed")
 
+# 13. The deterministic regression suite passes. Every case in it corresponds to a
+#     defect that actually shipped; if one stops firing, a guard has gone dead.
+_suite = ROOT / "tests" / "run_deterministic.py"
+if not _suite.exists():
+    errors.append("[tests] tests/run_deterministic.py is missing — the regression suite is the "
+                  "only thing proving the other checks still fire; a vanished suite is a failure")
+elif "--skip-suite" not in sys.argv[1:]:
+    _r = subprocess.run([sys.executable, str(_suite)], capture_output=True, text=True)
+    if _r.returncode != 0:
+        _fails = [l.strip() for l in _r.stdout.splitlines() if l.strip().startswith("FAIL")]
+        errors.append(f"[tests] deterministic suite failed: {'; '.join(_fails) or 'see output'}")
+
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)
 print(f"\nrelease_lint: {len(errors)} error(s), {len(warnings)} warning(s)")
