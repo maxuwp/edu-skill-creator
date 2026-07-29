@@ -1,3 +1,10 @@
+> **SUPERSEDED 2026-07-28 by release 1.11.** These ten proposals were triaged in
+> `reflect_ledger.json` and gated in `reflect_gate_decision.json`. Their numbering does NOT map to
+> the shipped lessons: proposed-L14 became **L14**; proposed-L15/L17/L20 folded into **L11**;
+> proposed-L19 into **L1** and **L16**; proposed-L21 into **L7**; proposed-L22 into **L10**;
+> proposed-L16/L18 into **L11**; proposed-L23 was deferred (row f23). Retained as historical
+> evidence — do not implement from this file.
+
 # Proposed lessons L14–L23, from the oral-register investigation
 
 **Prepared by:** Claude (Opus 5) · 2026-07-28 · **Status:** PROPOSED, nothing implemented

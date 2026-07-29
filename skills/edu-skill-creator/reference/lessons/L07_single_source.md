@@ -23,3 +23,9 @@ silently ignored (posed_skill.1.27/1.30 F7).
 
 **Edu Skill Creator enforcement.** `edu-skill-creator-scaffold` generates this layout from day one, including the
 parameterized lint; `dual_harness_playbook.md` is the specification.
+
+**Corollary added 1.11 (row f21) — every unit appears in the registry that governs it.** Where a
+skill maintains a central registry, ship a mechanical check that every unit is in it. Registries decay
+silently exactly where a later change request adds units: a grounding registry that declared itself
+the source of truth reviewers score against was found missing five shipped stages. Implemented here as
+release_lint check 11.

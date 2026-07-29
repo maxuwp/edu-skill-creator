@@ -177,6 +177,9 @@ if LL.exists():
         "test scenario":        ("skills/test/SKILL.md", _numbered("skills/test/SKILL.md")),
         "architecture item":    ("skills/architecture/SKILL.md", _numbered("skills/architecture/SKILL.md")),
         "release step":         ("skills/release/SKILL.md", _numbered("skills/release/SKILL.md")),
+        "grounding step":       ("skills/grounding/SKILL.md", _numbered("skills/grounding/SKILL.md")),
+        "intent item":          ("skills/intent/SKILL.md", _numbered("skills/intent/SKILL.md")),
+        "draft step":           ("skills/draft/SKILL.md", _numbered("skills/draft/SKILL.md")),
     }
     _idx = LL.read_text()
     _rows = re.findall(r"^\| (L\d+) \| [^|]+ \| ([^|]+) \| \[`([^`]+)`\][^|]*\|$", _idx, re.M)

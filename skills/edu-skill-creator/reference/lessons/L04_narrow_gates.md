@@ -16,3 +16,9 @@ stale-state invalidation fixed both.
 **Edu Skill Creator enforcement.** `edu-skill-creator-architecture` produces an explicit dependency model and gate
 map for the new plugin; a stage whose gate asks for more than one decision is a review
 finding.
+
+**Corollary added 1.11 (row f24) — never derive identity from position.** The stable-id rule extends:
+identity is bound through an explicit key captured at creation and verified against the actual output,
+never inferred from array index or file order. A tree builder that enumerated records positionally
+renumbered a pilot's decisions and mislabelled a release; the fix was an owner-assigned id. Anything
+that reorders or regroups the underlying list silently relabels content otherwise.

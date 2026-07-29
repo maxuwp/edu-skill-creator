@@ -21,3 +21,9 @@ grounding map entry must state what the framework does NOT cover.
 **Edu Skill Creator enforcement.** `edu-skill-creator-grounding` runs before any architecture work and produces
 `grounding_frameworks.md` for the new plugin; a stage with no anchor is flagged
 "invented process — justify or redesign" and blocks the grounding gate.
+
+**Corollary added 1.11 (row f6) — state what a derived corpus is an artifact of.** A derived corpus
+measures its production process as well as its subject. Name that process and ask which measures it
+contaminates before deriving anything. Two caption corpora of university lectures returned contraction
+rates of 0.00–0.10 and 41–43 per thousand words; the gap measures transcription policy, not language,
+so any threshold pooled from them would have been an artifact of an editorial convention.

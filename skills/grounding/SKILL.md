@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-grounding
 description: Edu Skill Creator Stage 2 — Framework grounding for a new educational plugin. Maps every anticipated pipeline stage to an established framework (instructional design, assessment, communication, review practice) BEFORE architecture, flags unanchored stages as "invented process — justify or redesign", and enforces scope discipline. Includes an independent fresh-context review of the map before the author gate. Triggers - when the edu-skill-creator umbrella dispatches Stage 2, or the user asks "what frameworks should ground this plugin".
-version: "1.10"
+version: "1.11"
 ---
 
 # Edu Skill Creator Stage 2: Framework Grounding
@@ -25,7 +25,12 @@ rules track this in BUILD_PLAN.
    stages the plugin will plausibly need (intake, planning, drafting per artifact,
    review, compile, reflect…). This list is provisional — architecture may still change
    it, but every candidate needs an anchor now.
-2. **Anchor each stage.** Work from
+2. **Ask the layer question first (L14).** For each stage, name the observable layer where its
+   criteria live — rendered artifact, source text, lexico-grammar, learner behaviour, process
+   structure — and check that a candidate framework describes THAT layer. A framework one layer
+   away is unfalsifiable while appearing rigorous. Record the layer beside the anchor; where a
+   proxy is unavoidable, the proxy-to-target mapping is stated and tested.
+3. **Anchor each stage.** Work from
    `<edu-skill-creator-skill-dir>/reference/edu_grounding_library.md` FIRST. For each stage produce a
    map row: *stage → framework → citation → how it is applied here → scope limit (what
    the framework does NOT cover)*. One anchor per rule; note near-alternatives.
@@ -33,20 +38,20 @@ rules track this in BUILD_PLAN.
    *objective-writing step → Mager/ABCD → Mager (1997) → every SLO drafted in
    audience/behavior/condition/degree form → scope limit: objective wording only, says
    nothing about sequencing.*
-3. **Search only for gaps.** If nothing in the library fits a stage, search for an
+4. **Search only for gaps.** If nothing in the library fits a stage, search for an
    established framework in that stage's domain. The vetting bar is the library's own
    "Rules of use" section — widely validated, citable, public standards only, never
    proprietary rubric text — not a standard invented here.
-4. **Flag the unanchored.** A stage with no citable anchor gets one of exactly three
+5. **Flag the unanchored.** A stage with no citable anchor gets one of exactly three
    resolutions, recorded in the map: **(a) redesign** the stage so an anchor applies;
    **(b) justify** it as genuinely novel — the justification (why no framework exists,
    what evidence supports the invented process) goes in the map; **(c) demote** the
    requirement to a suggestion. Silence blocks the gate.
-5. **Scope-discipline pass.** Re-read the finished map hunting over-generalization: any
+6. **Scope-discipline pass.** Re-read the finished map hunting over-generalization: any
    framework cited beyond its validated scope (the standing example: a protocol
    validated for n8n workflow development cited as a universal AI-development method).
    Fix or annotate every hit.
-6. **Contested-choice cross-check (L2).** For each contested choice in the intent
+7. **Contested-choice cross-check (L2).** For each contested choice in the intent
    inventory, verify the map doesn't smuggle a stance in — e.g. grounding activities
    exclusively in AI-centric practice when the AI stance is supposed to be a choice.
 

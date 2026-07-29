@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-intent
 description: Edu Skill Creator Stage 1 — Intent interview for a new educational plugin. Captures purpose, users, artifacts, gates, and the contested-choices inventory (pedagogical decisions that must become explicit options, never defaults). Triggers - when the edu-skill-creator umbrella dispatches Stage 1, or the user says "let's scope the new educational plugin".
-version: "1.10"
+version: "1.11"
 ---
 
 # Edu Skill Creator Stage 1: Intent Interview
@@ -45,7 +45,11 @@ Ask, in the author's language, and record verbatim answers:
    - Logging and redaction: what do session logs, review logs, and gate decision files
      capture — and what must be redacted from them?
    - Permissions: who may run the plugin, who may read its artifacts?
-8. **Accessibility** *(anchors: WCAG 2.2 for conformance, UDL 3.0 for learning-design
+8. **Process-shaped outcomes (L17).** Does any outcome require learners to apply a procedure or
+   make a sequence of decisions? If so, name the source for that procedure's real structure, since
+   the teaching sequence will have to walk it rather than present its concepts in a convenient
+   order.
+9. **Accessibility** *(anchors: WCAG 2.2 for conformance, UDL 3.0 for learning-design
    depth)*. What accessibility requirements bind the outputs (institutional
    WCAG mandate? student accommodations the artifacts must support?) — and note that
    any HITL web pages the plugin generates are themselves a UI that must be operable

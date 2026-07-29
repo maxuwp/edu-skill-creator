@@ -16,10 +16,16 @@ do not restate the rules (L7 — a second map would drift from this one).
 | L8 | Resumable checklists; verify-then-commit; falsifiable lints | edu-skill-creator-architecture; edu-skill-creator-release | [`lessons/L08_resumable_falsifiable.md`](lessons/L08_resumable_falsifiable.md) |
 | L9 | Refresh + reflect loops | edu-skill-creator-architecture defaults | [`lessons/L09_refresh_reflect.md`](lessons/L09_refresh_reflect.md) |
 | L10 | Content-type-aware templates; precision blocks atomic end-to-end | edu-skill-creator-architecture registry; rubric critical flag 10; edu-skill-creator-test scenario 11 | [`lessons/L10_content_types.md`](lessons/L10_content_types.md) |
-| L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 11; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 | [`lessons/L11_computed_validators.md`](lessons/L11_computed_validators.md) |
+| L11 | Computed fail-closed validators; one implementation, two callers; approve illegal without them | edu-skill-creator-architecture item 12; rubric critical flag 11; edu-skill-creator-test scenarios 12–13 | [`lessons/L11_computed_validators.md`](lessons/L11_computed_validators.md) |
 | L12 | Contract versioning + targeted amendment re-entry for live sessions | edu-skill-creator-architecture item 5; edu-skill-creator-test scenario 13 | [`lessons/L12_contract_versioning.md`](lessons/L12_contract_versioning.md) |
 | L13 | Prose never teaches what validators refuse; sweep the class in one pass; delete superseded instructions rather than annotate them | edu-skill-creator-release step 2; rubric critical flag 12; edu-skill-creator-test scenario 15; release_lint check 11 (this column) | [`lessons/L13_sweep_the_class.md`](lessons/L13_sweep_the_class.md) |
+| L14 | Check at the layer the claim is about; a proxy needs a justified, tested mapping | edu-skill-creator-grounding step 2; rubric critical flag 13 | [`lessons/L14_observable_layer.md`](lessons/L14_observable_layer.md) |
+| L15 | Explicit user decisions are authoritative; only a later user decision supersedes them | edu-skill-creator-architecture item 6; rubric critical flag 14 | [`lessons/L15_user_decisions_binding.md`](lessons/L15_user_decisions_binding.md) |
+| L16 | Evidence burden scales with specificity, consequence and volatility; no laundering through a category tag | edu-skill-creator-draft rubric authoring; edu-skill-creator-test scenario 16 | [`lessons/L16_evidence_proportionality.md`](lessons/L16_evidence_proportionality.md) |
+| L17 | When the subject taught is a process, its structure is content | edu-skill-creator-intent item 8; edu-skill-creator-architecture item 6 | [`lessons/L17_process_structure_is_content.md`](lessons/L17_process_structure_is_content.md) |
+| L18 | Make the compliant path cheaper than the workaround; name the governed exit | edu-skill-creator-architecture item 6; edu-skill-creator-test scenario 17 | [`lessons/L18_compliant_recovery_paths.md`](lessons/L18_compliant_recovery_paths.md) |
 
 *Provenance: POSED CHANGELOG posed_skill.1.4–1.14 (L1–L9), 1.24–1.25 (L10), 1.26–1.30.1 (L11–L12),
-1.64–1.66 (L13); p2d_skill.1.4–1.6. Detailed evidence lives in the per-lesson files, never duplicated
+1.64–1.66 (L13); 1.31–1.63 and the oral-register investigation (L14–L18, gated 2026-07-28 in
+reflect_gate_decision.json); p2d_skill.1.4–1.6. Detailed evidence lives in the per-lesson files, never duplicated
 into stage bodies.*

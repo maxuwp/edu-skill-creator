@@ -3,6 +3,43 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.11 — 2026-07-28
+
+The doctrine release. Gate rows f2–f7, f9(partial), f19–f22, f24–f27, f31 as decided in
+`reflect_gate_decision.json`. Ledger goes from thirteen lessons to eighteen.
+
+- **Five new lessons.** **L14** check at the layer the claim is about (five observed instances;
+  a correctly grounded oral rubric passed a script that was not speech, because neither anchor
+  reached the lexico-grammatical layer). **L15** explicit user decisions are authoritative
+  constraints. **L16** evidence burden scales with specificity, consequence and volatility, and no
+  precision claim is laundered through a category tag. **L17** when the subject taught is a process,
+  its structure is content. **L18** make the compliant path cheaper than the workaround.
+- **L18 was the conditional row (f4)** and its grounding investigation resolved positively:
+  Beautement, Sasse & Wonham (2008) *The Compliance Budget* (NSPW), with Saltzer & Schroeder's
+  psychological acceptability. The scope limit is stated in the lesson per L1's corollary — both are
+  validated for human users, and the extension to agent behaviour is analogical, carried by the
+  observed incidents rather than by the frameworks.
+- **Nine folds** into L1 (corpus provenance), L4 (never derive identity from position), L6 (a silent
+  substitution is an unconsented change), L7 (registry completeness), L9 (world-dependent examples
+  decay), L10 (anti-tell rules checked against the genre; declared language of instruction) and L11
+  (verification reports are self-interested; operational criteria; motivating artifact in the
+  acceptance suite; independent threshold re-derivation; measure your own exemplars; detectors need
+  a domain model of legitimate variation).
+- **`reference/implementation_patterns.md` created (f31)**, in this same release, carrying the four
+  mechanisms the lessons no longer mandate — hash-bound decision ledger, locked process graph,
+  server-stamped decisions, rendered-surface probes — each with the capability it satisfies, the
+  product type it suits, portability, a simpler fallback, and where it was actually run. Shipping it
+  later would have made the relocation a deletion.
+- **Enforcement added, not merely claimed**: rubric critical flags 13–14, grounding step 2 (the
+  layer question), architecture item 6, intent item 8, test scenarios 16–17.
+- **Two defects caught in this build.** Inserting numbered items duplicated `3.` in grounding and
+  `7.` in architecture, and shifted the computed-validation plan from item 11 to 12, silently
+  invalidating L11's enforcement claim. Renumbered, claim corrected. Lint check 11 also silently
+  ignored `grounding step`/`intent item`/`draft step` claims because those patterns were not in its
+  target table; extended and proven with a seeded `grounding step 99`.
+- The L14–L23 proposal document is marked SUPERSEDED with an explicit mapping, since its numbering
+  does not match the shipped lessons (L13: mark historical, never leave a superseded instruction live).
+
 ## edu_skill_creator.1.10 — 2026-07-28
 
 Gate row `f1` only: the lessons ledger becomes an always-read card plus detail files. No doctrine

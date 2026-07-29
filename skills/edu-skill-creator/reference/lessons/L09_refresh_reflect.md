@@ -15,3 +15,9 @@ plugin.
 **Edu Skill Creator enforcement.** `edu-skill-creator-architecture` includes refresh + reflect stages in every
 educational plugin's design by default (the educator can decline — see L2); Edu Skill Creator itself
 ships `edu-skill-creator-refresh` and `edu-skill-creator-reflect`.
+
+**Corollary added 1.11 (row f6) — world-dependent examples decay.** A teaching example or live demo
+that depends on a real-world system's current behaviour is framed as a dated story, never in eternal
+present tense, and a named owner re-verifies it in the current environment before each live use, with
+a documented fallback. This is a different trigger from the periodic refresh above: a different actor,
+at time of use, rather than the plugin's own knowledge on a schedule.

@@ -30,3 +30,11 @@ artifacts carry; `edu-skill-creator-architecture` requires a content-type regist
 artifact-producing stages; rubric critical flag 10 blocks one-size templates and
 trimmable precision content; `edu-skill-creator-test` pressure scenario 11 seeds
 precision blocks and checks their fidelity through the full pipeline.
+
+**Corollaries added 1.11 (rows f22, f27).** *Anti-tell rules are checked against the target genre.*
+A rule that suppresses synthetic-sounding output can suppress the target register: attested lecture
+speech is formulaic, so a ban on shared sentence templates contradicted the genre it served. Check
+corpus evidence for the genre before shipping such a rule. *Declare one language of instruction.*
+Sources may be multilingual; student-facing text is monolingual in the declared language. Source-
+language labels leaked into an English pack from grounding material, a failure the source itself
+generalizes to any multilingual-source pipeline.

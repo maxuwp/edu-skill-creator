@@ -40,3 +40,35 @@ L3's fresh-context reviewer catches *judgment* defects; it does not establish
   server-side (`submitted_via`, content-derived `decision_id`); a hand-written decision
   file is the named anti-pattern — the pilot had a gate "accepted by agent action," and
   no prose rule caught it until the stamp check existed.
+
+**Corollaries added 1.11 (rows f3, f19, f20, f26, and f6's threshold clause).**
+
+*A verification report is self-interested evidence.* It counts only when its provenance, target
+binding, freshness and reproducibility are established — a citation to a passing report is not
+evidence unless it re-runs to the same verdict, and stale versus forged is indistinguishable, so both
+block. A status that reduces scrutiny is assigned by the verifier, never asserted by the producer.
+Observed: a completion claim resting on fifteen hand-written gate decisions, fourteen sharing a
+microsecond-identical timestamp; a 128-byte forged report cited by an AI reviewer's approval while the
+real validator failed seven criticals; a delta re-gate invoked with an empty changed-list approving an
+artifact nobody viewed; an independence flag emitted as the string "false", truthy in every naive
+check, so gate flags are validated by type.
+
+*Criteria carry operational definitions.* Every criterion ships a stated observable that would fail it
+and at least one worked failing example. A criterion naming a principle with no behavioural anchor
+cannot reject anything, whatever severity it is assigned.
+
+*The motivating artifact enters the acceptance suite.* A rubric or validator change that cannot fail
+the artifact that motivated it has not been implemented.
+
+*Thresholds are independently re-derived.* Any numeric threshold is reimplemented by a second
+implementer from the written definition, never from the code. Of eight markers so tested, three died;
+one had been inflated roughly threefold and already quoted in three documents. Where the literature
+supplies no threshold, prefer a presence check or a reported value shown to a human over an invented
+number — three invented targets have been withdrawn at cost.
+
+*Measure the exemplars you ship.* Run the skill's own instrument over the skill's own examples before
+release; it is cheap and it tests whether authored guidance produces the behaviour it describes.
+
+*Detectors need a domain model of legitimate variation.* Pure similarity either blocks deliberate
+variation or misses disguised reuse. A shared problem stem with a new target was legal pedagogy a naive
+exact-match gate would have blocked; ambiguous matches route to a human rather than failing closed.

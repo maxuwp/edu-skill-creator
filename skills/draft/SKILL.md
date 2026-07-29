@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-draft
 description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.10"
+version: "1.11"
 ---
 
 # Edu Skill Creator Stage 5: Draft
@@ -43,7 +43,9 @@ For every reviewer pairing in the architecture, write the rubric from the standa
 template: input allowlist · scored dimensions summing to 100 (state "100 points" so the
 lint verifies the sum) · threshold 85 · critical flags (include "stance violated" where a
 contested choice threads through — L2) · output JSON schema · iteration policy · one
-worked failure example. Ground every dimension in the plugin's grounding map. Two L11
+worked failure example, and state each criterion's evidence burden proportionate to the
+specificity, consequence and volatility of what it claims (L16). Ground every dimension in the
+plugin's grounding map. Two L11
 rules: (a) no softener language — phrases like "present *or clearly represented*" are how
 2 of 3 missing activities once passed review; state the checkable condition; (b) a rubric
 covers judgment only — every structural requirement goes to the architecture's computed

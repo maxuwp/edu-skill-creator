@@ -39,6 +39,11 @@ minor −1; floored at 0 within the dimension).
     precision content (definitions, equations, code, verbatim problem statements) is
     subject to trimming or paraphrase-to-fit at ANY pipeline stage (L10) — a humanized
     or shortened definition is a wrong definition.
+13. A criterion is verified at a proxy layer, or anchored to a framework that describes a
+    different observable layer than the criterion judges, with no justified and tested
+    proxy-to-target mapping (L14).
+14. A user's explicit decision can be altered, reclassified or dropped by a downstream stage
+    without a later decision from that same user (L15).
 11. A structural requirement (required rows/fields/tags, upstream-contract coverage,
     count bands) is enforced ONLY by prose or rubric language where a computed validator
     is feasible; or a validator/guard fails open (missing artifact, record, or contract
