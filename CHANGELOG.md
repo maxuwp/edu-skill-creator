@@ -3,6 +3,80 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.16 — 2026-07-30
+
+Second audit round: two fresh auditors were asked to refute 1.15 and to find what a *second*
+adversarial pass would find, on the assumption the easy holes were gone. They found 24 defects
+between them, including two that reopened the release's own headline claims.
+
+**Check 16 did not reject `..`; it rejected `..` next to a placeholder.** `<skill-dir>/../scaffold/…`
+was caught, plain `` `../scaffold/reference/validator_template.py` `` was not — 1.14's defect,
+reopenable by deleting eleven characters. Now any `..` that leaves the citing skill's own
+directory is an error, wherever it appears; `..` inside a skill (a lesson file reaching its own
+`reference/`) stays legal, because it resolves identically in both layouts.
+
+**"Every one falsifiable" was 58 of 59.** `probe()` never required a names_check, and `s_ok`
+produces five criticals from three guards, so one probe's exit-1 was over-determined: it stayed
+green with `require_record`'s finding deleted. `probe()` now refuses an exit-1 case that names no
+guard, and `issue=` narrows to the specific finding. The same audit showed `stamped`,
+`require_file` and `require_record` were claimed "actually exercised" while only `require_bool`
+had a probe that could fail; all four now have one.
+
+**Check 13's floor was self-reported.** 1.15 replaced "exit 0" with "exit 0 plus a verdict line
+plus a count" — all three printed by the suite under test, so `print("PASS 59/59 …")` satisfied
+the gate with the suite deleted. Check 13 now counts case call sites in the SOURCE, requires the
+reported number to equal them, rejects any case whose verdict is a literal `True`, and ends with
+a **canary**: it breaks check 3 in a copy and requires the suite to notice. The canary runs
+whether or not the suite passed. Recursion (lint → suite → lint) is bounded at one nested level
+by an explicit depth counter, and the suite gained `--only` so the canary costs one case.
+
+**Check 9 floored an enumerable population at "non-empty".** Deleting one skill's review left the
+lint clean. Reviews are now derived from `skills/*/SKILL.md` — every skill needs
+`reviews/<name>_review.json` by name.
+
+**Four surfaces cited "architecture item 11" for the computed-validation plan; a 1.11 renumber
+moved it to 12.** Item 11 exists (lifecycle stages), so nothing fired, and the wrong number was
+baked into the validator template every generated plugin inherits. Corrected, and check 11 now
+resolves numbered claims in *every* skill body and script, not only in lesson-index rows — the
+audited surface was the one that stayed right.
+
+**`draft/SKILL.md` taught the wrong invariant for check 4**, telling authors to write the phrase
+"100 points" so the lint verifies the sum. 1.15 had made the check key on PATH precisely because
+the phrase was disarmable. Corrected, and a scored rubric (points table plus critical flags)
+sitting outside `skills/*/reference/*rubric*.md` is now an error rather than an invisible pass.
+
+**The validator template — copied into every generated plugin — could still emit `passed: true`
+seven ways.** `checked(check, target)` took the check name as a free string, so one check could
+vouch for a check that never ran; a duplicated or `lambda` entry in `CHECKS` had the same effect.
+The runner now binds the running check itself: `checked(target)` takes no name, `crit()`/`warn()`
+take no name, the helpers take no name, and duplicate or anonymous entries exit 2. The require_*
+helpers record evidence themselves, so a check built from them proves it ran without extra
+ceremony. The one shape no runner can catch — a check that examines something and then swallows
+its own exception — is now stated as a limit rather than implied away; the per-check negative
+fixture is what stands behind it.
+
+**The fixture harness the template prescribes had four defects**, all in the code downstream
+authors copy: `V` was never bound (`NameError` on first run); reports were written into the
+fixtures being read; `SAMPLES_PRESENT` promised an enforcement that existed nowhere; and the
+runner audited `CHECKS → fixture` but never `fixture → CHECKS`, so a check that was written and
+even fixtured but never registered shipped silently unenforced. All four fixed, the last by
+mirroring check 12's registry fold into the template.
+
+**Also:** check 16 now scans the whole repo rather than `skills/` only (tests/ excluded — its
+fixture strings are deliberately broken citations), covers eleven more file extensions, and takes
+its generated-artifact exemptions as exact tokens rather than prefixes, which had exempted
+everything under `reviews/`. `MAINTAINING.md` and the lint docstring described check 9 by the
+glob 1.15 abandoned. `test/SKILL.md` claimed the suite had 18 cases. An empty `expect_tag` was
+accepted, and `"" in out` is always true.
+
+**Lessons.** L11's degenerate-population table gains four rows and three rules (declare the
+population; enumerate it where it is enumerable; never let the subject report on itself). L13
+gains the sweep-where-the-audit-does-not-reach fold. L14 gains the harness-reads-its-own-subject
+fold.
+
+Verification: `release_lint: 0 error(s), 0 warning(s)` in both modes; `PASS 78/78 deterministic
+checks`; 73 path citations resolved from the citing file.
+
 ## edu_skill_creator.1.15 — 2026-07-30
 
 Two independent auditors, given no prior context, were asked to refute 1.14's claims and to hunt

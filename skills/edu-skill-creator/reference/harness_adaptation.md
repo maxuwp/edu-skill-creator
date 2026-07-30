@@ -8,6 +8,7 @@ SKILL bodies in this plugin are tool-agnostic. This file (whitelisted in
 | `<edu-skill-creator-skill-dir>` | `~/.claude/skills/edu-skill-creator` | `~/.codex/skills/edu-skill-creator` | `skills/edu-skill-creator` |
 | `<edu-skill-creator-skill-dir:NAME>` | `~/.claude/skills/edu-skill-creator-NAME` | `~/.codex/skills/edu-skill-creator-NAME` | `skills/NAME` |
 | `<skills-dir>` | `~/.claude/skills` | `~/.codex/skills` | `skills/` |
+| `<repo>/…`, or a bare `scripts/…`, `tests/…`, `docs/…`, `reviews/…`, `skills/…` | the repository being worked in | same | same |
 | "a fresh subagent session" | a subagent via the Agent/Task tool | a fresh `codex` session or delegated agent | — |
 | "ask the user with a structured question" | AskUserQuestion tool | numbered options in chat; wait for the reply | — |
 

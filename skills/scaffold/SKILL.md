@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-scaffold
 description: Edu Skill Creator Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the edu-skill-creator umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
-version: "1.15"
+version: "1.16"
 ---
 
 # Edu Skill Creator Stage 4: Scaffold
@@ -45,7 +45,7 @@ session reads it instead of re-asking (L8).
 │   └── hitl_protocol.md            # gate rules incl. never-accept-on-behalf (L5)
 ├── skills/<sub>/SKILL.md           # one stub per stage (frontmatter + spec pointer)
 ├── skills/<x>/scripts/validate_<artifact>.py  # ONE per artifact in the architecture's
-│                                   #   item-11 computed-validation plan (see below)
+│                                   #   architecture item 12 computed-validation plan
 ├── tests/fixtures/<artifact>_pass/ # expected exit 0 — minimal compliant session
 ├── tests/fixtures/<artifact>_fail_<check>/  # ONE per check, expected exit 1, report
 │                                   #   must name that check (one shared negative
@@ -67,7 +67,7 @@ status-file machinery intact regardless.
 
 ## Validator scaffolding (L11)
 
-For every artifact in the approved architecture's item-11 computed-validation plan,
+For every artifact in the approved architecture item 12 computed-validation plan,
 instantiate `<edu-skill-creator-skill-dir:scaffold>/reference/validator_template.py`
 as `skills/<x>/scripts/validate_<artifact>.py`: replace ARTIFACT, set
 `CONTRACT_VERSION`, and turn the plan's structural requirements into the CHECKS list

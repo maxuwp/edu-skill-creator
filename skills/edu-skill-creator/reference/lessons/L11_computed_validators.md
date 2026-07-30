@@ -85,12 +85,26 @@ found in this repo's own lint by an adversarial pass, all silent, all reporting 
 | glob with no floor | `for p in glob("reviews/*_review.json")` — empty directory, or a rename, iterates zero times |
 | subprocess trusted by exit code | a zero-byte test suite exits 0 |
 | degenerate check set | a validator whose `CHECKS` list is empty writes `passed: true` |
+| self-reported population | the fix for the zero-byte suite demanded a verdict line and a case count — both printed by the subprocess under test, so `print("PASS 59/59 …")` satisfied it |
+| enumerable population floored at "non-empty" | `reviews/` was required to be non-empty, so deleting ONE skill's review left the lint clean; the population was listable all along |
+| unaudited copies of an audited claim | numbered enforcement claims were resolved in the lesson index only, so four SKILL bodies kept citing "architecture item 11" after a renumber moved it to 12 — and item 11 exists, so nothing fired |
+| self-reported identity | a validator's `checked(name, target)` took the name as a free string, letting one check vouch for a check that never ran |
 
-The rule that closes all five: **every check declares its population and refuses a degenerate
-one.** A glob asserts a floor; a subprocess must emit its own verdict line and case count; a
-validator with no checks exits 2; a check that finishes with neither recorded evidence nor a
-finding is reported as NOT RUN rather than as a pass. Identify a subject by PATH or registry,
-never by a phrase in the text being judged — otherwise the thing under test controls whether
-it is tested.
+Three rules close all of them.
+
+**Every check declares its population and refuses a degenerate one.** A glob asserts a floor;
+a validator with no checks exits 2; a check that finishes with neither recorded evidence nor a
+finding is reported as NOT RUN rather than as a pass.
+
+**Where the population is enumerable, enumerate it.** A floor is what you use when you cannot
+list the members. Reviews can be listed from the skills that need them, so "at least one review
+exists" was never the right test; every skill needs its own file, by name.
+
+**Never let the subject report on itself.** Identify a subject by path or registry, not by a
+phrase in the text being judged. Count a suite's cases in its source, not in its stdout. Bind a
+check's identity in the runner, not in a string the check passes. Each of these was written the
+convenient way first, and each was silenced by a one-line edit to the thing under test. The
+strongest form is a canary: break a guard in a copy and require the harness to notice —
+detection tested at the layer of detection, not at the layer of its output.
 
 *Enforcement status: the self-interested-report corollary is covered by test scenario 13. Threshold re-derivation, exemplar self-measurement and domain-model-aware detectors are guidance only — no dedicated check yet, recorded rather than implied (L13).*

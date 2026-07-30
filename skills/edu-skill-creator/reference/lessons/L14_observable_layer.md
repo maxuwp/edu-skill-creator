@@ -41,6 +41,16 @@ was a parameterized placeholder (`<edu-skill-creator-skill-dir:NAME>`) that maps
 all three layouts, plus lint check 16, which rejects `..` traversal outright rather than
 resolving it.
 
+**Second fold, 1.16 — a harness that reads its subject's own report is at the wrong layer.**
+Check 13 exists to prove the regression suite still fires. Its first cut trusted the suite's exit
+code, which a zero-byte file satisfies. Its second demanded the suite's verdict line and case
+count — both printed by the suite itself, so a one-line `print("PASS 59/59 …")` passed the gate
+with the suite deleted. Both cuts read the subject's self-description because that is the cheap
+observable. The claim ("this suite still detects broken guards") lives at the layer of detection,
+and the only test at that layer is to break a guard and require the suite to notice. That is now
+what check 13 does, and it runs whether or not the suite passed: independent evidence that
+short-circuits on a failing subject is evidence you only collect when you already believe it.
+
 **Diagnostic value.** The first diagnosis in the oral case was "the rubric is ungrounded," and
 checking the file disproved it. The true diagnosis — grounded in frameworks that do not reach the
 layer — is both more accurate and harder to find, which is why the grounding stage should ask the

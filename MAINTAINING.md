@@ -32,7 +32,8 @@ than no lint).
 - **Uniform skill versioning:** every `skills/*/SKILL.md` frontmatter `version` equals
   the plugin's major.minor and is bumped together on release (lint check 8 enforces
   it). Per-skill change history lives in CHANGELOG, not in the frontmatter.
-- Review evidence is mechanical: every `reviews/*_review.json` finding needs
+- Review evidence is mechanical: every skill has a `reviews/<skill-name>_review.json`,
+  and every finding in every review JSON needs
   `status: fixed|accepted`, a non-empty `resolution`, and a file-level
   `resolution_pass` block (lint check 9 enforces it).
 - After the publish gate, run `python3 scripts/release_lint.py --publish` — in this
@@ -52,4 +53,4 @@ See the script docstring.
 ## Sibling repos
 
 POSED (github.com/maxuwp/posed) and p2d (github.com/maxuwp/p2d) are the plugins whose
-development produced Edu Skill Creator's lesson ledger (`reference/lesson_index.md` + `reference/lessons/`); their pilots feed `edu-skill-creator-reflect`.
+development produced Edu Skill Creator's lesson ledger (`skills/edu-skill-creator/reference/lesson_index.md` + its `lessons/` directory); their pilots feed `edu-skill-creator-reflect`.

@@ -2,6 +2,14 @@
 
 ## L13 — Instructions must not teach what the validators refuse; sweep the class, never the cited line
 
+**Fold added 1.16 — sweep where the audit does not reach.** A numbered claim ("architecture
+item 11", "rubric critical flag 13") was mechanically resolved in one file, the lesson index.
+That file stayed correct across four releases while four SKILL bodies citing the same item
+drifted after a renumber, and because item 11 still exists (it is now lifecycle stages), no
+check fired and the wrong number was baked into every generated plugin. The asymmetry is the
+diagnosis: the audited surface is the one that stays right. Resolve a claim wherever it is
+written, not only where it is convenient to parse.
+
 **Rule.** The moment a skill ships both prose and enforcement, the prose acquires a new
 failure mode: teaching a path the code rejects. Whenever a rule changes, or a validator's
 real behaviour is discovered, **sweep every instructional surface for that rule and fix

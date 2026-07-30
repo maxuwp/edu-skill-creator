@@ -43,7 +43,7 @@ expects. Adding a check without one is adding a green light, not a guard (L8).
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
-import hashlib, json, pathlib, re, subprocess, sys
+import hashlib, json, os, pathlib, re, subprocess, sys
 
 PUBLISH = "--publish" in sys.argv[1:]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -51,7 +51,12 @@ errors, warnings = [], []
 
 # Floor for check 13. Raise it when the suite grows; lowering it is a deliberate act that
 # must be argued in the changelog, never a side effect of deleting cases.
-MIN_SUITE_CHECKS = 59
+MIN_SUITE_CHECKS = 78
+
+# Nesting depth. The suite raises it when IT spawns a lint; the lint passes it through and
+# refuses check 13 at depth 2. Without a bound, lint -> suite -> lint -> suite never ends;
+# with it, the chain terminates after one nested level and every level is still real.
+_DEPTH = int(os.environ.get("ESC_LINT_DEPTH", "0"))
 
 # 1. Hardcoded harness paths in shared skill bodies
 WHITELIST = {"harness_adaptation.md", "dual_harness_playbook.md"}
@@ -113,6 +118,18 @@ for p in (ROOT / "skills").glob("*/reference/*rubric*.md"):
                       f"rubric is unchecked, not exempt; keep the table or heading shape")
     elif sum(pts) != 100:
         errors.append(f"[rubric] {p.name}: dimensions sum to {sum(pts)}, expected 100")
+#    Since the check now trusts a filename, the filename must be enforced: a scored rubric
+#    written as reviewer_criteria.md, or parked outside reference/, would carry unverified
+#    arithmetic while its author believed the lint covered it.
+_rubrics = set((ROOT / "skills").glob("*/reference/*rubric*.md"))
+for p in (ROOT / "skills").rglob("*.md"):
+    if p in _rubrics:
+        continue
+    text = p.read_text(errors="ignore")
+    if "critical flag" in text and re.search(r"^\|\s*\d+\s*\|[^|]+\|\s*\d+\s*\|", text, re.M):
+        errors.append(f"[rubric] {p.relative_to(ROOT)} looks like a scored rubric (points "
+                      f"table + critical flags) but sits outside skills/*/reference/*rubric*.md, "
+                      f"so check 4 never sees it — rename it into the convention")
 
 # 5. Changelog covers the current plugin version (heading required — a
 #    teaser mention like '*next → edu_skill_creator.1.1*' does not count)
@@ -192,6 +209,16 @@ _revs = sorted((ROOT / "reviews").glob("*.json"))
 if not _revs:
     errors.append("[review] reviews/ holds no review JSON — a release with no review evidence "
                   "is unreviewed, not exempt")
+#    The population is ENUMERABLE, so enumerate it. A "non-empty" floor still let any single
+#    skill ship unreviewed: deleting one review file left the lint clean. L3 says every
+#    content stage has an independent reviewer; this is where that becomes evidence.
+for _sk in sorted((ROOT / "skills").glob("*/SKILL.md")):
+    _m = re.search(r"^name:\s*(\S+)\s*$", "\n".join(_sk.read_text().splitlines()[:12]), re.M)
+    if not _m:
+        continue   # check 8 owns malformed frontmatter
+    if not (ROOT / "reviews" / f"{_m.group(1)}_review.json").exists():
+        errors.append(f"[review] no reviews/{_m.group(1)}_review.json for "
+                      f"{_sk.relative_to(ROOT)} — an unreviewed skill, not an exempt one")
 for p in _revs:
     try:
         data = json.loads(p.read_text())
@@ -251,7 +278,16 @@ else:
     for _lid, _claim, _path in _rows:  # f1: dangling lesson detail files
         if not (LL.parent / _path).exists():
             errors.append(f"[ledger] {_lid} points at {_path}, which does not exist")
-    for lesson, claim in [(a, b) for a, b, _ in _rows]:
+    #  Claims resolve EVERYWHERE they are written, not only in index rows. Restricting the
+    #  resolver to lesson_index.md kept the one audited surface correct while unaudited ones
+    #  drifted: four places cited "architecture item 11" for the computed-validation plan
+    #  after a 1.11 renumber moved it to 12 - and item 11 exists (lifecycle stages), so
+    #  nothing fired and the wrong number reached every generated plugin.
+    _claim_sources = [("lesson_index.md " + a, b) for a, b, _ in _rows]
+    _claim_sources += [(str(f.relative_to(ROOT)), f.read_text(errors="ignore"))
+                       for f in sorted(list((ROOT / "skills").rglob("*.md")) +
+                                       list((ROOT / "skills").rglob("*.py")))]
+    for lesson, claim in _claim_sources:
         for label, (where, present) in targets.items():
             for m in re.finditer(label.replace(" ", r"\s") + r"s?\s+(\d+)(?:\s*[\u2013-]\s*(\d+))?", claim):
                 for n in [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else []):
@@ -284,23 +320,67 @@ _suite = ROOT / "tests" / "run_deterministic.py"
 if not _suite.exists():
     errors.append("[tests] tests/run_deterministic.py is missing — the regression suite is the "
                   "only thing proving the other checks still fire; a vanished suite is a failure")
+elif "--skip-suite" not in sys.argv[1:] and _DEPTH >= 2:
+    # Re-entrancy guard. The suite's own check-13 cases run this lint without --skip-suite,
+    # which would run the suite again, which would run the lint again. Bounded at one level:
+    # a nested lint states that it skipped, so the skip is visible rather than silent, and
+    # the TOP-level invocation — the one that gates a release — always runs it.
+    warnings.append(f"[tests] check 13 skipped: nested lint (ESC_LINT_DEPTH={_DEPTH})")
 elif "--skip-suite" not in sys.argv[1:]:
-    _r = subprocess.run([sys.executable, str(_suite)], capture_output=True, text=True)
+    _env = {**os.environ, "ESC_LINT_DEPTH": str(_DEPTH)}
+    _r = subprocess.run([sys.executable, str(_suite)], capture_output=True, text=True, env=_env)
     if _r.returncode != 0:
         _fails = [l.strip() for l in _r.stdout.splitlines() if l.strip().startswith("FAIL")]
         errors.append(f"[tests] deterministic suite failed: {'; '.join(_fails) or 'see output'}")
     else:
-        # exit 0 alone was satisfiable by a zero-byte file. Demand the suite's own verdict
-        # line and a floor on the case count: a suite that runs nothing proves nothing.
+        # exit 0 alone was satisfiable by a zero-byte file. The next cut demanded a verdict
+        # line and a count — both printed by the subprocess under test, so a one-line
+        # `print("PASS 59/59 …")` satisfied it (L14: that is verification at a proxy layer).
+        # So: count the cases in the SOURCE, require the reported number to equal them, and
+        # finish with a canary that proves the suite still detects a broken guard.
+        _src = _suite.read_text()
+        _sites = len(re.findall(r"^(?:seeded|probe|record)\(", _src, re.M))
+        _const = re.findall(r"^record\([^\n]*?,\s*True\s*[,)]", _src, re.M)
         _m = re.search(r"^PASS\s+(\d+)/(\d+)\s+deterministic checks", _r.stdout, re.M)
         if not _m:
             errors.append("[tests] deterministic suite exited 0 without its 'PASS n/n "
                           "deterministic checks' verdict line — a silent suite is not a "
                           "passing suite")
-        elif int(_m.group(2)) < MIN_SUITE_CHECKS:
-            errors.append(f"[tests] deterministic suite reports {_m.group(2)} cases, "
-                          f"below the floor of {MIN_SUITE_CHECKS} — cases were removed, "
-                          f"not fixed; raise the floor deliberately when the suite shrinks")
+        elif _sites < MIN_SUITE_CHECKS:
+            errors.append(f"[tests] the suite SOURCE contains {_sites} case call sites, "
+                          f"below the floor of {MIN_SUITE_CHECKS} — cases were removed, not "
+                          f"fixed; raise the floor deliberately when the suite shrinks")
+        elif int(_m.group(2)) != _sites:
+            errors.append(f"[tests] the suite reports {_m.group(2)} cases but its source has "
+                          f"{_sites} call sites — the verdict line is not describing this file")
+        if _const:
+            errors.append(f"[tests] {len(_const)} case(s) assert a literal True "
+                          f"({_const[0].strip()[:60]}…) — a case with a constant verdict "
+                          f"cannot fail and still occupies a slot in the count")
+    # canary: break one guard in a copy and require the suite to notice. This is the only
+    # check here made at the right layer — it tests the suite's detection, not its output.
+    # It runs whether or not the suite passed: independent evidence that short-circuits on a
+    # failing suite is evidence you only get when you already believe the answer.
+    if True:
+        import shutil, tempfile
+        with tempfile.TemporaryDirectory() as _td:
+            _c = pathlib.Path(_td) / "canary"
+            shutil.copytree(ROOT, _c, ignore=shutil.ignore_patterns(".git"))
+            _lp = _c / "scripts" / "release_lint.py"
+            _lt = _lp.read_text()
+            if 'DEPRECATED = ("maxuwp/page",)' not in _lt:
+                errors.append("[tests] canary anchor 'DEPRECATED = (\"maxuwp/page\",)' is gone — "
+                              "the canary cannot run, so the suite is unproven")
+            else:
+                _lp.write_text(_lt.replace('DEPRECATED = ("maxuwp/page",)', "DEPRECATED = ()", 1))
+                _cr = subprocess.run([sys.executable, str(_c / "tests/run_deterministic.py"),
+                                      "--only", "c3 deprecated URL"],
+                                     capture_output=True, text=True, env=_env)
+                if _cr.returncode == 0 or "c3 deprecated URL" not in "".join(
+                        l for l in _cr.stdout.splitlines() if l.strip().startswith("FAIL")):
+                    errors.append("[tests] canary: check 3 was disabled and the suite still "
+                                  "passed (or failed elsewhere) — the suite is not detecting "
+                                  "broken guards, whatever its verdict line says")
 
 # 14. Approved artifacts have not drifted since their gate decision. A decision that
 #     names its artifact by version string cannot notice the artifact changing; this
@@ -412,45 +492,70 @@ for _rf in sorted(set(_review_files)):
 #     placeholder table. Two failure shapes this closes, both shipped:
 #       - a relative `<skill-dir>/../scaffold/…`, which resolves in a git checkout and
 #         dangles in the installed harness, where the sibling is `edu-skill-creator-scaffold`;
-#       - a bare `reference/x.md` written in a file whose own directory has no such file,
-#         which check 6 forgave because it silently retried against the umbrella.
+#       - a bare reference/<name>.md written in a file whose own directory has no such file,
+#         which check 6 forgave because it silently retried against the umbrella dir.
 #     Paths a generated plugin or a build session creates are declared, not guessed.
-GENERATED = ("reviews/", "tests/results.md", "tests/loop_log.md", "tests/fixtures/",
-             "docs/refresh_ledger_", "skills/<x>", "session/", "BUILD_PLAN")
+#     Exact tokens, never prefixes: a `reviews/` prefix exempted every path under it, so
+#     a nonexistent file under reviews/ was silently forgiven. Each entry below is a file a
+#     BUILD SESSION creates and this repo therefore cannot contain.
+GENERATED = {"reviews/architecture_review.json", "reviews/grounding_map_review.json",
+             "tests/results.md", "tests/loop_log.md"}
 FOREIGN = ("skills/posed/",)          # POSED's repo, cited with its URL alongside
+#     A repo-root-relative citation means the repository being worked in (this one while
+#     maintaining Edu Skill Creator; the generated plugin's while building one — the layouts
+#     are identical because scaffold generates this shape). Declared, not inferred from
+#     whatever directories happen to exist.
+REPO_DIRS = {"scripts", "tests", "docs", "reviews", "skills"}
 #     SCOPE, stated so the check is not read as more than it is: only backticked tokens
 #     containing a '/' are path assertions and therefore resolvable. A bare `intent.md` is
-#     a name, not a location — those stay with check 6's heuristic.
-TEMPLATE = re.compile(r"<(?!edu-skill-creator-skill-dir|skills-dir)[^>]*>")
-CITE16 = re.compile(r"`([^`\s]*/[A-Za-z0-9_<>:.\-/]*\.(?:md|py|json|mjs))`")
+#     a name, not a location.
+TEMPLATE = re.compile(r"<(?!edu-skill-creator-skill-dir|skills-dir|repo)[^>]*>")
+CITE16 = re.compile(r"`([^`\s]*/[A-Za-z0-9_<>:.\-/]*"
+                    r"\.(?:md|py|json|mjs|js|ts|sh|ya?ml|txt|html|css|toml|cfg))`")
 _cited = 0
-for p in sorted(list((ROOT / "skills").rglob("*.md")) + list((ROOT / "skills").rglob("*.py"))):
+#     tests/ is excluded: its fixture strings are deliberately broken citations, which is
+#     data under test, not documentation. Everything else in the repo is in scope.
+_scan = [p for p in ROOT.rglob("*")
+         if p.suffix in {".md", ".py"} and ".git" not in p.parts
+         and p.relative_to(ROOT).parts[0] != "tests"
+         and p.name != "CHANGELOG.md"]     # the changelog cites paths as they were, not as they are
+for p in sorted(_scan):
     rel_p = p.relative_to(ROOT)
+    _owner = ROOT / "skills" / rel_p.parts[1] if rel_p.parts[0] == "skills" else ROOT
     for m in CITE16.finditer(p.read_text(errors="ignore")):
         tok = m.group(1)
-        if TEMPLATE.search(tok) or tok.startswith(("http", "<skills-dir>")):
+        if TEMPLATE.search(tok) or tok.startswith(("http", "<skills-dir>")) or "*" in tok:
             continue
-        if tok.startswith(GENERATED) or tok.startswith(FOREIGN):
+        if tok in GENERATED or tok.startswith(FOREIGN):
             continue
         _cited += 1
-        if "<edu-skill-creator-skill-dir" in tok and "/../" in tok:
-            errors.append(f"[cite] {rel_p}: `{tok}` walks out of a skill directory with '..' — "
-                          f"the installed layout prefixes siblings, so this resolves only in a "
-                          f"checkout; use <edu-skill-creator-skill-dir:NAME>/…")
-            continue
         sub = re.match(r"<edu-skill-creator-skill-dir:([A-Za-z0-9_\-]+)>/(.*)", tok)
         if sub:
             target = ROOT / "skills" / sub.group(1) / sub.group(2)
         elif tok.startswith("<edu-skill-creator-skill-dir>/"):
             target = ROOT / "skills" / "edu-skill-creator" / tok.split("/", 1)[1]
-        elif tok.split("/", 1)[0] in {d.name for d in ROOT.iterdir() if d.is_dir()}:
-            target = ROOT / tok
+        elif tok.startswith("<repo>/") or tok.split("/", 1)[0] in REPO_DIRS:
+            target = ROOT / tok.replace("<repo>/", "", 1)
         else:
             target = p.parent / tok
+        if ".." in tok.split("/"):
+            # '..' is legal only while it stays inside the citing skill: crossing OUT of a
+            # skill directory resolves in a checkout (siblings are bare names) and dangles
+            # installed (siblings are prefixed). The first cut keyed on the placeholder being
+            # present, so a plain `../scaffold/…` reopened the defect in eleven characters.
+            try:
+                target.resolve().relative_to(_owner.resolve())
+            except ValueError:
+                errors.append(f"[cite] {rel_p}: `{tok}` traverses out of "
+                              f"{_owner.relative_to(ROOT) if _owner != ROOT else 'the repo'} "
+                              f"with '..' — the installed layout prefixes sibling skills, so "
+                              f"this resolves only in a checkout; use "
+                              f"<edu-skill-creator-skill-dir:NAME>/… or a repo-root path")
+                continue
         if not target.exists():
             errors.append(f"[cite] {rel_p}: `{tok}` does not resolve "
                           f"(tried {target.relative_to(ROOT) if ROOT in target.parents else target})")
-if _cited < 20:   # this repo cites far more than 20; a collapsed count means the extractor
+if _cited < 50:   # the real corpus is far larger; a collapsed count means the extractor
     errors.append(f"[cite] citation extractor matched only {_cited} path(s) — it has stopped "
                   f"seeing the corpus; a resolver with nothing to resolve proves nothing")
 
