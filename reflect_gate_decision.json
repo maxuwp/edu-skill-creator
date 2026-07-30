@@ -162,5 +162,11 @@
     }
   },
   "guidance": "All eight groups approved as recommended. f4 carries the conditional disposition only: it ships solely if a published anchor is found, otherwise it returns revised or is dropped. Implementation follows the release sequence — 1.10 is the progressive-disclosure restructure (f1) alone.",
-  "note": "Not a Stage 8 pilot harvest; see reflect_ledger.json harvest_type."
+  "note": "Not a Stage 8 pilot harvest; see reflect_ledger.json harvest_type.",
+  "artifact_binding": {
+    "artifact": "reflect_ledger.json",
+    "sha256": "8cd2d0fca7a8602ec5b5437df0b072731dea1706ee89031d2c0da5b86928388a",
+    "why": "A gate decision that names its artifact by a version STRING cannot detect the artifact changing underneath it. The sibling POSED audit's most serious finding was exactly this: three approved artifacts were edited after approval and nothing noticed for sixteen days, because hash-binding only detects drift when something asks. Release lint check 14 asks, on every push.",
+    "on_mismatch": "The ledger changed after the faculty decided on it. Re-gate the affected rows or record an amendment; do NOT silently re-stamp the hash."
+  }
 }

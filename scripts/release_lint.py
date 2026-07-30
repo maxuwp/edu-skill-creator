@@ -31,7 +31,7 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
-import json, pathlib, re, subprocess, sys
+import hashlib, json, pathlib, re, subprocess, sys
 
 PUBLISH = "--publish" in sys.argv[1:]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -232,6 +232,62 @@ elif "--skip-suite" not in sys.argv[1:]:
     if _r.returncode != 0:
         _fails = [l.strip() for l in _r.stdout.splitlines() if l.strip().startswith("FAIL")]
         errors.append(f"[tests] deterministic suite failed: {'; '.join(_fails) or 'see output'}")
+
+# 14. Approved artifacts have not drifted since their gate decision. A decision that
+#     names its artifact by version string cannot notice the artifact changing; this
+#     asks every push, instead of waiting for someone to ask.
+_gate = ROOT / "reflect_gate_decision.json"
+if _gate.exists():
+    try:
+        _g = json.loads(_gate.read_text())
+    except json.JSONDecodeError as e:
+        errors.append(f"[drift] reflect_gate_decision.json is unreadable ({e}) — fail closed")
+        _g = None
+    if _g is not None:
+        _b = _g.get("artifact_binding")
+        if not isinstance(_b, dict) or not _b.get("sha256"):
+            errors.append("[drift] reflect_gate_decision.json records no artifact_binding.sha256 — "
+                          "an approval that cannot detect drift in what it approved")
+        else:
+            _sub = ROOT / _b.get("artifact", "")
+            if not _sub.exists():
+                errors.append(f"[drift] gate decision binds {_b.get('artifact')!r}, which does not exist")
+            else:
+                _now = hashlib.sha256(_sub.read_bytes()).hexdigest()
+                if _now != _b["sha256"]:
+                    errors.append(f"[drift] {_b['artifact']} changed after its gate decision "
+                                  f"({_b['sha256'][:12]}… -> {_now[:12]}…). Re-gate the affected rows "
+                                  f"or record an amendment; do not silently re-stamp the hash.")
+
+# 15. Review coherence: a review may not recommend approval while its own evidence
+#     says otherwise. The sibling POSED audit's most cross-confirmed finding was a
+#     review recording total 81 against threshold 85, passed:false, and
+#     recommendation:approve simultaneously — the gate tested that a recommendation
+#     existed, never that it agreed with the record it signed.
+for _rf in sorted((ROOT / "reviews").glob("*.json")):
+    try:
+        _d = json.loads(_rf.read_text())
+    except json.JSONDecodeError:
+        continue  # check 9 already reports unreadable review files
+    _rec = _d.get("recommendation") or _d.get("gate_recommendation")
+    if _rec not in ("approve", "open-the-gate", "approve-with-acknowledged-majors"):
+        continue
+    _why = []
+    if _d.get("critical_flags"):
+        _why.append(f"{len(_d['critical_flags'])} critical flag(s)")
+    _blk = [f for f in _d.get("findings", []) if f.get("severity") == "blocking"]
+    if _blk:
+        _why.append(f"{len(_blk)} blocking finding(s)")
+    if _d.get("counts", {}).get("blocking"):
+        _why.append(f"counts.blocking={_d['counts']['blocking']}")
+    _sc, _th = _d.get("score"), _d.get("threshold")
+    if isinstance(_sc, (int, float)) and isinstance(_th, (int, float)) and _sc < _th:
+        _why.append(f"score {_sc} below threshold {_th}")
+    if _d.get("passed") is False:
+        _why.append("passed:false")
+    if _why:
+        errors.append(f"[coherence] {_rf.name} recommends {_rec!r} while its own record shows "
+                      f"{', '.join(_why)} — a recommendation must agree with the evidence it signs")
 
 for w in warnings: print("WARN ", w)
 for e in errors:   print("ERROR", e)

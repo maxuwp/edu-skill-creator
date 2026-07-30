@@ -3,6 +3,40 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.14 — 2026-07-30
+
+Audited this repo against the failure patterns from the sibling POSED project's live test run
+(`FINDINGS_posed_multi_model_review_2026-07-29`, `SELFTEST_posed_session_audit_2026-07-29`). Twelve
+generalizable patterns were extracted; four were present here.
+
+- **Reference not landing** (their A7). `skills/architecture/SKILL.md` cited
+  `reference/validator_template.py`, which does not resolve from that skill — the file is under
+  `scaffold/`. A cold agent following that pointer fails. Corrected to the placeholder-qualified path.
+  Nine other candidate paths were checked and are outputs a *generated* plugin creates, not defects.
+- **Post-approval drift was undetectable** (their A1, the most serious finding in their audit: three
+  approved artifacts were edited afterwards and nothing noticed for sixteen days). Our gate decision
+  named its artifact by the version *string* `"reflect_ledger.json rev 3.1"` with no hash, so the
+  ledger could change under an approval and nothing would ask. Now hash-bound, with **check 14**
+  asking on every push rather than waiting to be asked — which is the fix their audit recommends and
+  does not yet have.
+- **A gate that authenticates a signal, not the record it signs** (their most cross-confirmed
+  finding: a review recording `total 81`, `threshold 85`, `passed false` and `recommendation approve`
+  simultaneously). Nothing here cross-checked a recommendation against its own evidence. All twelve
+  of our reviews are in fact coherent — the hole was latent, not fired. **Check 15** now blocks any
+  review recommending approval while carrying critical flags, blocking findings, a sub-threshold
+  score, or `passed:false`.
+- **Vacuous green** (their pattern: a zero-finding run may mean the check never engaged). Six of
+  thirteen lint checks had no failing fixture — 4, 6, 7, 8, 13, 14 — so their clean results carried
+  no information. Fixtures added for all; check 6 asserts its warning text since it is warning-only,
+  and check 13 runs the suite so it cannot seed itself and is recorded as externally proven in 1.13
+  rather than silently skipped. Suite is now 25 checks. The c7 fixture initially passed for the wrong
+  reason (the temp copy has no git remote, so the check took its no-origin branch); it now creates a
+  real origin and mismatches against it.
+
+Also noted, not yet acted on: 26 ledger fields no script reads (their pattern 9, a self-assessment
+with no consumer), and derived counts propagating by citation rather than recomputation (their
+pattern 3). Both are recorded for the next harvest rather than half-fixed.
+
 ## edu_skill_creator.1.13 — 2026-07-28
 
 Ledger row `f14`: the one-off testers become a suite. The plugin prescribed fixture pairs and TDD for

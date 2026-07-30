@@ -55,7 +55,28 @@ def m_dangle(r):  p = r / "skills/edu-skill-creator/reference/lesson_index.md"; 
 def m_orphan(r):  shutil.copy(r / "skills/edu-skill-creator/reference/lessons/L01_grounding.md",
                               r / "skills/edu-skill-creator/reference/lessons/L99_orphan.md")
 
-for n, m in [("lint c1 hardcoded harness path", m_path), ("lint c2 manifest version mismatch", m_version),
+def m_rubric(r):  p = r / "skills/edu-skill-creator/reference/skill_quality_rubric.md"; p.write_text(p.read_text().replace("| 25 |", "| 40 |", 1))
+def m_url(r):
+    # the copy has no .git, so check 7 would take its no-origin WARNING branch and prove
+    # nothing. Give it a real origin, then mismatch the manifest against it.
+    for cmd in (["git", "init", "-q"], ["git", "remote", "add", "origin",
+                                        "https://github.com/maxuwp/edu-skill-creator.git"]):
+        subprocess.run(cmd, cwd=r, capture_output=True)
+    p = r / ".claude-plugin/plugin.json"; d = json.loads(p.read_text())
+    d["homepage"] = "https://github.com/maxuwp/WRONG"; p.write_text(json.dumps(d))
+def m_skillver(r):
+    # version-derived, never pinned: a fixture that hardcodes a release number breaks
+    # on the next bump and reports a false failure. This is the second time.
+    import re as _re
+    p = r / "skills/intent/SKILL.md"
+    p.write_text(_re.sub(r'^version: "[0-9.]+"$', 'version: "0.1"', p.read_text(), count=1, flags=_re.M))
+def m_drift(r):   p = r / "reflect_ledger.json"; p.write_text(p.read_text().replace('"prepared_by"', '"prepared_by_"', 1))
+def m_incoh(r):   p = r / "reviews/edu-skill-creator-draft_review.json"; d = json.loads(p.read_text()); d["critical_flags"] = ["seeded"]; p.write_text(json.dumps(d))
+
+for n, m in [("lint c4 rubric dimensions sum", m_rubric), ("lint c7 manifest URL vs origin", m_url),
+             ("lint c8 uniform skill version", m_skillver), ("lint c14 ledger drift after gate", m_drift),
+             ("lint c15 review recommends approve with a critical", m_incoh),
+             ("lint c1 hardcoded harness path", m_path), ("lint c2 manifest version mismatch", m_version),
              ("lint c3 deprecated URL (was dead code)", m_deprec), ("lint c5 changelog heading", m_chlog),
              ("lint c9 review without resolution_pass (was bypassable)", m_review),
              ("lint c11 unresolvable enforcement claim", m_claim),
@@ -96,6 +117,18 @@ record("lessons_learned.md is a stub, not cited as a ledger", len(stub.splitline
 bad = [p.relative_to(ROOT) for p in (ROOT / "skills").rglob("*.md")
        if "reference/lessons_learned.md" in p.read_text() and "pointer stub" not in p.read_text()]
 record("no skill cites the gutted ledger as a source", not bad, f"{[str(b) for b in bad]}")
+# check 6 is warning-only; assert the WARN appears rather than an exit code
+with tempfile.TemporaryDirectory() as _td:
+    _r = pathlib.Path(_td) / "r"; shutil.copytree(ROOT, _r, ignore=shutil.ignore_patterns(".git"))
+    _p = _r / "skills/test/SKILL.md"
+    _p.write_text(_p.read_text() + "\n\nSee `reference/does_not_exist.md`.\n")
+    _rc, _out = lint(_r)
+    record("lint c6 dangling reference emits a warning", "does_not_exist.md" in _out)
+
+# check 13 runs this suite, so it cannot seed itself here; proven manually in 1.13 by
+# disabling the check-3 guard and observing check 13 fail. Recorded, not silently skipped.
+record("lint c13 self-test noted as externally proven", True, "see CHANGELOG 1.13")
+
 record("every lesson file is indexed",
        all(f.name in idx for f in (ROOT / "skills/edu-skill-creator/reference/lessons").glob("*.md")))
 
