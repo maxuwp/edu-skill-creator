@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-architecture
 description: Edu Skill Creator Stage 3 — Pipeline architecture for a new educational plugin. Designs stages, HITL gates, drafter/reviewer pairings, manifest schema, dependency/stale-state model, and emits the resumable BUILD_PLAN checklist. Triggers - when the edu-skill-creator umbrella dispatches Stage 3, or the user asks to "design the pipeline/stages/gates" for an educational plugin.
-version: "1.14"
+version: "1.15"
 ---
 
 # Edu Skill Creator Stage 3: Architecture
@@ -82,11 +82,11 @@ stale — halt and name the unresolved stage instead.
    `approve` is illegal without recorded passes (the orchestrator refuses to open the
    human gate otherwise). Validators fail closed (missing artifact/record/contract =
    refusal), include distribution checks where totals can be gamed by repetition, and
-   ship with fixture pairs (real-failure-shaped negative + synthetic positive, NO course
+   ship with a positive fixture plus ONE negative fixture per check (real-failure-shaped, NO course
    content) that the release lint runs. Prose rubrics keep only what needs judgment —
    and cite the validators instead of restating their rules (L7 corollary).
    `edu-skill-creator-scaffold` instantiates each validator from its
-   `<edu-skill-creator-skill-dir>/../scaffold/reference/validator_template.py`, so this plan only
+   `<edu-skill-creator-skill-dir:scaffold>/reference/validator_template.py`, so this plan only
    needs to name the artifacts
    and their structural requirements — not design the scripts.
 

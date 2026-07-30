@@ -27,6 +27,20 @@ a whole renderer was built after nine pilot defects proved invisible at every ga
 moment the deck rendered, because review ran on markdown source while the faculty's real review unit
 was the slide as experienced.
 
+**Fold added 1.15 — the repo checkout is a proxy for the installed harness.** A citation was
+repaired to a skill-dir placeholder followed by "/../scaffold/reference/validator_template.py"
+(written unbackticked here so lint check 16 does not read a counterexample as a defect) and
+verified by resolving it on disk, where it resolved. It resolves only in a git checkout: the
+installed layout prefixes every sibling skill (`edu-skill-creator-scaffold`), so the same path
+dangles for the agent that actually follows it, which is the only reader that matters. The
+verification ran at the authoring layer while the claim lived at the deployment layer, and the
+two agree often enough to be trusted and differ exactly where the defect is. The general form:
+when a path, name, or identifier is resolved differently by the environment that runs it,
+verify against that environment's layout or make the citation layout-independent. Here the fix
+was a parameterized placeholder (`<edu-skill-creator-skill-dir:NAME>`) that maps correctly in
+all three layouts, plus lint check 16, which rejects `..` traversal outright rather than
+resolving it.
+
 **Diagnostic value.** The first diagnosis in the oral case was "the rubric is ungrounded," and
 checking the file disproved it. The true diagnosis — grounded in frameworks that do not reach the
 layer — is both more accurate and harder to find, which is why the grounding stage should ask the

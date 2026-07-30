@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-reflect
 description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson file plus its lesson_index.md row. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.14"
+version: "1.15"
 ---
 
 # Edu Skill Creator Stage 8: Reflect
@@ -57,7 +57,7 @@ across pilots:
 | cost | Small edit / new release / architecture change |
 
 **Scope discipline for lessons:** promote a finding to a new `reference/lessons/L<nn>_<slug>.md` file
-WITH its row added to `reference/lesson_index.md` (both, or the lesson is unreachable) only
+WITH its row added to `<edu-skill-creator-skill-dir>/reference/lesson_index.md` (both, or the lesson is unreachable) only
 if it would plausibly bite a *different* educational plugin; one-plugin quirks stay
 local. When promoting, follow the ledger format there (rule / failure that taught it /
 enforcement point) and link the enforcement into the relevant Edu Skill Creator skill in the same

@@ -3,6 +3,88 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.15 — 2026-07-30
+
+Two independent auditors, given no prior context, were asked to refute 1.14's claims and to hunt
+fail-open holes. Both found real defects, and both converged on the same root: **the suite asserted
+that the lint failed, never which guard fired.** Everything below follows from that.
+
+**Three of the twenty-five suite cases were vacuous.** `lint c13 self-test noted as externally
+proven` was the literal constant `True` — it could not fail, and it occupied a slot in the advertised
+count. The two check-11 cases (`index deleted`, `dangling lesson path`) passed for the wrong reason:
+each mutation also orphans lesson files, so **check 12** failed the lint and the fixtures went green;
+with check 11's guard deleted, both still passed. 1.14's headline was vacuous green, and it shipped
+three instances of it in the file it was editing.
+
+- `seeded()` now **requires** an `expect_tag` and asserts that exact error text. A case that cannot
+  name its guard cannot be written.
+- Fixtures are per BRANCH, not per check. Nine fail-closed branches had no fixture at all.
+- Check 13 is now genuinely tested, against stub suites (no recursion): missing, failing, zero-byte,
+  and shrunk below its case floor.
+- Suite: 25 → **59 cases**, every one falsifiable.
+
+**The 1.14 reference fix did not land.** `<edu-skill-creator-skill-dir>/../scaffold/…` resolves in a
+git checkout and dangles in the installed harness, where the sibling is `edu-skill-creator-scaffold`.
+It was verified at the authoring layer while the claim lived at the deployment layer — L14's own
+error, committed while writing L14's enforcement. Fixed with a parameterized placeholder
+`<edu-skill-creator-skill-dir:NAME>`, correct in all three layouts, and with **check 16**, which
+rejects `..` traversal outright and resolves all 52 path citations in the corpus from the citing
+file. Three further unresolvable citations the 1.14 sweep missed are corrected (`L12`,
+`reflect/SKILL.md`, the validator template's own header).
+
+**Eleven fail-open holes in the lint, all reproduced before fixing.** The pattern behind them: a
+check whose *population* can be emptied is as dead as a check whose input was deleted.
+
+- deleting one `version` key silenced checks 2, 5 and 8 at once → absent version is now an error
+- `reviews/` empty, or a review renamed off the `*_review.json` glob → every JSON in `reviews/` is a
+  review, and an empty directory is an error
+- a zero-byte `run_deterministic.py` satisfied check 13 → the suite must emit its own verdict line
+  and meet `MIN_SUITE_CHECKS`
+- deleting `reflect_gate_decision.json` defeated drift detection → missing gate record is an error
+- rewording "100 points" disarmed the rubric arithmetic → rubrics are identified by path; an
+  unparseable rubric is an error
+- a missing skill `version:` was a warning while a wrong one was an error → both are errors
+- manifests claiming no `homepage`/`repository` skipped the origin comparison → both manifests must
+  claim a home
+- the changelog heading was a substring test, satisfiable from inside a code fence → line-anchored,
+  fences stripped
+- check 12 counted a filename mentioned in an HTML comment as indexed → membership is tested against
+  check 11's parsed rows
+- check 15 matched only lowercase `"blocking"` and rejected string-typed numbers via `isinstance`, so
+  `severity: "Critical"`, `counts.critical`, and `score: "81"` all sailed through the check written
+  for them → every field is read by meaning; dimension scores must also sum to the reported total
+- check 6 warned instead of erroring and retried failed paths against the umbrella's `reference/`,
+  so a citation written from the wrong skill still "resolved" → retired into check 16
+
+**The validator template could report a pass it never earned.** This is the highest-blast-radius
+finding, because scaffold copies the template into every plugin this tool generates. An empty
+`CHECKS` list, or the three sample bodies left as comment sketches, produced `passed: true` on a
+session with no artifact at all — and `passed: true` plus a report path is what makes a reviewer's
+`approve` legal. Now: empty `CHECKS` exits 2; every check records what it examined via `checked()`,
+and one finishing with neither evidence nor a finding is reported as NOT RUN; the samples are
+runnable code against a documented toy schema rather than sketches; `require_record`, `require_bool`
+and `stamped` are actually exercised. The prescribed fixture contract changes from one pair per
+*validator* to **one negative per check** — a single "bad" fixture trips whichever check runs first
+and leaves the rest unproven forever — plus a positive control, without which a template hardwired to
+fail is indistinguishable from a correct one.
+
+**Enforcement claims are now checkable.** Check 11 verifies `release_lint check N` claims in the
+lesson index against the numbered checks in `release_lint.py`. The 1.11 ledger claimed enforcement by
+"release_lint check 11" when no such check existed, and that claim survived two independent review
+rounds; prose about code is exactly what code should check.
+
+**Lessons.** L8 gains the fixture-naming fold (passing for the wrong reason, branch granularity, the
+missing positive control). L11 gains the degenerate-population corollary with the five shapes
+tabulated. L14 gains the checkout-as-proxy-for-harness fold.
+
+**Corrections to 1.14's own entry.** It said six of thirteen checks lacked a fixture, listing 4, 6,
+7, 8, 13, 14 — check 14 did not exist before 1.14, so the figure was five of thirteen plus one new
+check. It also said check 14 "asks on every push"; there is no pre-push hook, so it asks whenever the
+lint is run, which `MAINTAINING.md` requires but does not enforce.
+
+Verification: `release_lint: 0 error(s), 0 warning(s)` in both normal and `--publish` modes;
+`PASS 59/59 deterministic checks`.
+
 ## edu_skill_creator.1.14 — 2026-07-30
 
 Audited this repo against the failure patterns from the sibling POSED project's live test run

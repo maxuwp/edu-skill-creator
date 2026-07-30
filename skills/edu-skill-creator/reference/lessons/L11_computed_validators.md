@@ -73,4 +73,24 @@ release; it is cheap and it tests whether authored guidance produces the behavio
 variation or misses disguised reuse. A shared problem stem with a new target was legal pedagogy a naive
 exact-match gate would have blocked; ambiguous matches route to a human rather than failing closed.
 
+**Corollary added 1.15 — a check that examined nothing is not a check that found nothing.**
+Fail-closed is usually written as "missing input = refusal", but the same hole reappears
+wherever a check's *population* can be emptied instead of its input deleted. Five shapes were
+found in this repo's own lint by an adversarial pass, all silent, all reporting clean:
+
+| Shape | How it was silenced |
+|---|---|
+| optional input | `if gate.exists():` with no `else` — delete the approval record, drift detection stops |
+| self-identifying subject | the rubric check keyed on the phrase "100 points" in the rubric's own prose — reword it and the arithmetic is off |
+| glob with no floor | `for p in glob("reviews/*_review.json")` — empty directory, or a rename, iterates zero times |
+| subprocess trusted by exit code | a zero-byte test suite exits 0 |
+| degenerate check set | a validator whose `CHECKS` list is empty writes `passed: true` |
+
+The rule that closes all five: **every check declares its population and refuses a degenerate
+one.** A glob asserts a floor; a subprocess must emit its own verdict line and case count; a
+validator with no checks exits 2; a check that finishes with neither recorded evidence nor a
+finding is reported as NOT RUN rather than as a pass. Identify a subject by PATH or registry,
+never by a phrase in the text being judged — otherwise the thing under test controls whether
+it is tested.
+
 *Enforcement status: the self-interested-report corollary is covered by test scenario 13. Threshold re-derivation, exemplar self-measurement and domain-model-aware detectors are guidance only — no dedicated check yet, recorded rather than implied (L13).*
