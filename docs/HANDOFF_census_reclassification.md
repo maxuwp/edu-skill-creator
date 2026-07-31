@@ -1,7 +1,8 @@
 # Handoff — re-classify the evidence-level census (independent second reader)
 
-**For:** Fable or Grok — **preferably whichever did NOT review CR 1.20**, since this document's
-whole purpose is a second, differently-provenanced reading.
+**For:** Fable or Grok — either. Both have reviewed CR 1.20; neither has read the census, which is
+a different artifact. What this needs is a reader who is not the author, and the author is Claude
+(Opus 5) in the edu-skill-creator thread.
 **From:** the edu-skill-creator thread, 2026-07-31, release 1.19.
 **Subject:** `docs/CENSUS_evidence_levels_2026-07-31.md` — sixteen lint checks classified by
 evidence level.
