@@ -43,7 +43,7 @@ expects. Adding a check without one is adding a green light, not a guard (L8).
 
 Exit 0 = clean (warnings allowed), 1 = errors found.
 """
-import hashlib, json, os, pathlib, re, subprocess, sys
+import hashlib, json, pathlib, re, subprocess, sys
 
 PUBLISH = "--publish" in sys.argv[1:]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -52,11 +52,6 @@ errors, warnings = [], []
 # Floor for check 13. Raise it when the suite grows; lowering it is a deliberate act that
 # must be argued in the changelog, never a side effect of deleting cases.
 MIN_SUITE_CHECKS = 78
-
-# Nesting depth. The suite raises it when IT spawns a lint; the lint passes it through and
-# refuses check 13 at depth 2. Without a bound, lint -> suite -> lint -> suite never ends;
-# with it, the chain terminates after one nested level and every level is still real.
-_DEPTH = int(os.environ.get("ESC_LINT_DEPTH", "0"))
 
 # 1. Hardcoded harness paths in shared skill bodies
 WHITELIST = {"harness_adaptation.md", "dual_harness_playbook.md"}
@@ -320,15 +315,14 @@ _suite = ROOT / "tests" / "run_deterministic.py"
 if not _suite.exists():
     errors.append("[tests] tests/run_deterministic.py is missing — the regression suite is the "
                   "only thing proving the other checks still fire; a vanished suite is a failure")
-elif "--skip-suite" not in sys.argv[1:] and _DEPTH >= 2:
-    # Re-entrancy guard. The suite's own check-13 cases run this lint without --skip-suite,
-    # which would run the suite again, which would run the lint again. Bounded at one level:
-    # a nested lint states that it skipped, so the skip is visible rather than silent, and
-    # the TOP-level invocation — the one that gates a release — always runs it.
-    warnings.append(f"[tests] check 13 skipped: nested lint (ESC_LINT_DEPTH={_DEPTH})")
 elif "--skip-suite" not in sys.argv[1:]:
-    _env = {**os.environ, "ESC_LINT_DEPTH": str(_DEPTH)}
-    _r = subprocess.run([sys.executable, str(_suite)], capture_output=True, text=True, env=_env)
+    # No re-entrancy guard is needed and none is wanted: every suite case that runs this lint
+    # without --skip-suite first stubs the copy's suite, and a stub never invokes the lint.
+    # The earlier design ran the real suite there and needed an ESC_LINT_DEPTH env var to
+    # terminate, which meant exporting that variable disabled check 13 — suite, count and
+    # canary — while the lint still exited 0. An off-switch in the ambient environment is
+    # worse than the recursion it prevents.
+    _r = subprocess.run([sys.executable, str(_suite)], capture_output=True, text=True)
     if _r.returncode != 0:
         _fails = [l.strip() for l in _r.stdout.splitlines() if l.strip().startswith("FAIL")]
         errors.append(f"[tests] deterministic suite failed: {'; '.join(_fails) or 'see output'}")
@@ -368,14 +362,18 @@ elif "--skip-suite" not in sys.argv[1:]:
             shutil.copytree(ROOT, _c, ignore=shutil.ignore_patterns(".git"))
             _lp = _c / "scripts" / "release_lint.py"
             _lt = _lp.read_text()
-            if 'DEPRECATED = ("maxuwp/page",)' not in _lt:
-                errors.append("[tests] canary anchor 'DEPRECATED = (\"maxuwp/page\",)' is gone — "
+            # line-anchored to the ASSIGNMENT. A plain substring test matched the same text
+            # quoted in these two lines, so the canary vouched for its own anchor and the
+            # "anchor gone" branch could never fire — the check reading itself as evidence.
+            _anchor = re.compile(r'^DEPRECATED = \("maxuwp/page",\)', re.M)
+            if not _anchor.search(_lt):
+                errors.append("[tests] canary anchor (the DEPRECATED assignment) is gone — "
                               "the canary cannot run, so the suite is unproven")
             else:
-                _lp.write_text(_lt.replace('DEPRECATED = ("maxuwp/page",)', "DEPRECATED = ()", 1))
+                _lp.write_text(_anchor.sub("DEPRECATED = ()", _lt, count=1))
                 _cr = subprocess.run([sys.executable, str(_c / "tests/run_deterministic.py"),
                                       "--only", "c3 deprecated URL"],
-                                     capture_output=True, text=True, env=_env)
+                                     capture_output=True, text=True)
                 if _cr.returncode == 0 or "c3 deprecated URL" not in "".join(
                         l for l in _cr.stdout.splitlines() if l.strip().startswith("FAIL")):
                     errors.append("[tests] canary: check 3 was disabled and the suite still "

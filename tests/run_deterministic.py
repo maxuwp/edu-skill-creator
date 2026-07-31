@@ -10,7 +10,7 @@ every lesson file, so check 12's 18 errors satisfied fixtures written for check 
 stayed green with check 11's guard deleted. A fixture that accepts any failure proves the
 lint can fail, not that THIS guard fires. `expect_tag` is mandatory for that reason.
 """
-import json, os, pathlib, re, shutil, subprocess, sys, tempfile
+import json, pathlib, re, shutil, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "skills/scaffold/reference/validator_template.py"
@@ -38,13 +38,11 @@ def lint(repo, *args):
 
 
 def lint_full(repo, *args):
-    # Cases that must exercise check 13 run the lint WITHOUT --skip-suite, so the child lint
-    # runs a suite, whose own full cases run lints... Raising the depth here is what stops
-    # that: the lint refuses check 13 at depth 2, so the chain terminates one level down and
-    # every level in between does real work.
-    env = {**os.environ, "ESC_LINT_DEPTH": str(int(os.environ.get("ESC_LINT_DEPTH", "0")) + 1)}
+    # Cases that exercise check 13 run the lint WITHOUT --skip-suite. Every one of them
+    # first replaces the copy's suite with a STUB, and a stub never invokes the lint, so the
+    # chain terminates in one step with no depth counter and no environment variable.
     r = subprocess.run([sys.executable, "scripts/release_lint.py", *args],
-                       cwd=repo, capture_output=True, text=True, env=env)
+                       cwd=repo, capture_output=True, text=True)
     return r.returncode, r.stdout
 
 
@@ -278,12 +276,20 @@ def m_suitecount(r):
 def m_suiteconst(r):
     _stub(r, f'print("PASS {MIN_FLOOR + 5}/{MIN_FLOOR + 5} deterministic checks")\n'
              'raise SystemExit(0)\n' + 'record("x", True)\n' * (MIN_FLOOR + 5))
+def _passing_stub(n):
+    """A suite that reports a full, correctly-counted PASS and detects nothing. Every
+    check-13 fixture uses a STUB: a stub never invokes the lint, so lint -> suite -> lint
+    cannot recur and no depth counter is needed. The earlier design ran the real suite here
+    and needed an ESC_LINT_DEPTH env var to terminate — which let anyone disable check 13
+    by exporting that variable. A guard whose off-switch lives in the ambient environment is
+    not a guard; deleting the surface beats guarding it."""
+    return (f'print("PASS {n}/{n} deterministic checks")\n'
+            'raise SystemExit(0)\n' + 'record("case", bool(1))\n' * n)
 def m_canaryblind(r):
-    # the suite still prints a full PASS, but its c3 case can no longer detect check 3
-    # being disabled — exactly the shape a self-reported count cannot see
-    _sub(r, SUITE, 'seeded("c3 deprecated URL (was dead code)", m_deprec, "references deprecated")',
-         'record("c3 deprecated URL (was dead code)", 1 == 1)')
+    # a suite that always says PASS: the shape a self-reported count cannot see
+    _stub(r, _passing_stub(MIN_FLOOR))
 def m_canaryanchor(r):
+    _stub(r, _passing_stub(MIN_FLOOR))
     _sub(r, "scripts/release_lint.py", 'DEPRECATED = ("maxuwp/page",)',
          'DEPRECATED = ("maxuwp/page", )')
 

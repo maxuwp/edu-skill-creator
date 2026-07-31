@@ -3,6 +3,55 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.17 — 2026-07-30
+
+Third audit round. Both external auditors terminated on an account session limit before
+producing findings, so this release is what a self-audit of 1.16's own new code found. Both
+defects were introduced BY 1.16, and both are the pattern the previous two rounds named: the
+machinery added to close a hole became the hole.
+
+**Check 13 had an off-switch in the ambient environment.** 1.16 bounded lint → suite → lint
+recursion with an `ESC_LINT_DEPTH` counter read from `os.environ`. Exporting it disabled check
+13 entirely — the suite run, the case count and the canary — while the lint printed a warning
+and exited 0:
+
+```
+ESC_LINT_DEPTH=2 python3 scripts/release_lint.py   ->   0 error(s), 1 warning(s)
+```
+
+The variable is gone. Every check-13 fixture now stubs the copy's suite, and a stub never
+invokes the lint, so the chain terminates in one step with nothing to configure. Deleting the
+surface beats guarding it; a guard configurable from outside the repo is not a guard. Lint
+runtime drops from ~16s to ~6s as a side effect.
+
+**The canary vouched for its own anchor.** It refused to run unless it could find
+`DEPRECATED = ("maxuwp/page",)` in the lint source — by substring search, and that exact string
+appears twice inside the canary's own two lines. The anchor could therefore never be reported
+missing. Now line-anchored to the assignment. Its fixture is falsifiable: reverting to the
+substring form turns `c13 canary anchor removed` red.
+
+**The generated harness was proven end to end, not asserted.** A downstream plugin was built by
+following `skills/scaffold/SKILL.md` literally — template instantiated, fixtures written, the
+fixture-runner snippet transcribed verbatim from the template docstring — and the resulting lint
+catches all three shapes the template claims it stands behind: a hollow check (`exit 0,
+check_upstream_coverage named: False`), a check fixtured but never registered in `CHECKS`, and a
+validator that can never approve anything. `SAMPLES_PRESENT` fires on an un-replaced template.
+This matters because the template states plainly that it cannot itself detect a check that lies
+about its work; the per-check negative fixture is what does, and that is now demonstrated.
+
+**Residual, stated rather than closed.** Three ways remain to make an instantiated validator
+report a pass while validating nothing: a check whose body is a bare `checked()` call, a check
+that swallows its own exception, and an author who deletes the empty-`CHECKS` guard from the
+runner block marked "do not edit". All three are deliberate acts inside the check bodies, all
+three are caught by the prescribed fixtures, and none is detectable by the runner. L11 records
+them; the alternative is a claim the code cannot keep.
+
+**Lessons.** L11's degenerate-population table gains the ambient-off-switch row and the
+guard-anchored-to-its-own-source row.
+
+Verification: `release_lint: 0 error(s), 0 warning(s)` in both modes; `PASS 78/78 deterministic
+checks`; `ESC_LINT_DEPTH=9` now changes nothing.
+
 ## edu_skill_creator.1.16 — 2026-07-30
 
 Second audit round: two fresh auditors were asked to refute 1.15 and to find what a *second*

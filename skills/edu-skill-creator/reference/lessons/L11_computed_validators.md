@@ -88,6 +88,8 @@ found in this repo's own lint by an adversarial pass, all silent, all reporting 
 | self-reported population | the fix for the zero-byte suite demanded a verdict line and a case count — both printed by the subprocess under test, so `print("PASS 59/59 …")` satisfied it |
 | enumerable population floored at "non-empty" | `reviews/` was required to be non-empty, so deleting ONE skill's review left the lint clean; the population was listable all along |
 | unaudited copies of an audited claim | numbered enforcement claims were resolved in the lesson index only, so four SKILL bodies kept citing "architecture item 11" after a renumber moved it to 12 — and item 11 exists, so nothing fired |
+| an off-switch in the ambient environment | a re-entrancy guard read `ESC_LINT_DEPTH` from the environment, so exporting that variable disabled the whole suite check while the lint still exited 0 |
+| a guard whose anchor is its own source | the canary tested for its anchor with a substring search, and the anchor string appears in the canary's own two lines, so it vouched for itself and its fail-closed branch could never fire |
 | self-reported identity | a validator's `checked(name, target)` took the name as a free string, letting one check vouch for a check that never ran |
 
 Three rules close all of them.
