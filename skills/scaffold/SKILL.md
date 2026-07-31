@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-scaffold
 description: Edu Skill Creator Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the edu-skill-creator umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
-version: "1.17"
+version: "1.18"
 ---
 
 # Edu Skill Creator Stage 4: Scaffold
@@ -78,19 +78,33 @@ the drafter stub says "run `validate_<artifact>.py` pre-gate and fix criticals b
 handing off"; the reviewer stub's output schema includes
 `computed_checks.<artifact>_validator_pass` + report path, with `approve` illegal
 unless true; the umbrella stub refuses to open the human gate on a review log missing
-them. Create ONE positive fixture per validator and ONE negative fixture PER CHECK
-(`<artifact>_fail_<check_name>/`), and add the fixture-runner check from the template's
-docstring to the generated lint. A single "bad" fixture trips whichever check fires
-first and leaves every other check unproven forever; the runner therefore asserts that
-each negative fixture's report NAMES its own check, and that the positive fixture exits 0
-— without that last one, a validator that can never approve anything looks identical to a
-correct one. Fixtures NEVER contain student/faculty course content. POSED's
-`validate_stage5_slides.py` / `validate_outline.py` are the worked examples.
+them. Create ONE positive fixture per validator and ONE negative fixture PER CHECK, named
+`<artifact>_fail_<fn>/` where `<fn>` is the check function's `__name__` verbatim, `check_`
+prefix included. **Build each negative fixture as the positive one with a single field
+corrupted** — not a file deleted, and not one broadly-bad session copied into every
+directory. Both shortcuts certify nothing: a deleted input makes `require_file` /
+`require_record` report under the CALLING check's name, so a check whose body is a lone
+`require_file(...)  # TODO` is "named" by its own fixture and ships certified; and one bad
+session copied N times is one proof, not N. Add the fixture-runner check from the template's
+docstring to the generated lint — it rejects both shapes, requires each negative fixture's
+report to carry a CRITICAL naming its own check (a guard downgraded to `warn()` still
+appears in `findings`), and requires the positive fixture to exit 0, without which a
+validator that can never approve anything looks identical to a correct one. Fixtures NEVER
+contain student/faculty course content. POSED's `validate_stage5_slides.py` /
+`validate_outline.py` are the worked examples.
 
 The template refuses to report a pass it did not earn: an empty `CHECKS` list exits 2, and
 any check that finishes with neither recorded evidence nor a finding is reported as NOT RUN.
 Instantiating half the checks and coming back later therefore fails closed instead of
-emitting `passed: true`. Delete the `SAMPLES_PRESENT` marker as you replace the samples.
+emitting `passed: true`. Set `SAMPLES_PRESENT = False` (or delete the assignment) as you
+replace the samples; the fixture runner errors while it is still True. Grepping the token
+afterwards still hits the instantiated file's own docstring, which is expected — the runner
+reads the module attribute, not the text.
+
+Two more the runner checks for you: `CONTRACT_VERSION` must track the plugin's release, since
+a stale value silently disarms every era gate; and gate era-specific rules with
+`era_at_least(manifest, "<x>_skill.1.4")`, never `>=` on the version string, which reports
+1.17 as older than 1.4.
 
 ## The lint (rule 0)
 

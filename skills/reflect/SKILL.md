@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-reflect
 description: Edu Skill Creator Stage 8 — Post-pilot reflection for an educational plugin built with Edu Skill Creator. Harvests what the pilot's gates, feedback, and failures revealed, redacts identifying information, routes the ledger through an independent fresh-context review, and turns each approved item into an improvement to the new plugin AND, where general, into a new or amended lesson file plus its lesson_index.md row. Triggers - after the new plugin's first real pilot, or when the user says "reflect on the pilot / harvest lessons".
-version: "1.17"
+version: "1.18"
 ---
 
 # Edu Skill Creator Stage 8: Reflect
@@ -68,7 +68,8 @@ release.
 The ledger is a drafted artifact — self-harvested lessons are exactly where
 rationalization creeps in. Dispatch a fresh subagent session whose inputs are ONLY: the
 draft `reflect_ledger.json`, the pilot's gate decision files, and the pilot's review
-logs. It checks: each finding is actually supported by its cited source (no invented
+logs. It records first what it checked and found sound (the do-not-break baseline, L19), then
+checks: each finding is actually supported by its cited source (no invented
 morals), scope classification is honest (`edu-skill-creator`-scope claims generalize beyond this
 plugin), redaction completeness (no PII or identifying detail survived), and proposals
 match findings. Log to `reviews/reflect_ledger_review.json` BEFORE the gate opens; fix

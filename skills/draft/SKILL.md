@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-draft
 description: Edu Skill Creator Stage 5 — Draft the new educational plugin's skills and rubrics, each independently reviewed. Writes SKILL.md bodies per the approved architecture using skill-creator writing doctrine (progressive disclosure, under 500 lines, explain-why), authors the reviewer rubrics, and routes every draft through a fresh-context review against the skill quality rubric. Triggers - when the edu-skill-creator umbrella dispatches Stage 5, or the user says "draft the skills" for a plugin under construction.
-version: "1.17"
+version: "1.18"
 ---
 
 # Edu Skill Creator Stage 5: Draft
@@ -62,8 +62,19 @@ validator (architecture item 12), and the rubric CITES the validator rather than
    `<edu-skill-creator-skill-dir>/reference/lesson_index.md` AND the specific
    `reference/lessons/L<nn>_*.md` files the rubric's critical flags reference by number (the flag
    language cites lessons by id, so a reviewer without those detail files cannot apply them; do NOT
-   pass `lessons_learned.md`, a pointer stub with no rule text since 1.10). It returns the rubric's output JSON; save it to
-   `reviews/<skill>_review.json` BEFORE anything is shown to the author.
+   pass `lessons_learned.md`, a pointer stub with no rule text since 1.10).
+
+   **The brief demands both halves, confirm first (L19).** Verbatim: *"Before reporting any
+   defect, record what you checked and found correct, and how you verified it. That list is the
+   do-not-break baseline. Then report defects, each as the smallest modification that keeps every
+   item on that list true. If a fix would break one, say so and propose the trade explicitly
+   rather than taking it silently."* A defects-only brief is systematically read as "list the
+   violations", and the author then rewrites surfaces that were already right — which is the
+   mechanism by which one round's fix becomes the next round's defect. Carry the previous round's
+   confirmed set forward into the next brief.
+
+   It returns the rubric's output JSON, whose `verified` array holds the confirmed baseline; save
+   it to `reviews/<skill>_review.json` BEFORE anything is shown to the author.
 3. **Iterate** per the rubric's policy (≥85 and no critical flags → done; 80–84 → revise
    with findings, max 3 rounds; <80 → escalate to the author with top findings). A
    finding that cites a file:line is a symptom of a class (L13): grep for the class

@@ -3,6 +3,84 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.18 — 2026-07-31
+
+The audit brief changed, and the loop converged. Rounds 1 to 3 asked reviewers only for defects,
+so each round returned a redesign, and each redesign carried the next round's bug. Round 4's
+brief required a **confirm pass first** — verified properties with the mechanism each rests on,
+as a do-not-break contract — and then defects **as the smallest modification that keeps that
+contract true**. Two auditors returned 20 findings, and for the first time none of them was a
+reopening of a previous fix. The author's diagnosis, recorded as **L19**: *a revision can't be a
+new draft, it should be a well informed modification.*
+
+**Confirmed and preserved (the do-not-break contract).** Independently verified by mutation, not
+by reading: check 16's `..` rule and its four declared citation forms; check 13's canary and its
+source-level case count; check 11's `_lint_checks()` deriving valid numbers from the lint's own
+`# N.` comments; check 9's per-skill review enumeration; check 15's read-by-meaning fields;
+the validator runner's empty/duplicate/anonymous `CHECKS` refusals, its runner-bound `_current`,
+and its NOT-RUN finding; `seeded()`'s mandatory `expect_tag` and `probe()`'s mandatory
+`names_check`. Every fix below was checked against this list before landing.
+
+**The case floor counted members that could not fail.** A dead guard could be neutered by
+rewriting its case as `record(name, bool(1))` — not a literal `True`, so the constant-verdict
+test missed it — and the total held. The floor now counts `seeded`/`probe` sites only; `record`
+sites still count toward the reported total, so the verdict-line equality is unchanged.
+
+**Removing the recursion off-switch in 1.17 left no bound at all.** 1.17 was right to delete
+`ESC_LINT_DEPTH` (an ambient variable that silently disabled the whole suite check), but its
+replacement was a convention — "every `full=True` case stubs its copy's suite" — that nothing
+enforced. True for all eight cases today; the first violation hangs the lint forever. `seeded()`
+now refuses a `full=True` case whose copy still holds a real suite. The bound is back without
+the switch.
+
+**`require_bool` recorded no evidence**, so a check built the documented way ("the require_*
+helpers record for you") was reported NOT RUN on its happy path — a permanent false critical in
+every generated plugin using that pattern.
+
+**The era-gate idiom the template prescribes was a string compare.** `"x.1.17" >= "x.1.4"` is
+False, and so is `"x.10.0" >= "x.9.0"`. Any generated plugin reaching minor .10 would have
+silently disarmed every era-gated rule — the exact failure the same paragraph warns about. Ships
+`era_at_least()` instead, and the runner now checks `CONTRACT_VERSION` against the release, a
+match the template claimed the lint verified and no lint did.
+
+**A negative fixture that DELETES an input proves the helper, not the check.** `require_file` and
+`require_record` report under the *calling* check's name, so a check whose body is a lone
+`require_file(...)  # TODO` is named by its own fixture and ships certified. The prescribed
+runner now rejects a fixture that removes a file the pass fixture has, rejects byte-identical
+fixtures (one bad session copied N times is one proof), and requires the named finding to be
+**critical** — a guard downgraded to `warn()` still appeared in `findings` while a cascading
+defect from another check supplied the failing exit. Each verified by rebuilding a downstream
+plugin and running its generated lint.
+
+**L11's central gate was prose in four files and code in none.** "`approve` is illegal without a
+recorded computed pass" is now a clause in check 15: with any `validate_*.py` present, a review
+recommending approval must carry `computed_checks.<artifact>_validator_pass = true`. Inert here
+until a validator exists, live in every generated plugin from birth.
+
+**Smaller, each with its own fixture:** check 1's whitelist keyed on basename, exempting any file
+under `skills/` that reused one of two names; check 3 never scanned `.py`; check 4's misplacement
+detector knew only the table shape, not the heading shape check 4 itself parses; check 9 crashed
+on a malformed `findings` value, printing zero findings and skipping checks 11 to 16; check 11
+resolved claims only inside `skills/`, while a live claim sits in `docs/`, and verified only the
+endpoints of a range, so "checks 9-11" asserted a check 10 that does not exist; check 15 skipped
+the dimension arithmetic when the scores were a list; check 16's remediation text recommended a
+repo-root path for sibling skills; and one suite case still tested lesson reachability by the
+substring method check 12 was rewritten to abandon. The prescribed snippet was also cwd-relative
+inside a ROOT-anchored lint (`exec_module` raised before `sys.exit`, discarding every earlier
+error) and leaked child validator CRITICAL lines into a clean release's stdout.
+
+**Three ambiguities resolved in wording**, each of which two reasonable authors would have built
+differently: the fixture directory suffix is the check function's `__name__` verbatim; a negative
+fixture is the pass fixture with one field corrupted; `SAMPLES_PRESENT` is disposed of by value,
+and the token surviving in the docstring is expected.
+
+**Lessons.** L19 (confirm first; a revision is a modification) arrives from the
+talk-like-a-professor rounds and is now wired into the Stage 5 review brief and the Stage 8
+ledger review. L11 gains three population rows and the severity-is-part-of-the-claim corollary.
+
+Verification: `release_lint: 0 error(s), 0 warning(s)` in both modes; `PASS 91/91 deterministic
+checks` (86 falsifiable); the downstream harness rebuilt and its five new guards each fired.
+
 ## edu_skill_creator.1.17 — 2026-07-30
 
 Third audit round. Both external auditors terminated on an account session limit before

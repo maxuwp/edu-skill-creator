@@ -24,8 +24,9 @@ do not restate the rules (L7 — a second map would drift from this one).
 | L16 | Evidence burden scales with specificity, consequence and volatility; no laundering through a category tag | edu-skill-creator-draft rubric authoring; edu-skill-creator-test scenario 16 | [`lessons/L16_evidence_proportionality.md`](lessons/L16_evidence_proportionality.md) |
 | L17 | When the subject taught is a process, its structure is content | edu-skill-creator-intent item 8; edu-skill-creator-architecture item 6 | [`lessons/L17_process_structure_is_content.md`](lessons/L17_process_structure_is_content.md) |
 | L18 | Make the compliant path cheaper than the workaround; name the governed exit | edu-skill-creator-architecture item 6; edu-skill-creator-test scenario 17 | [`lessons/L18_compliant_recovery_paths.md`](lessons/L18_compliant_recovery_paths.md) |
+| L19 | Feedback is two halves: verified properties become a protected baseline, then defects as the smallest modification; a revision is never a new draft | edu-skill-creator-draft review briefs and rubrics; edu-skill-creator-architecture reviewer pairings; edu-skill-creator-test; edu-skill-creator-reflect | [`lessons/L19_confirm_first_review.md`](lessons/L19_confirm_first_review.md) |
 
 *Provenance: POSED CHANGELOG posed_skill.1.4–1.14 (L1–L9), 1.24–1.25 (L10), 1.26–1.30.1 (L11–L12),
 1.64–1.66 (L13); 1.31–1.63 and the oral-register investigation (L14–L18, gated 2026-07-28 in
-reflect_gate_decision.json); p2d_skill.1.4–1.6. Detailed evidence lives in the per-lesson files, never duplicated
+reflect_gate_decision.json); the talk-like-a-professor adversarial rounds (L19, 2026-07-31); p2d_skill.1.4–1.6. Detailed evidence lives in the per-lesson files, never duplicated
 into stage bodies.*

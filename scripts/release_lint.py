@@ -51,12 +51,18 @@ errors, warnings = [], []
 
 # Floor for check 13. Raise it when the suite grows; lowering it is a deliberate act that
 # must be argued in the changelog, never a side effect of deleting cases.
-MIN_SUITE_CHECKS = 78
+# Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
+# its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
+# missed it — and the total held. record() sites still count toward the reported total.
+MIN_SUITE_CHECKS = 86
 
 # 1. Hardcoded harness paths in shared skill bodies
-WHITELIST = {"harness_adaptation.md", "dual_harness_playbook.md"}
+#    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
+#    happened to share one of these names was exempt from the whole check.
+WHITELIST = {"skills/edu-skill-creator/reference/harness_adaptation.md",
+             "skills/edu-skill-creator/reference/dual_harness_playbook.md"}
 for p in (ROOT / "skills").rglob("*.md"):
-    if p.name in WHITELIST:
+    if str(p.relative_to(ROOT)) in WHITELIST:
         continue
     for i, line in enumerate(p.read_text().splitlines(), 1):
         if "~/.claude/" in line or "~/.codex/" in line:
@@ -86,9 +92,12 @@ if plugin_version is None:
 
 # 3. Deprecated repo URLs outside the changelog (none at birth; add as they retire)
 DEPRECATED = ("maxuwp/page",)  # pre-rename repo; live check, not a placeholder
-for p in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.json")):
+#    .py included: a deprecated URL in a script was invisible. tests/ is excluded because its
+#    fixtures carry the deprecated string deliberately, and this file declares it above.
+for p in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.json")) + list(ROOT.rglob("*.py")):
     rel = p.relative_to(ROOT)
-    if rel.parts[0] in {".git", "node_modules"} or p.name == "CHANGELOG.md":
+    if (rel.parts[0] in {".git", "node_modules", "tests"} or p.name == "CHANGELOG.md"
+            or p.resolve() == pathlib.Path(__file__).resolve()):
         continue
     text = p.read_text(errors="ignore")
     for dep in DEPRECATED:
@@ -121,7 +130,9 @@ for p in (ROOT / "skills").rglob("*.md"):
     if p in _rubrics:
         continue
     text = p.read_text(errors="ignore")
-    if "critical flag" in text and re.search(r"^\|\s*\d+\s*\|[^|]+\|\s*\d+\s*\|", text, re.M):
+    if "critical flag" in text and (
+            re.search(r"^\|\s*\d+\s*\|[^|]+\|\s*\d+\s*\|", text, re.M)
+            or re.search(r"^###\s+\d+\..*—\s*\d+\s*points", text, re.M)):
         errors.append(f"[rubric] {p.relative_to(ROOT)} looks like a scored rubric (points "
                       f"table + critical flags) but sits outside skills/*/reference/*rubric*.md, "
                       f"so check 4 never sees it — rename it into the convention")
@@ -220,10 +231,19 @@ for p in _revs:
     except json.JSONDecodeError as e:
         errors.append(f"[review] {p.relative_to(ROOT)}: invalid JSON ({e})")
         continue
-    findings = data.get("findings", [])
-    if not isinstance(data.get("resolution_pass"), dict):
+    findings = data.get("findings") if isinstance(data, dict) else None
+    if not isinstance(findings, list):
+        # a traceback here printed ZERO findings and skipped checks 11-16 entirely
+        errors.append(f"[review] {p.relative_to(ROOT)}: 'findings' is {type(findings).__name__}, "
+                      f"not a list — an unreadable finding list is unresolved, not exempt")
+        findings = []
+    if not isinstance(data, dict) or not isinstance(data.get("resolution_pass"), dict):
         errors.append(f"[review] {p.relative_to(ROOT)}: missing resolution_pass block")
     for i, finding in enumerate(findings, 1):
+        if not isinstance(finding, dict):
+            errors.append(f"[review] {p.relative_to(ROOT)} finding {i}: "
+                          f"{type(finding).__name__}, not an object")
+            continue
         status = finding.get("status")
         if status not in {"fixed", "accepted"}:
             errors.append(f"[review] {p.relative_to(ROOT)} finding {i}: "
@@ -279,13 +299,22 @@ else:
     #  after a 1.11 renumber moved it to 12 - and item 11 exists (lifecycle stages), so
     #  nothing fired and the wrong number reached every generated plugin.
     _claim_sources = [("lesson_index.md " + a, b) for a, b, _ in _rows]
+    #  Whole repo, not just skills/: check 16 already learned this scope lesson and a live
+    #  "release_lint check 7" claim sits in docs/. tests/ and CHANGELOG.md stay excluded and
+    #  the exclusions are load-bearing, not cosmetic — the suite holds deliberate "99"
+    #  fixture strings, and the changelog records a pre-renumber "architecture item 11".
     _claim_sources += [(str(f.relative_to(ROOT)), f.read_text(errors="ignore"))
-                       for f in sorted(list((ROOT / "skills").rglob("*.md")) +
-                                       list((ROOT / "skills").rglob("*.py")))]
+                       for f in sorted(ROOT.rglob("*"))
+                       if f.suffix in {".md", ".py"} and ".git" not in f.parts
+                       and f.relative_to(ROOT).parts[0] != "tests"
+                       and f.name != "CHANGELOG.md"]
     for lesson, claim in _claim_sources:
         for label, (where, present) in targets.items():
             for m in re.finditer(label.replace(" ", r"\s") + r"s?\s+(\d+)(?:\s*[\u2013-]\s*(\d+))?", claim):
-                for n in [int(m.group(1))] + ([int(m.group(2))] if m.group(2) else []):
+                # a range asserts every number it spans: "checks 9-11" claims 10, which does
+                # not exist, and endpoint-only checking passed it
+                _lo, _hi = int(m.group(1)), int(m.group(2) or m.group(1))
+                for n in (range(_lo, _hi + 1) if _hi >= _lo else [_lo, _hi]):
                     if n not in present:
                         errors.append(f"[ledger] {lesson} claims '{label} {n}' but {where} "
                                       f"has no numbered item {n} — L13: the claim or the "
@@ -334,14 +363,16 @@ elif "--skip-suite" not in sys.argv[1:]:
         # finish with a canary that proves the suite still detects a broken guard.
         _src = _suite.read_text()
         _sites = len(re.findall(r"^(?:seeded|probe|record)\(", _src, re.M))
+        _falsifiable = len(re.findall(r"^(?:seeded|probe)\(", _src, re.M))
         _const = re.findall(r"^record\([^\n]*?,\s*True\s*[,)]", _src, re.M)
         _m = re.search(r"^PASS\s+(\d+)/(\d+)\s+deterministic checks", _r.stdout, re.M)
         if not _m:
             errors.append("[tests] deterministic suite exited 0 without its 'PASS n/n "
                           "deterministic checks' verdict line — a silent suite is not a "
                           "passing suite")
-        elif _sites < MIN_SUITE_CHECKS:
-            errors.append(f"[tests] the suite SOURCE contains {_sites} case call sites, "
+        elif _falsifiable < MIN_SUITE_CHECKS:
+            errors.append(f"[tests] the suite SOURCE contains {_falsifiable} falsifiable case "
+                          f"call sites, "
                           f"below the floor of {MIN_SUITE_CHECKS} — cases were removed, not "
                           f"fixed; raise the floor deliberately when the suite shrinks")
         elif int(_m.group(2)) != _sites:
@@ -456,8 +487,10 @@ for _rf in sorted(set(_review_files)):
     # arithmetic coherence holds whatever the recommendation says
     _sc = _num(_d.get("score") if _d.get("score") is not None else _d.get("total"))
     _ds = _d.get("dimension_scores")
-    if isinstance(_ds, dict) and _sc is not None:
-        _parts = [_num(v) for v in _ds.values()]
+    if isinstance(_ds, (dict, list)) and _sc is not None:
+        _vals = _ds.values() if isinstance(_ds, dict) else _ds
+        _parts = [_num(v.get("score", v.get("points")) if isinstance(v, dict) else v)
+                  for v in _vals]
         if all(p is not None for p in _parts) and _parts and abs(sum(_parts) - _sc) > 1e-6:
             errors.append(f"[coherence] {_rel}: dimension_scores sum to {sum(_parts):g} but "
                           f"score records {_sc:g} — the total must be the sum it reports")
@@ -481,6 +514,16 @@ for _rf in sorted(set(_review_files)):
         _why.append(f"score {_sc:g} below threshold {_th:g}")
     if _slug(_d.get("passed")) in {"false", "no"}:
         _why.append(f"passed:{_d.get('passed')!r}")
+    # L11's central gate — "approve is illegal without a recorded computed pass" — was prose
+    # in four files and code in none. Inert while no validator exists; live the moment one
+    # does, and the generated lint inherits it working rather than as an instruction.
+    if any((ROOT / "skills").glob("*/scripts/validate_*.py")):
+        _cc = _d.get("computed_checks")
+        if not isinstance(_cc, dict) or not _cc:
+            _why.append("no computed_checks block while a validator exists")
+        else:
+            _why += [f"computed_checks.{k}={v!r}" for k, v in _cc.items()
+                     if k.endswith("_validator_pass") and v is not True]
     if _why:
         errors.append(f"[coherence] {_rel} recommends {_rec!r} while its own record shows "
                       f"{', '.join(_why)} — a recommendation must agree with the evidence it signs")
@@ -548,7 +591,9 @@ for p in sorted(_scan):
                               f"{_owner.relative_to(ROOT) if _owner != ROOT else 'the repo'} "
                               f"with '..' — the installed layout prefixes sibling skills, so "
                               f"this resolves only in a checkout; use "
-                              f"<edu-skill-creator-skill-dir:NAME>/… or a repo-root path")
+                              f"<edu-skill-creator-skill-dir:NAME>/… for a sibling skill, or a "
+                              f"repo-root path (scripts/, tests/, docs/, reviews/) for a repo "
+                              f"artifact")
                 continue
         if not target.exists():
             errors.append(f"[cite] {rel_p}: `{tok}` does not resolve "

@@ -64,6 +64,15 @@ def seeded(name, mutate, expect_tag, expect_fail=True, full=False):
             mutate(repo)
         except Exception as e:
             return record(name, False, f"could not seed: {e!r}")
+        if full:
+            # 1.17 removed the ESC_LINT_DEPTH counter (an environment-controlled off-switch
+            # that silently disabled check 13) and replaced the bound with a convention:
+            # every full=True case stubs the copy's suite. A convention nothing checks is not
+            # a bound — the first violation hangs the lint forever instead of erroring.
+            _s = repo / "tests/run_deterministic.py"
+            if _s.exists() and "release_lint.py" in _s.read_text():
+                return record(name, False, "full=True case left the copy's suite unstubbed — "
+                                           "the nested lint would re-enter this suite forever")
         rc, out = (lint_full if full else lint)(repo)
         if expect_fail:
             if not expect_tag:
@@ -102,11 +111,23 @@ def m_version(r):  _json_edit(r, ".codex-plugin/plugin.json", lambda d: d.update
 def m_vergone(r):  _json_edit(r, ".claude-plugin/plugin.json", lambda d: d.pop("version"))
 def m_deprec(r):   (r / "README.md").write_text((r / "README.md").read_text() + "\nsee maxuwp/page\n")
 
+def m_pathwhitelist(r):
+    # the whitelist keyed on BASENAME, so any file under skills/ with one of these two names
+    # was exempt from the check entirely
+    (r / "skills/test/reference").mkdir(parents=True, exist_ok=True)
+    (r / "skills/test/reference/harness_adaptation.md").write_text("See ~/.claude/skills/x\n")
+def m_deprecpy(r):
+    p = r / "scripts/link_dev_dirs.py"
+    p.write_text(p.read_text() + "\n# see https://github.com/maxuwp/page\n")
+
 seeded("c1 hardcoded harness path", m_path, "hardcodes a harness path")
+seeded("c1 whitelist evaded by reusing a whitelisted basename", m_pathwhitelist,
+       "hardcodes a harness path")
 seeded("c2 manifest version mismatch", m_version, "[manifest] version mismatch")
 seeded("c2 version key deleted (once silenced c2, c5 and c8 at once)", m_vergone,
        "has no usable string 'version'")
 seeded("c3 deprecated URL (was dead code)", m_deprec, "references deprecated")
+seeded("c3 deprecated URL in a .py (scan scope)", m_deprecpy, "references deprecated")
 
 # --------------------------------------------------------------------------------------
 # 4. rubric arithmetic — and the reword that used to disarm it
@@ -134,8 +155,17 @@ def m_rubelsewhere(r):
         "| 2 | Structure | 50 |\n\nA critical flag blocks approval.\n")
 
 seeded("c4 unparseable rubric (was a warning)", m_rubparse, "no dimension points parsed")
+def m_rubheading(r):
+    # check 4 parses heading-style rubrics, so the misplacement detector must recognise them
+    (r / "skills/draft/reference").mkdir(parents=True, exist_ok=True)
+    (r / "skills/draft/reference/reviewer_criteria.md").write_text(
+        "# Criteria\n\n### 1. Grounding — 40 points\n\n### 2. Structure — 50 points\n\n"
+        "A critical flag blocks approval.\n")
+
 seeded("c4 scored rubric named outside the convention (invisible to the check)",
        m_rubelsewhere, "sits outside skills/*/reference/*rubric*.md")
+seeded("c4 heading-style rubric outside the convention", m_rubheading,
+       "sits outside skills/*/reference/*rubric*.md")
 
 # --------------------------------------------------------------------------------------
 # 5. changelog heading — version-derived, never pinned
@@ -212,8 +242,14 @@ def m_revoneskill(r):
     (r / "reviews/edu-skill-creator-scaffold_review.json").unlink()
 
 seeded("c9 reviews/ emptied (a glob with no floor reads clean)", m_revgone, "holds no review JSON")
+def m_revmalformed(r):
+    # a non-list findings value crashed the lint: zero findings printed, checks 11-16 skipped
+    _json_edit(r, REV, lambda d: d.update(findings={"a": 1}))
+
 seeded("c9 one skill's review deleted (floor was population-blind)", m_revoneskill,
        "no reviews/edu-skill-creator-scaffold_review.json")
+seeded("c9 malformed findings value (was a traceback, not a finding)", m_revmalformed,
+       "not a list — an unreadable finding list is unresolved")
 seeded("c9 review renamed out of the old glob", m_revrename, "missing resolution_pass block")
 
 # --------------------------------------------------------------------------------------
@@ -251,8 +287,19 @@ def m_claimbody(r):
 
 seeded("c11 unresolvable release_lint check claim", m_lintclaim,
        "claims 'release_lint check 99'")
+def m_claimoutside(r):
+    p = r / "docs/BUILD_PLAN.md"
+    p.write_text(p.read_text() + "\n\nEnforced at release_lint check 99.\n")
+def m_claimrange(r):
+    _sub(r, "skills/scaffold/SKILL.md", "## The lint (rule 0)",
+         "## The lint (rule 0)\n\nSee release_lint checks 9-11.")
+
 seeded("c11 stale numbered claim in a SKILL body, not an index row", m_claimbody,
        "skills/scaffold/SKILL.md claims 'architecture item 99'")
+seeded("c11 claim outside skills/ (scan scope)", m_claimoutside,
+       "docs/BUILD_PLAN.md claims 'release_lint check 99'")
+seeded("c11 range claim spanning a number that does not exist", m_claimrange,
+       "claims 'release_lint check 10'")
 seeded("c12 orphan lesson file", m_orphan, "no lesson_index.md row references it")
 seeded("c12 orphan named only in an HTML comment", m_orphancomment,
        "no lesson_index.md row references it")
@@ -270,12 +317,15 @@ def m_suitemute(r):  _stub(r, "")                       # zero bytes, exit 0
 def m_suitefloor(r): _stub(r, "print('PASS 3/3 deterministic checks')\n")
 
 def m_suitecount(r):
-    # a verdict line that does not describe this file: 71 case sites, 5 claimed
+    # a verdict line that does not describe this file: many case sites, 5 claimed.
+    # Padding is seeded(, not record(, so it clears the FALSIFIABLE floor and the case lands
+    # on the count-mismatch branch rather than the floor branch.
     _stub(r, 'print("PASS 5/5 deterministic checks")\nraise SystemExit(0)\n'
-             + "record('x', bool(1))\n" * (MIN_FLOOR + 5))
+             + "seeded('x', None, 'tag')\n" * (MIN_FLOOR + 5))
 def m_suiteconst(r):
     _stub(r, f'print("PASS {MIN_FLOOR + 5}/{MIN_FLOOR + 5} deterministic checks")\n'
-             'raise SystemExit(0)\n' + 'record("x", True)\n' * (MIN_FLOOR + 5))
+             'raise SystemExit(0)\n' + "seeded('x', None, 'tag')\n" * (MIN_FLOOR + 4)
+             + 'record("x", True)\n')
 def _passing_stub(n):
     """A suite that reports a full, correctly-counted PASS and detects nothing. Every
     check-13 fixture uses a STUB: a stub never invokes the lint, so lint -> suite -> lint
@@ -284,7 +334,7 @@ def _passing_stub(n):
     by exporting that variable. A guard whose off-switch lives in the ambient environment is
     not a guard; deleting the surface beats guarding it."""
     return (f'print("PASS {n}/{n} deterministic checks")\n'
-            'raise SystemExit(0)\n' + 'record("case", bool(1))\n' * n)
+            'raise SystemExit(0)\n' + "seeded('case', None, 'tag')\n" * n)
 def m_canaryblind(r):
     # a suite that always says PASS: the shape a self-reported count cannot see
     _stub(r, _passing_stub(MIN_FLOOR))
@@ -306,8 +356,20 @@ seeded("c13 verdict line does not describe the file it came from", m_suitecount,
 seeded("c13 cases with a constant verdict", m_suiteconst, "assert a literal True", full=True)
 seeded("c13 canary: suite stops detecting a disabled guard", m_canaryblind,
        "the suite is not detecting broken guards", full=True)
+def m_suitepad(r):
+    # one falsifiable case replaced by a non-literal constant and the TOTAL padded back to
+    # the floor. The old floor counted record() sites too, so a guard could go dead while
+    # the number held; `bool(1)` is not a literal True, so the constant-verdict test missed
+    # it. Stubbed like every other check-13 fixture, per the bound in seeded().
+    _stub(r, f'print("PASS {MIN_FLOOR}/{MIN_FLOOR} deterministic checks")\n'
+             "raise SystemExit(0)\n"
+             + "seeded('case', None, 'tag')\n" * (MIN_FLOOR - 1)
+             + 'record("c1 hardcoded harness path", bool(1))\n')
+
 seeded("c13 canary anchor removed (canary cannot run)", m_canaryanchor,
        "canary anchor", full=True)
+seeded("c13 a guard neutered and its case padded back to the total", m_suitepad,
+       "falsifiable case call sites", full=True)
 
 # --------------------------------------------------------------------------------------
 # 14. post-approval drift
@@ -347,6 +409,21 @@ seeded("c15 score/threshold as strings (isinstance once skipped them)",
 seeded("c15 passed false as a string", _incoh(passed="false"), "passed:")
 seeded("c15 dimension scores that do not sum to the reported total",
        _incoh(score=95, dimension_scores={"a": 40, "b": 40}), "dimension_scores sum to")
+seeded("c15 dimension scores as a list (shape, not meaning)",
+       _incoh(score=95, dimension_scores=[40, 40]), "dimension_scores sum to")
+def m_nocomputed(r):
+    # L11's gate: with a validator present, approval without a recorded computed pass is
+    # incoherent. Was prose in four files and code in none.
+    (r / "skills/test/scripts").mkdir(parents=True, exist_ok=True)
+    (r / "skills/test/scripts/validate_thing.py").write_text("# generated validator\n")
+def m_computedfalse(r):
+    m_nocomputed(r)
+    _json_edit(r, REV, lambda d: d.update(computed_checks={"thing_validator_pass": False}))
+
+seeded("c15 approve with no computed_checks while a validator exists", m_nocomputed,
+       "no computed_checks block while a validator exists")
+seeded("c15 approve with a failing computed check", m_computedfalse,
+       "computed_checks.thing_validator_pass=False")
 
 # --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"
@@ -525,6 +602,53 @@ probe("template binds evidence to the running check, not to a name it passes",
           '    text = require_file(session, "ARTIFACT.json")',
           '    checked("check_upstream_coverage")\n    text = require_file(session, "ARTIFACT.json")'))
 
+# the template's own helper contract: the docstring promises the require_* helpers record
+# evidence, so a check built only from them must not be reported NOT RUN on its happy path.
+def _one_check(body):
+    src = TEMPLATE.read_text()
+    src = src.replace("def check_required_structure(session, manifest):",
+                      f"def check_probe(session, manifest):\n{body}\n\n\n"
+                      "def check_required_structure(session, manifest):", 1)
+    return re.sub(r"^CHECKS = \[.*\]$", "CHECKS = [check_probe]", src, flags=re.M)
+
+
+probe("template require_bool alone counts as evidence (helpers record for you)", s_pass,
+      ["s"], 0, source=_one_check('    rec = require_record(manifest, "ARTIFACT")\n'
+                                  '    require_bool(rec, "reviewed",\n'
+                                  '                 "manifest.artifacts.ARTIFACT.reviewed")'))
+
+# era_at_least compares NUMBERS: the prescribed `>=` on version strings said 1.17 < 1.4.
+def _era_probe():
+    with tempfile.TemporaryDirectory() as td:
+        v = pathlib.Path(td) / "v.py"; v.write_text(TEMPLATE.read_text())
+        return subprocess.run([sys.executable, "-c",
+            "import importlib.util,sys;s=importlib.util.spec_from_file_location('v',sys.argv[1]);"
+            "m=importlib.util.module_from_spec(s);s.loader.exec_module(m);"
+            "print(m.era_at_least({'session_contract_version':'x.1.17'},'x.1.4'),"
+            "m.era_at_least({'session_contract_version':'x.10.0'},'x.9.0'),"
+            "m.era_at_least({'session_contract_version':'x.1.2'},'x.1.4'))", str(v)],
+            capture_output=True, text=True).stdout.strip()
+
+
+_era = _era_probe()
+record("template era_at_least compares numbers, not strings", _era == "True True False", _era)
+
+
+# the fixture-runner snippet is the code every downstream author copies: it must parse.
+def _snippet_parses():
+    import textwrap
+    s = TEMPLATE.read_text().split("release_lint.py gets a check like:\n\n")[1]
+    s = s.split("\n\nThe reviewer")[0]
+    try:
+        compile(textwrap.dedent(s).replace('\\"', '"'), "<snippet>", "exec")
+        return True, ""
+    except SyntaxError as e:
+        return False, str(e)[:70]
+
+
+_snip_ok, _snip_why = _snippet_parses()
+record("template's prescribed lint snippet parses as Python", _snip_ok, _snip_why)
+
 # --------------------------------------------------------------------------------------
 # reachability: the 1.10 split broke citations; keep them honest
 # --------------------------------------------------------------------------------------
@@ -537,8 +661,13 @@ bad = [p.relative_to(ROOT) for p in _scanned
 record("no skill cites the gutted ledger as a source",
        bool(_scanned) and not bad, f"{[str(b) for b in bad]}" if bad else "")
 _lessons = list((ROOT / LDIR).glob("*.md"))
-record("every lesson file is indexed",
-       bool(_lessons) and all(f.name in idx for f in _lessons),
+# membership against PARSED row targets, exactly as check 12 does. A raw substring test over
+# the index counted an HTML-comment mention as indexed — the defect check 12 was rewritten to
+# catch, still living in the case that shadows it.
+_linked = {pathlib.PurePosixPath(m).name for m in
+           re.findall(r"^\| L\d+ \| [^|]+ \| [^|]+ \| \[`([^`]+)`\]", idx, re.M)}
+record("every lesson file is indexed by a parsed row",
+       bool(_lessons) and all(f.name in _linked for f in _lessons),
        "no lesson files found" if not _lessons else "")
 
 # A --only run prints SELECTED, never PASS: release_lint check 13 keys on the PASS line and

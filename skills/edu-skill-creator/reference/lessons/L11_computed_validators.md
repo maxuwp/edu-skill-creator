@@ -90,6 +90,9 @@ found in this repo's own lint by an adversarial pass, all silent, all reporting 
 | unaudited copies of an audited claim | numbered enforcement claims were resolved in the lesson index only, so four SKILL bodies kept citing "architecture item 11" after a renumber moved it to 12 — and item 11 exists, so nothing fired |
 | an off-switch in the ambient environment | a re-entrancy guard read `ESC_LINT_DEPTH` from the environment, so exporting that variable disabled the whole suite check while the lint still exited 0 |
 | a guard whose anchor is its own source | the canary tested for its anchor with a substring search, and the anchor string appears in the canary's own two lines, so it vouched for itself and its fail-closed branch could never fire |
+| a floor counting non-falsifiable members | the suite's case floor counted `record(` sites, so a dead guard could be neutered into `record(name, bool(1))` — not a literal `True`, so the constant test missed it — and the total held |
+| a negative fixture that removes an input | deleting a file makes the fail-closed helpers report under the CALLING check's name, so a check whose body is a lone `require_file(...)` is named by its own fixture and ships certified |
+| a bound replaced by a convention | removing an environment-controlled off-switch left "every case stubs its copy's suite" as an unenforced habit; the first violation hangs the lint forever instead of erroring |
 | self-reported identity | a validator's `checked(name, target)` took the name as a free string, letting one check vouch for a check that never ran |
 
 Three rules close all of them.
@@ -108,5 +111,7 @@ check's identity in the runner, not in a string the check passes. Each of these 
 convenient way first, and each was silenced by a one-line edit to the thing under test. The
 strongest form is a canary: break a guard in a copy and require the harness to notice —
 detection tested at the layer of detection, not at the layer of its output.
+
+**Corollary added 1.18 — severity is part of the claim.** A fixture asserted that its check appeared in the report; a guard downgraded from critical to warning still appears, and a cascading defect from another check supplies the failing exit. Assert the SEVERITY the claim rests on, not merely the presence of the name. Same shape: comparing dotted versions as strings (`"x.1.17" >= "x.1.4"` is False) reads as a version check and is not one.
 
 *Enforcement status: the self-interested-report corollary is covered by test scenario 13. Threshold re-derivation, exemplar self-measurement and domain-model-aware detectors are guidance only — no dedicated check yet, recorded rather than implied (L13).*

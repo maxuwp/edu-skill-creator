@@ -27,50 +27,93 @@ Exit 2 is FAIL-CLOSED: an unreadable session, missing manifest, or crashing chec
 "not validated", never "nothing to check". Callers treat 1 and 2 identically: no gate.
 
 FIXTURES — ONE NEGATIVE PER CHECK, NOT ONE PER VALIDATOR (L8/L11)
-  tests/fixtures/ARTIFACT_pass/              — exit 0; minimal compliant session
-  tests/fixtures/ARTIFACT_fail_<check_id>/   — exit 1, AND the report must name <check_id>
+  tests/fixtures/ARTIFACT_pass/            — exit 0; minimal compliant session
+  tests/fixtures/ARTIFACT_fail_<fn>/       — exit 1, AND the report must carry a CRITICAL
+                                             named <fn>. <fn> is the check function's
+                                             __name__ verbatim, `check_` prefix included.
 A single \"bad\" fixture trips whichever check fires first and leaves every other check
 unproven forever; that is how a validator with three checks ships with one working.
 Neutralizing a fail fixture must make the release lint itself fail (prove the proof).
+
+BUILD EACH NEGATIVE FIXTURE AS: the pass fixture with ONE FIELD CORRUPTED. Not a file
+deleted, and not a second copy of one broadly-bad session. Both shortcuts certify nothing:
+  - Deleting an input makes require_file/require_record crit under the CALLING check's
+    name, so a check whose body is a lone `require_file(...)  # TODO` is \"named\" by its
+    own fixture and ships certified. The runner below rejects a fixture that removes a
+    file the pass fixture has.
+  - Copying one bad session into N directories is one proof, not N. The runner digests
+    each fixture and rejects duplicates.
 Fixtures NEVER contain student/faculty course content — the data posture (intent A.7)
 applies to test data too. The generated release_lint.py gets a check like:
 
     # check N: one negative fixture per check, plus the positive control. Reports go to a
     # TEMP dir — a runner that writes into the fixtures it reads mutates its own inputs.
-    import importlib.util, tempfile
-    V = \"skills/<x>/scripts/validate_ARTIFACT.py\"
+    # Paths are ROOT-anchored like every other check in this lint: a cwd-relative
+    # exec_module raises before sys.exit and discards every error the earlier checks found.
+    import hashlib, importlib.util, tempfile
+    V = str(ROOT / \"skills/<x>/scripts/validate_ARTIFACT.py\")
+    FIX = ROOT / \"tests/fixtures\"
     spec = importlib.util.spec_from_file_location(\"v\", V)
     mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
     if getattr(mod, \"SAMPLES_PRESENT\", False):
         errors.append(\"[fixtures] validate_ARTIFACT.py still ships the template's sample \"
                       \"checks (SAMPLES_PRESENT) — replace them and delete the marker\")
+    _mm = \".\".join(json.loads((ROOT / \".claude-plugin/plugin.json\").read_text())[\"version\"]
+                   .split(\".\")[:2])
+    if not mod.CONTRACT_VERSION.endswith(_mm):
+        errors.append(f\"[fixtures] CONTRACT_VERSION {mod.CONTRACT_VERSION!r} trails the \"
+                      f\"release ({_mm}) — era gates disarm silently on a stale value\")
     registered = {c.__name__ for c in mod.CHECKS}
+    _pass_files = {f.name for f in (FIX / \"ARTIFACT_pass\").iterdir() if f.is_file()}
+    _seen = {}
     with tempfile.TemporaryDirectory() as td:
-        rc = subprocess.run([sys.executable, V, \"tests/fixtures/ARTIFACT_pass\",
-                             \"--report\", f\"{td}/pass.json\"]).returncode
+        rc = subprocess.run([sys.executable, V, str(FIX / \"ARTIFACT_pass\"),
+                             \"--report\", f\"{td}/pass.json\"], capture_output=True).returncode
         if rc != 0:
             errors.append(\"[fixtures] ARTIFACT_pass did not pass — the validator can never approve\")
         for fn in sorted(registered):
-            d = pathlib.Path(f\"tests/fixtures/ARTIFACT_fail_{fn}\")
+            d = FIX / f\"ARTIFACT_fail_{fn}\"
             if not d.is_dir():
                 errors.append(f\"[fixtures] {fn} has no negative fixture — unproven, not exempt\")
                 continue
+            _gone = _pass_files - {f.name for f in d.iterdir() if f.is_file()}
+            if _gone:
+                errors.append(f\"[fixtures] ARTIFACT_fail_{fn} DELETES {sorted(_gone)} — a removed \"
+                              f\"input crits under the calling check's name, proving the helper \"
+                              f\"rather than {fn}; corrupt one field instead\")
+            _dig = hashlib.sha256(b\"\".join(sorted(f.name.encode() + f.read_bytes()
+                                  for f in d.rglob(\"*\") if f.is_file()))).hexdigest()
+            if _dig in _seen:
+                errors.append(f\"[fixtures] ARTIFACT_fail_{fn} is byte-identical to \"
+                              f\"{_seen[_dig]} — one bad session copied N times is one proof\")
+            _seen[_dig] = f\"ARTIFACT_fail_{fn}\"
             rep = pathlib.Path(td) / f\"{fn}.json\"
-            rc = subprocess.run([sys.executable, V, str(d), \"--report\", str(rep)]).returncode
-            named = fn in {f[\"check\"] for f in json.loads(rep.read_text())[\"findings\"]} if rep.exists() else False
+            rc = subprocess.run([sys.executable, V, str(d), \"--report\", str(rep)],
+                                capture_output=True).returncode
+            # severity matters: a guard downgraded from crit() to warn() still appears in
+            # findings, and a cascading defect from another check supplies the exit 1.
+            named = fn in {f[\"check\"] for f in json.loads(rep.read_text())[\"findings\"]
+                           if f[\"severity\"] == \"critical\"} if rep.exists() else False
             if rc != 1 or not named:
-                errors.append(f\"[fixtures] ARTIFACT_fail_{fn}: exit {rc}, {fn} named: {named}\")
+                errors.append(f\"[fixtures] ARTIFACT_fail_{fn}: exit {rc}, {fn} crit: {named}\")
     # ...and the OTHER direction (the check-12 fold): a fixture proving a check that is not
     # in CHECKS means the check was written, fixtured, and never registered — green everywhere.
-    for d in sorted(pathlib.Path(\"tests/fixtures\").glob(\"ARTIFACT_fail_*\")):
+    for d in sorted(FIX.glob(\"ARTIFACT_fail_*\")):
         fn = d.name[len(\"ARTIFACT_fail_\"):]
         if fn not in registered:
             errors.append(f\"[fixtures] {d.name} proves a check absent from CHECKS — \"
                           f\"register it or delete it; never orphan it\")
+
+The reviewer's approve is illegal without a recorded pass, and THAT is code too, not prose:
+give the generated lint the review-coherence check (this repo's check 15) and add a clause
+so a review recommending approval while a validator exists must carry
+computed_checks.<artifact>_validator_pass = true. A gate enforced only by asking a
+reviewer to restrain itself is the class L11 exists to reject.
 """
 import json, pathlib, re, sys
 
-# Keep equal to the plugin's current release; the generated lint checks the match.
+# Keep equal to the plugin's current release. The fixture-runner snippet above checks
+# the match, because a stale value disarms every era gate without a symptom.
 CONTRACT_VERSION = "<x>_skill.0.1"
 
 findings = []
@@ -134,7 +177,10 @@ def require_record(manifest, key):
 
 def require_bool(container, key, location=""):
     """A gate flag must be a JSON boolean. The string "false" is truthy in every naive
-    check and has defeated a real independence gate — validate by TYPE, never by truth."""
+    check and has defeated a real independence gate — validate by TYPE, never by truth.
+    Records evidence like the other require_* helpers: without it, a check built only from
+    this one was reported NOT RUN on its happy path, a permanent false critical."""
+    checked(location or key)
     v = (container or {}).get(key) if isinstance(container, dict) else None
     if not isinstance(v, bool):
         crit(location or key,
@@ -148,12 +194,22 @@ def contract_era(manifest):
     """L12: which contract governs this session? A missing or non-string value falls back to
     THIS validator's CONTRACT_VERSION, so era-gated rules stay ARMED rather than disarmed —
     a stale value once turned off a whole release's enforcement. Gate an era-specific rule
-    with `if contract_era(manifest) >= "<x>_skill.1.4":`; never with
+    with `if era_at_least(manifest, "<x>_skill.1.4"):`; never with
     `if manifest.get("session_contract_version") >= ...`, which is None-safe in the wrong
     direction. The value is also written into the report so a reader can tell a contract
     upgrade from a quality gap."""
     v = (manifest or {}).get("session_contract_version")
     return v if isinstance(v, str) and v else CONTRACT_VERSION
+
+
+def era_at_least(manifest, floor):
+    """Compare version NUMBERS, never strings. `"x_skill.1.17" >= "x_skill.1.4"` is False as
+    a string compare, and so is `"x.10.0" >= "x.9.0"` — a plugin that reaches minor .10 would
+    silently disarm every era gate written the obvious way, which is the exact failure the
+    paragraph above warns about."""
+    def parts(v):
+        return [int(n) for n in re.findall(r"\d+", str(v))]
+    return parts(contract_era(manifest)) >= parts(floor)
 
 
 def stamped(rec):
@@ -190,9 +246,12 @@ def repetition_ratio(text):
 #
 # LIMIT, stated rather than implied (L13): the runner cannot detect a check that examines
 # something and then swallows its own exception, nor one whose body is a bare checked() call.
-# The guard for those is the per-check NEGATIVE FIXTURE — a hollow check fails to report its
-# own fixture's defect, and the fixture runner fails the release. Fixtures are not optional
-# decoration here; they are the only thing standing behind a check's honesty.
+# The guard for those is the per-check NEGATIVE FIXTURE — but only one built the prescribed
+# way. A fixture that DELETES an input proves nothing about the check: require_file and
+# require_record crit under the calling check's name, so the report names the check while its
+# own logic never ran. Corrupt one field of the pass fixture instead; the runner rejects the
+# deleting kind. Fixtures are not optional decoration here; they are the only thing standing
+# behind a check's honesty, and only in that one shape.
 #
 # The samples below are RUNNABLE against the toy schema documented in each docstring, not
 # comment sketches — a sketch an author forgets to fill in validates nothing while reporting
