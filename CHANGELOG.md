@@ -3,6 +3,56 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+**Numbering rule, adopted 2026-07-31 by the author.** From 1.20 onward a change request's id is the
+release number it ships in: CR 1.20 ships as release 1.20, CR 1.21 as release 1.21. Work with no CR
+of its own rides the next CR's release rather than minting a minor version. That is why the grounding
+corrections below carry no version bump of their own — a version number was deliberately skipped so
+the CR and the release could keep matching. The manifests bump when 1.20 gates.
+
+## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
+
+**Grounding library corrections, from the first external audit of the anchors themselves.** Thirty
+anchors were checked against primary sources twice and independently (Perplexity agentic browsing and
+deep research); the comparison is in `docs/AUDIT_grounding_two_runs_compared.md`. The two runs
+disagreed on eight anchors, so this release acts only where the evidence is not in dispute, and says
+so in the library itself.
+
+**The highest-value single edit is Mayer.** The anchor read "Multimedia materials; not classroom
+facilitation," which an author could read as licensing prose-level editing judgments — and one did,
+which is the failure L14 records. Both runs independently confirmed the diagnosis: the personalization
+principle was operationalized as a 12-place "the"→"your" substitution in a narrated science animation.
+The row now states that scope and rules out lexico-grammatical editing at any layer, explicitly.
+
+**Corrected on agreed or uncontradicted evidence:** UbD widened (its own Stage 3 plans instruction);
+Mager and ABCD split into separate rows, because ABCD is a different lineage and the library had
+conflated the two; Merrill re-pointed from the 2002 synthesis paper to the 2020 AECT revision (2024
+reissue); Ausubel narrowed to prose organizers before unfamiliar written expository text; cognitive
+apprenticeship widened, since the source includes conceptual knowledge situated in use; Haladyna
+narrowed to multiple-choice and selected-response, with the blueprint clause softened; obra's
+description rewritten to admit Superpowers is a full agentic-development methodology from which one
+skill is borrowed; NIST SP 800-218A added as a companion anchor, the clearest additive finding of the
+exercise; Quality Matters' copyright rule extended to the free PDF, which is itself restricted against
+duplication.
+
+**Two factual disputes settled at their issuing bodies rather than by a third reader.** IEEE's own
+record gives 1028-2008 as "Inactive-Reserved" since 2019-11-07 with no successor — the browsing run
+was right, and the deep-research run's "formally withdrawn" came from a reseller's sales listing.
+W3C's publication history shows both parties were right about different things: WCAG 2.2 became a
+Recommendation on 2023-10-05 and its current version is dated 2024-12-12. The library now states both
+dates. IEEE 1028 is no longer cited as an active standard anywhere in the skills: the four live
+citations that justified binary inspection over scored rubrics now stand on Fagan (1976) alone, which
+is where that claim always came from.
+
+**What was deliberately not changed, and why it is recorded.** Bloom, Cognitive Load Theory, ICAP,
+Kosslyn and SIFT/CRAAP are disputed between the two runs and are untouched; their scope sentences
+carry no more authority now than before the audit, and the library says so in a new audit-status
+section. Gagné, POGIL, UDL 3.0, TPI, Biggs, Wiliam, Alley, plugin-dev and TDD were checked and found
+sound, and were left alone on purpose — a verified property is a baseline to protect, not an
+invitation to re-draft (L19). Two flagged findings needed no edit and were verified as such: no
+shipped skill cites a formative-assessment effect size, and no skill cites the moved upstream
+`skill-creator/` path. The historical narrative in L01 still reads "Fagan/IEEE 1028" because it
+records what POSED did at the time; rewriting it would falsify the record.
+
 ## edu_skill_creator.1.19 — 2026-07-31
 
 Round 5, same confirm-first brief, with round 4's verified properties carried forward as a

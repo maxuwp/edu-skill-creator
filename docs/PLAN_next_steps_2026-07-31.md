@@ -2,8 +2,9 @@
 
 **Date:** 2026-07-31, release 1.19. **Inputs:** `docs/IDEAS_next_steps_fable.md`, Grok's return
 (reproduced in this thread), `docs/AUDIT_grounding_two_runs_compared.md`, both CR 1.20 reviews.
-**Status:** a plan, not an approval. Steps 1–2 are edits to one reference file and need Dr. Ma's
-go-ahead; steps 3 onward each carry their own gate.
+**Status:** steps 1 and 2 were approved and executed on 2026-07-31 — see the `1.20 — in progress`
+changelog entry and §6 of `docs/AUDIT_grounding_two_runs_compared.md`. Steps 3 onward each carry
+their own gate and are not approved by that.
 
 **Why this document exists:** two idea passes agreed on all five open questions. Leaving two files
 and no decision would recreate the accumulation problem the brief was written to name.
@@ -93,9 +94,10 @@ then defending it is exactly the `c16` failure, with a ledger to enforce it.
   but whether it fits a release lint without a lint-specific definition of level 1 (repo bytes) is
   not. This is already the last question in `docs/HANDOFF_census_reclassification.md`; it now has a
   second voice behind it.
-- **Numbering collision.** CR 1.20 is named for a release that does not exist yet, and step 1 would
-  naturally ship as release 1.20. Either the grounding release takes a different number or CR ids
-  and release numbers are formally decoupled. Small, but it will confuse the changelog if left.
+- ~~**Numbering collision.**~~ **Settled 2026-07-31 by the author:** a CR's id is the release number
+  it ships in, and work with no CR of its own rides the next CR's release rather than minting a minor
+  version. Step 1 therefore shipped with no version bump of its own, and 1.20 stays reserved for
+  CR 1.20. The rule is recorded at the head of `CHANGELOG.md`, where a future release will look.
 - **Heterogeneity as a finding in its own right** (Fable). The Perplexity audit was this project's
   first genuinely external reader and produced the densest findings of any round, while `c26`
   (prefer a different model for independent review) sits deferred. The marginal value of a

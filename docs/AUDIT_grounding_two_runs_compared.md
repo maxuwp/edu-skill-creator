@@ -13,7 +13,10 @@ disagree, and what still has to be settled before any anchor text is edited.
 | | Anchors with a verdict | Anchors marked unverified | Currency half |
 |---|---|---|---|
 | Browsing | **29 of 29** examinable | 0 (several numeric sub-claims flagged inline) | done, dated, per anchor |
-| Deep research | **14** | **15**, listed explicitly | not run |
+| Deep research | **15** | **14**, listed explicitly | not run |
+
+Counts corrected 2026-07-31 by `scripts/score_deepresearch_report.py`, which parses the tables
+rather than counting them by eye; the first version of this note had the two figures transposed.
 
 The deep-research run states plainly that it is "a Half A pass" and that unreached anchors "should
 not be treated as validated by omission." That is the handoff's rule followed correctly, and the
@@ -24,7 +27,7 @@ Note the mode inversion against what the handoff asked for. The handoff assigned
 the *currency* half; the deep-research run did *scope* instead, and the browsing run did both. So
 the currency sweep as designed was effectively run once, by browsing, not twice.
 
-## 2. Where they disagree — 8 of the 14 anchors both covered
+## 2. Where they disagree — 8 of the 15 anchors both covered
 
 This is the most useful output of having run it twice, and it is a high disagreement rate.
 
@@ -39,7 +42,8 @@ This is the most useful output of having run it twice, and it is a high disagree
 | 22 | SIFT + CRAAP | scope-too-broad | scope-accurate, CRAAP flagged |
 | 25 | NIST SSDF | scope-accurate + currency caveat | scope-too-narrow |
 
-Two of these are factual, not interpretive, and must be settled before anything is edited:
+Two of these are factual, not interpretive, and must be settled before anything is edited.
+**Both were settled at the issuing bodies on 2026-07-31 — see §6.**
 
 - **#17 IEEE 1028 status.** Browsing: **"Inactive-Reserved"**, inactivated 2019-11-07 for missing
   its revision window — an administrative lapse, no formal withdrawal. Deep research: **"formally
@@ -105,3 +109,31 @@ no contradiction:
 
 **What neither run establishes:** whether the pipeline is pedagogically sound. Both say so. That
 remains faculty judgment.
+
+## 6. Settled at the issuing bodies, 2026-07-31
+
+Recommendation 2 sent the two factual splits to their issuing bodies rather than to a third reader.
+Both are now closed, and both closures were fetched directly from the body that owns the fact.
+
+**#17 — IEEE Std 1028.** The browsing run was right and the deep-research run was wrong. IEEE's own
+standards page for 1028-2008 gives the status as **"Inactive-Reserved Standard"**, inactivated
+**2019-11-07**, and names no successor. "Formally withdrawn" came from a standards reseller's sales
+listing, which is the D3 source-tier failure this comparison already recorded, now confirmed to have
+produced a materially wrong fact and not only a weak citation. Source: standards.ieee.org, the
+1028-2008 record.
+
+**#23 — WCAG 2.2's recommendation date.** Both runs were right about different things, as suspected.
+W3C's publication history for WCAG 2.2 lists a Recommendation dated **5 October 2023** and a
+Recommendation dated **12 December 2024**; the current document is the December 2024 version and
+remains a Recommendation. The library now states both dates rather than choosing one. Source:
+w3.org, the WCAG 2.2 standards history page and the current document's status header.
+
+**What this does and does not settle.** Two factual rows are closed. The remaining six disputed rows
+(#3, #7, #8, #16, #18, #21, #22, #25) are scope-judgment disagreements and are untouched, except
+where both runs asserted the same sub-claim in the same words — Mayer's narrow operationalization,
+Quality Matters' copyright restriction, and the missing SP 800-218A companion. Those three sub-claims
+were acted on; the disputed part of each row was not.
+
+**Method note.** Settling a factual dispute at the issuing body cost two fetches. A third reader
+would have cost a full pass and could still have produced a 2-1 vote on a reseller's page. Where a
+fact has an owner, go to the owner.

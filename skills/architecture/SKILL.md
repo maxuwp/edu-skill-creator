@@ -117,7 +117,7 @@ intent's gate budget. Findings go to `reviews/architecture_review.json` in the b
 session BEFORE the gate opens; fix blocking findings and re-review. This review is
 deliberately a binary inspection (each check passes or produces a severity-classed
 finding), not a scored /100 rubric: forcing points onto binary completeness checks is
-fake precision — the same Fagan (1976) / IEEE 1028 reasoning POSED's Stage 7 Part A
+fake precision — the same Fagan (1976) reasoning POSED's Stage 7 Part A
 records. Scored rubrics are for quality judgments (drafted skill text); inspections are
 for conformance.
 

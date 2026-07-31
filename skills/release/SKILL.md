@@ -65,7 +65,7 @@ entry, and `release_gate_decision.json` (below).
    | gate_id | `release_gate` |
    | decision | Publish this release to the named remote/marketplace? |
    | artifact | the release commit (diff summary), CHANGELOG entry, consent-mode disclosure |
-   | reviewer | the lint run from step 3 — a deliberate substitution: this stage's artifact is mechanical conformance, so the lint is the right reviewer (inspection vs. judgment, Fagan/IEEE 1028; there is no content judgment here to re-derive) |
+   | reviewer | the lint run from step 3 — a deliberate substitution: this stage's artifact is mechanical conformance, so the lint is the right reviewer (inspection vs. judgment, Fagan 1976; there is no content judgment here to re-derive) |
    | decision_file | `release_gate_decision.json` — `{decision: publish\|hold, remote, version, guidance}` |
    | owns | `edu-skill-creator-release` re-runs steps 1–7 on hold-with-changes |
    | invalidates | publishing freezes this version; later edits start the next release |

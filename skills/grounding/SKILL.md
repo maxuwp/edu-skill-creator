@@ -35,9 +35,10 @@ rules track this in BUILD_PLAN.
    map row: *stage → framework → citation → how it is applied here → scope limit (what
    the framework does NOT cover)*. One anchor per rule; note near-alternatives.
    Worked example row:
-   *objective-writing step → Mager/ABCD → Mager (1997) → every SLO drafted in
-   audience/behavior/condition/degree form → scope limit: objective wording only, says
-   nothing about sequencing.*
+   *objective-writing step → Mager (1997) → every SLO drafted in
+   performance/conditions/criterion form → scope limit: objective wording only, says
+   nothing about sequencing.* (One anchor per rule: the ABCD mnemonic is a separate
+   lineage, not Mager's, and the two were conflated in the library until 2026-07-31.)
 4. **Search only for gaps.** If nothing in the library fits a stage, search for an
    established framework in that stage's domain. The vetting bar is the library's own
    "Rules of use" section — widely validated, citable, public standards only, never
@@ -66,7 +67,7 @@ recorded resolution), no stance smuggling — and writes findings to
 `reviews/grounding_map_review.json` in the build session BEFORE the gate page renders.
 Fix blocking findings and re-review; the gate shows the reviewer's summary card. (Like
 the architecture design review, this is a binary inspection with severity-classed
-findings, not a scored /100 rubric — Fagan/IEEE 1028: points belong on quality
+findings, not a scored /100 rubric — Fagan (1976): points belong on quality
 judgments, not conformance checks.)
 
 ## Output — the new plugin's `grounding_frameworks.md`

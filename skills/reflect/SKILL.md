@@ -74,7 +74,7 @@ morals), scope classification is honest (`edu-skill-creator`-scope claims genera
 plugin), redaction completeness (no PII or identifying detail survived), and proposals
 match findings. Log to `reviews/reflect_ledger_review.json` BEFORE the gate opens; fix
 blocking findings and re-review. Like the other map/design reviews, this is a binary
-inspection with severity-classed findings, not a scored /100 rubric (Fagan/IEEE 1028 —
+inspection with severity-classed findings, not a scored /100 rubric (Fagan 1976 —
 points belong on quality judgments, not conformance checks); the gate's summary card
 shows finding counts by severity.
 
