@@ -3,6 +3,69 @@
 All releases bump both plugin manifests in lockstep. Entry headings follow
 `## edu_skill_creator.X.Y — <date>` (the release lint requires the heading, not a mention).
 
+## edu_skill_creator.1.19 — 2026-07-31
+
+Round 5, same confirm-first brief, with round 4's verified properties carried forward as a
+baseline to RE-VERIFY rather than assume. **The convergence is real.** Both auditors broke every
+baseline mechanism on a temp copy and reported it firing: 7 of 7 lint invariants and 17 of 17
+generated-surface invariants survived 1.18 intact. Of the ten findings, nine are gaps in surfaces
+1.18 itself added or last touched, and exactly one is a regression from an earlier release. After
+three rounds where every fix reopened a prior one, that is the shape a converging loop has.
+
+**The one regression, and it was mine.** 1.18 widened check 3 to scan `.py` and excluded all of
+`tests/` so the suite's deliberate fixture string would not trip it. Only one file under `tests/`
+carries that string, so the exclusion silently dropped coverage of `tests/*.md` and `tests/*.json`
+that 1.17 had. Both other exemptions in that loop are file-scoped; this one now is too.
+
+**Both auditors independently found the same two holes**, which is the strongest signal in the
+round:
+
+- **The citation rule tested where a path LANDS, not each hop.** A citation of the form
+  `../../skills/NAME/…` leaves the skill directory and comes back, so it passed — while the
+  installed layout, where siblings are prefixed, still dangles. It is also the natural spelling
+  for an author thinking in repo terms. Now checked per hop.
+- **The computed-checks gate accepted any non-empty block.** `{"note": "ran it"}` satisfied
+  L11's central gate, which 1.18 had just converted from prose to code. Recording the report path
+  and renaming or forgetting the pass flag was enough. It now requires an
+  `<artifact>_validator_pass` key.
+
+**The runner's own diagnostics were being read as the subject's evidence.** A negative fixture
+proved its check by finding a critical carrying that check's name — but the runner stamps its own
+CRASHED and NOT-RUN criticals with the check's name too. A fixture that made the check crash, or
+that stopped it running at all, therefore read as proof that it ran, and a check with an empty
+body shipped certified. Findings whose location is `validator` are now excluded. This is the
+same shape as 1.16's self-reported count and 1.17's self-matching anchor, in a new place.
+
+**The prescribed fixture contract closed one of three removal shapes.** Deleting a file was
+rejected; blanking it and dropping a manifest record were not, and both make the fail-closed
+helpers report under the calling check's name exactly as deletion does. The rule is now stated as
+what it always meant: change one value in place, leaving every input present and non-empty.
+
+**The snippet could not be pasted out of the file it lives in.** The docstring stored backslash
+escapes, so the block an author copies is a `SyntaxError`; only `__doc__` rendered correctly, and
+the instruction says to take it "from the template's docstring". The escapes were unnecessary and
+are gone; the suite's parse probe now compiles the text as pasted. A missing positive fixture
+also raised instead of reporting, discarding every error the earlier checks had found.
+
+**The generated harness is now tested by this repo's own suite, end to end.** Ten new cases build
+a real downstream plugin from the template, transcribe the fixture-runner snippet verbatim, and
+require each claimed rejection to fire: blanked input, dropped manifest record, crashing check,
+missing positive fixture, byte-identical fixtures, a guard downgraded to `warn()`, surviving
+`SAMPLES_PRESENT`, stale `CONTRACT_VERSION`, and an unregistered fixture — plus a control that an
+honest plugin is silent. Two audit rounds had to do this by hand; verified-when-someone-remembers
+is not verified. Suite 91 → **104 cases** (99 falsifiable), 8s.
+
+**Also:** the era-gate fallback is stated honestly — with no `session_contract_version`,
+`contract_era` returns this validator's own floor, which DISARMS era gates rather than arming
+them, and is safe only because the runner requires `CONTRACT_VERSION` to track the release. The
+instantiation instruction now says to trim the template's authoring preamble, so a shipped
+validator stops carrying a second copy of the snippet and citations written for another repo.
+
+**Lessons.** L11 gains the lands-versus-traverses row and the harness-diagnostics-as-evidence row.
+
+Verification: `release_lint: 0 error(s), 0 warning(s)` in both modes; `PASS 104/104 deterministic
+checks`.
+
 ## edu_skill_creator.1.18 — 2026-07-31
 
 The audit brief changed, and the loop converged. Rounds 1 to 3 asked reviewers only for defects,

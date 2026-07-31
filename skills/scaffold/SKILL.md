@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-scaffold
 description: Edu Skill Creator Stage 4 — Dual-harness repo scaffolding for a new educational plugin. Generates the single-source repo skeleton - both plugin manifests in lockstep, tool-agnostic skills tree, harness_adaptation file, parameterized release lint, symlink dev script, MAINTAINING/AGENTS docs, changelog conventions. Triggers - when the edu-skill-creator umbrella dispatches Stage 4, or the user says "scaffold the plugin repo".
-version: "1.18"
+version: "1.19"
 ---
 
 # Edu Skill Creator Stage 4: Scaffold
@@ -70,7 +70,11 @@ status-file machinery intact regardless.
 For every artifact in the approved architecture item 12 computed-validation plan,
 instantiate `<edu-skill-creator-skill-dir:scaffold>/reference/validator_template.py`
 as `skills/<x>/scripts/validate_<artifact>.py`: replace ARTIFACT, set
-`CONTRACT_VERSION`, and turn the plan's structural requirements into the CHECKS list
+`CONTRACT_VERSION`, turn the plan's structural requirements into the CHECKS list, and TRIM
+the template's authoring preamble down to its USAGE block — the fixture-runner snippet's home
+is the generated lint, and a second copy inside the product file will drift from it (L7); an
+`<x>` or `<edu-skill-creator-skill-dir>` surviving in a shipped validator is a citation
+written for a repo the product is not in
 (the template's sample checks show the shapes: fail-closed required files/records,
 per-id upstream coverage — never count matches — forbidden markers, distribution
 checks). The runner block is not edited. Then wire both callers in the generated stubs:
@@ -80,16 +84,19 @@ handing off"; the reviewer stub's output schema includes
 unless true; the umbrella stub refuses to open the human gate on a review log missing
 them. Create ONE positive fixture per validator and ONE negative fixture PER CHECK, named
 `<artifact>_fail_<fn>/` where `<fn>` is the check function's `__name__` verbatim, `check_`
-prefix included. **Build each negative fixture as the positive one with a single field
-corrupted** — not a file deleted, and not one broadly-bad session copied into every
-directory. Both shortcuts certify nothing: a deleted input makes `require_file` /
-`require_record` report under the CALLING check's name, so a check whose body is a lone
-`require_file(...)  # TODO` is "named" by its own fixture and ships certified; and one bad
-session copied N times is one proof, not N. Add the fixture-runner check from the template's
-docstring to the generated lint — it rejects both shapes, requires each negative fixture's
-report to carry a CRITICAL naming its own check (a guard downgraded to `warn()` still
-appears in `findings`), and requires the positive fixture to exit 0, without which a
-validator that can never approve anything looks identical to a correct one. Fixtures NEVER
+prefix included. **Build each negative fixture by changing ONE VALUE IN PLACE**: every input
+and every manifest record the positive fixture has must still be present and non-empty.
+Three shortcuts certify nothing. REMOVING an input — deleting a file, blanking it, or
+dropping a manifest record — makes `require_file` / `require_record` report under the
+CALLING check's name, so a check whose body is a lone `require_file(...)  # TODO` is "named"
+by its own fixture and ships certified. One bad session copied N times is one proof, not N.
+And a fixture that makes the check CRASH is named by the runner's own diagnostic, which
+records that the check did *not* run. Add the fixture-runner check from the template's
+docstring to the generated lint — it rejects all three, requires each negative fixture's
+report to carry a CRITICAL naming its own check and not written by the runner (a guard
+downgraded to `warn()` still appears in `findings`), and requires the positive fixture to
+exit 0, without which a validator that can never approve anything looks identical to a
+correct one. Fixtures NEVER
 contain student/faculty course content. POSED's `validate_stage5_slides.py` /
 `validate_outline.py` are the worked examples.
 

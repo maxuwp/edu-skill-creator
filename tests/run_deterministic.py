@@ -127,7 +127,15 @@ seeded("c2 manifest version mismatch", m_version, "[manifest] version mismatch")
 seeded("c2 version key deleted (once silenced c2, c5 and c8 at once)", m_vergone,
        "has no usable string 'version'")
 seeded("c3 deprecated URL (was dead code)", m_deprec, "references deprecated")
+def m_deprecmd(r):
+    # 1.18 excluded all of tests/ to spare the suite's deliberate fixture string, dropping
+    # coverage of tests/*.md that 1.17 had
+    p = r / "tests/evals/E1_cold_start_execution.md"
+    p.write_text(p.read_text() + "\nsee maxuwp/page\n")
+
 seeded("c3 deprecated URL in a .py (scan scope)", m_deprecpy, "references deprecated")
+seeded("c3 deprecated URL in tests/*.md (scope regressed in 1.18)", m_deprecmd,
+       "references deprecated")
 
 # --------------------------------------------------------------------------------------
 # 4. rubric arithmetic — and the reword that used to disarm it
@@ -422,8 +430,16 @@ def m_computedfalse(r):
 
 seeded("c15 approve with no computed_checks while a validator exists", m_nocomputed,
        "no computed_checks block while a validator exists")
+def m_computedkey(r):
+    # recording the report path and renaming or forgetting the pass flag satisfied the gate
+    m_nocomputed(r)
+    _json_edit(r, REV, lambda d: d.update(
+        computed_checks={"thing_validator_report": "reviews/thing_validation.json"}))
+
 seeded("c15 approve with a failing computed check", m_computedfalse,
        "computed_checks.thing_validator_pass=False")
+seeded("c15 computed_checks block with no _validator_pass key", m_computedkey,
+       "names no '<artifact>_validator_pass' entry")
 
 # --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"
@@ -463,8 +479,15 @@ def m_citeblind(r):
 
 seeded("c16 citation that does not resolve", m_citebad, "does not resolve")
 seeded("c16 sibling cited through '..' with the placeholder", m_citedots, "traverses out of")
+def m_citereturn(r):
+    # leaves the skill directory and comes back: a destination-only test passed it, while the
+    # installed layout (siblings prefixed) still dangles
+    p = r / "skills/test/SKILL.md"
+    p.write_text(p.read_text() + "\n\nSee `../../skills/scaffold/SKILL.md`.\n")
+
 seeded("c16 sibling cited through a bare '..' (no placeholder to key on)", m_citeplain,
        "traverses out of")
+seeded("c16 '..' that leaves the skill and returns", m_citereturn, "traverses out of")
 seeded("c16 non-whitelisted extension", m_citeext, "does not resolve")
 seeded("c16 citation outside skills/ (scan scope)", m_citeoutside, "does not resolve")
 seeded("c16 nonexistent file under a generated-artifact prefix", m_citegen, "does not resolve")
@@ -640,7 +663,9 @@ def _snippet_parses():
     s = TEMPLATE.read_text().split("release_lint.py gets a check like:\n\n")[1]
     s = s.split("\n\nThe reviewer")[0]
     try:
-        compile(textwrap.dedent(s).replace('\\"', '"'), "<snippet>", "exec")
+        # compiled AS PASTED: the docstring no longer stores backslash escapes, because a
+        # block an author copies out of the file has to be valid where they paste it
+        compile(textwrap.dedent(s), "<snippet>", "exec")
         return True, ""
     except SyntaxError as e:
         return False, str(e)[:70]
@@ -648,6 +673,107 @@ def _snippet_parses():
 
 _snip_ok, _snip_why = _snippet_parses()
 record("template's prescribed lint snippet parses as Python", _snip_ok, _snip_why)
+
+# --------------------------------------------------------------------------------------
+# the GENERATED harness, end to end. The template's docstring prescribes a fixture runner
+# that every downstream plugin copies; until now it was verified by hand, which means it was
+# verified when someone remembered. This builds a real downstream plugin from the template,
+# transcribes the snippet verbatim, and requires each claimed rejection to fire.
+# --------------------------------------------------------------------------------------
+def _downstream(td, mutate=None):
+    """Instantiate the template, write the prescribed fixtures and the prescribed lint, run it."""
+    import textwrap
+    d = pathlib.Path(td)
+    (d / ".claude-plugin").mkdir(parents=True)
+    (d / ".claude-plugin/plugin.json").write_text(json.dumps({"version": "0.1.0"}))
+    src = TEMPLATE.read_text().replace("SAMPLES_PRESENT = True", "SAMPLES_PRESENT = False", 1)
+    src = src.replace('CONTRACT_VERSION = "<x>_skill.0.1"', 'CONTRACT_VERSION = "d_skill.0.1"', 1)
+    (d / "validate_ARTIFACT.py").write_text(src)
+    snip = TEMPLATE.read_text().split("release_lint.py gets a check like:\n\n")[1]
+    snip = textwrap.dedent(snip.split("\n\nThe reviewer")[0])
+    snip = snip.replace("skills/<x>/scripts/validate_ARTIFACT.py", "validate_ARTIFACT.py")
+    (d / "gen_lint.py").write_text(
+        "import hashlib, json, pathlib, subprocess, sys\n"
+        "ROOT = pathlib.Path(__file__).resolve().parent\nerrors = []\n" + snip +
+        '\nfor e in errors: print("ERROR", e)\nsys.exit(1 if errors else 0)\n')
+    fx = d / "tests/fixtures"
+    def fixture(name, artifact=None, manifest=None):
+        q = fx / name; q.mkdir(parents=True, exist_ok=True)
+        (q / "manifest.json").write_text(json.dumps(manifest or PASS_MANIFEST))
+        (q / "ARTIFACT.json").write_text(json.dumps(artifact or PASS_ARTIFACT, indent=1))
+    fixture("ARTIFACT_pass")
+    fixture("ARTIFACT_fail_check_required_structure",
+            {"items": [{"upstream_ref": "a1"}, PASS_ARTIFACT["items"][1]]})
+    fixture("ARTIFACT_fail_check_upstream_coverage", {"items": [PASS_ARTIFACT["items"][0]]})
+    fixture("ARTIFACT_fail_check_forbidden_markers",
+            {"items": [{"id": "i1", "upstream_ref": "a1", "text": "ANSWER KEY: 1c"},
+                       PASS_ARTIFACT["items"][1]]})
+    if mutate:
+        mutate(d)
+    r = subprocess.run([sys.executable, str(d / "gen_lint.py")], capture_output=True, text=True,
+                       cwd="/")   # ROOT-anchored: must not depend on the working directory
+    return r.returncode, r.stdout
+
+
+def downstream(name, mutate, expect_tag, expect_fail=True):
+    if ONLY and ONLY not in name:
+        return
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            rc, out = _downstream(td, mutate)
+        except Exception as e:
+            return record(name, False, f"could not build: {e!r}")
+        if expect_fail:
+            ok = rc != 0 and expect_tag in out
+            why = "" if ok else (f"exit {rc}, expected nonzero" if rc == 0
+                                 else f"failed, but not with {expect_tag!r}")
+        else:
+            ok = rc == 0 and not out.strip()
+            why = "" if ok else f"exit {rc}, output {out.strip()[:60]!r}"
+        record(name, ok, why)
+
+
+def _edit(rel, old, new):
+    def m(d):
+        q = d / rel
+        s = q.read_text()
+        if old not in s:
+            raise AssertionError(f"anchor {old[:40]!r} missing in {rel} — probe is stale")
+        q.write_text(s.replace(old, new, 1))
+    return m
+
+
+downstream("downstream harness: an honest plugin is silent", None, "", expect_fail=False)
+downstream("downstream: fixture that BLANKS an input (proves the helper, not the check)",
+           lambda d: (d / "tests/fixtures/ARTIFACT_fail_check_forbidden_markers/ARTIFACT.json")
+           .write_text("   \n"), "REMOVES")
+downstream("downstream: fixture that DROPS a manifest record",
+           lambda d: (d / "tests/fixtures/ARTIFACT_fail_check_upstream_coverage/manifest.json")
+           .write_text(json.dumps({"session_contract_version": "toy.1.0",
+                                   "artifacts": {"ARTIFACT": PASS_MANIFEST["artifacts"]["ARTIFACT"]}})),
+           "REMOVES")
+downstream("downstream: a check that CRASHES (runner diagnostics are not proof it ran)",
+           _edit("validate_ARTIFACT.py", "    for n, line in enumerate(text.splitlines(), 1):",
+                 '    raise ValueError("boom")\n    for n, line in enumerate(text.splitlines(), 1):'),
+           "crit: False")
+downstream("downstream: positive fixture missing (was a traceback)",
+           lambda d: shutil.rmtree(d / "tests/fixtures/ARTIFACT_pass"), "ARTIFACT_pass is missing")
+downstream("downstream: two byte-identical negative fixtures",
+           lambda d: (d / "tests/fixtures/ARTIFACT_fail_check_forbidden_markers/ARTIFACT.json")
+           .write_text((d / "tests/fixtures/ARTIFACT_fail_check_required_structure/ARTIFACT.json")
+                       .read_text()), "byte-identical")
+downstream("downstream: a guard downgraded from crit to warn",
+           _edit("validate_ARTIFACT.py", '                crit(f"ARTIFACT.json:{n}",',
+                 '                warn(f"ARTIFACT.json:{n}",'), "crit: False")
+downstream("downstream: template samples still present",
+           _edit("validate_ARTIFACT.py", "SAMPLES_PRESENT = False", "SAMPLES_PRESENT = True"),
+           "SAMPLES_PRESENT")
+downstream("downstream: CONTRACT_VERSION trailing the release",
+           _edit("validate_ARTIFACT.py", '"d_skill.0.1"', '"d_skill.0.0"'), "trails the release")
+downstream("downstream: a fixture for a check absent from CHECKS",
+           lambda d: shutil.copytree(d / "tests/fixtures/ARTIFACT_fail_check_forbidden_markers",
+                                     d / "tests/fixtures/ARTIFACT_fail_check_never_registered"),
+           "absent from CHECKS")
 
 # --------------------------------------------------------------------------------------
 # reachability: the 1.10 split broke citations; keep them honest

@@ -1,7 +1,7 @@
 ---
 name: edu-skill-creator-architecture
 description: Edu Skill Creator Stage 3 — Pipeline architecture for a new educational plugin. Designs stages, HITL gates, drafter/reviewer pairings, manifest schema, dependency/stale-state model, and emits the resumable BUILD_PLAN checklist. Triggers - when the edu-skill-creator umbrella dispatches Stage 3, or the user asks to "design the pipeline/stages/gates" for an educational plugin.
-version: "1.18"
+version: "1.19"
 ---
 
 # Edu Skill Creator Stage 3: Architecture

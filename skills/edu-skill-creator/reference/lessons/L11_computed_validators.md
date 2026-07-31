@@ -93,6 +93,8 @@ found in this repo's own lint by an adversarial pass, all silent, all reporting 
 | a floor counting non-falsifiable members | the suite's case floor counted `record(` sites, so a dead guard could be neutered into `record(name, bool(1))` — not a literal `True`, so the constant test missed it — and the total held |
 | a negative fixture that removes an input | deleting a file makes the fail-closed helpers report under the CALLING check's name, so a check whose body is a lone `require_file(...)` is named by its own fixture and ships certified |
 | a bound replaced by a convention | removing an environment-controlled off-switch left "every case stubs its copy's suite" as an unenforced habit; the first violation hangs the lint forever instead of erroring |
+| a guard that tests where a path LANDS | the citation rule compared the destination to the skill directory, so a path that left and came back (`../../skills/NAME/…`) passed while the installed layout still dangles |
+| the harness's own diagnostics read as the subject's evidence | a fixture proving a check "ran" was satisfied by the runner's CRASHED and NOT-RUN criticals, which carry the check's name and say the opposite |
 | self-reported identity | a validator's `checked(name, target)` took the name as a free string, letting one check vouch for a check that never ran |
 
 Three rules close all of them.

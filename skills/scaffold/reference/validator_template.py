@@ -3,8 +3,12 @@
 
 `edu-skill-creator-scaffold` instantiates ONE copy of this template per artifact named
 in the architecture's computed-validation plan (architecture item 12): replace ARTIFACT,
-fill in CHECKS, delete the sample bodies. Everything import-free and self-contained on
-purpose — a validator with dependencies is a validator someone will skip.
+set CONTRACT_VERSION, fill in CHECKS, delete the sample bodies, and TRIM THIS PREAMBLE to
+the USAGE block. The fixture-runner snippet's home is the generated lint, not a second copy
+inside the product file (L7); an `<x>` or `<edu-skill-creator-skill-dir>` surviving in a
+shipped validator is a citation written for a repo the product is not in. Everything
+import-free and self-contained on purpose — a validator with dependencies is a validator
+someone will skip.
 
 Why this exists (L11, `<edu-skill-creator-skill-dir>/reference/lessons/L11_computed_validators.md`): prose contracts rot. A POSED pilot deck
 passed FOUR fresh-context prose reviews at 94/100 while carrying 13 structural
@@ -31,18 +35,24 @@ FIXTURES — ONE NEGATIVE PER CHECK, NOT ONE PER VALIDATOR (L8/L11)
   tests/fixtures/ARTIFACT_fail_<fn>/       — exit 1, AND the report must carry a CRITICAL
                                              named <fn>. <fn> is the check function's
                                              __name__ verbatim, `check_` prefix included.
-A single \"bad\" fixture trips whichever check fires first and leaves every other check
+A single "bad" fixture trips whichever check fires first and leaves every other check
 unproven forever; that is how a validator with three checks ships with one working.
 Neutralizing a fail fixture must make the release lint itself fail (prove the proof).
 
-BUILD EACH NEGATIVE FIXTURE AS: the pass fixture with ONE FIELD CORRUPTED. Not a file
-deleted, and not a second copy of one broadly-bad session. Both shortcuts certify nothing:
-  - Deleting an input makes require_file/require_record crit under the CALLING check's
-    name, so a check whose body is a lone `require_file(...)  # TODO` is \"named\" by its
-    own fixture and ships certified. The runner below rejects a fixture that removes a
-    file the pass fixture has.
+BUILD EACH NEGATIVE FIXTURE BY CHANGING ONE VALUE IN PLACE. Every input the pass fixture
+has must still be present and non-empty, and every manifest record it has must still be
+there. Three shortcuts certify nothing and the runner rejects all three:
+  - REMOVING an input — deleting a file, blanking it, or dropping a manifest record —
+    makes require_file/require_record crit under the CALLING check's name, so a check whose
+    body is a lone `require_file(...)  # TODO` is "named" by its own fixture and ships
+    certified. (Fixturing an existence-only check is the one case with no in-place option;
+    write the check so it also validates content, or accept that the helper is what you are
+    proving and say so.)
   - Copying one bad session into N directories is one proof, not N. The runner digests
     each fixture and rejects duplicates.
+  - Making the check CRASH or not run: the runner's own diagnostics carry the check's name,
+    so the report would say "did not run" while the fixture read as proof that it did. The
+    runner ignores findings whose location is "validator".
 Fixtures NEVER contain student/faculty course content — the data posture (intent A.7)
 applies to test data too. The generated release_lint.py gets a check like:
 
@@ -51,58 +61,74 @@ applies to test data too. The generated release_lint.py gets a check like:
     # Paths are ROOT-anchored like every other check in this lint: a cwd-relative
     # exec_module raises before sys.exit and discards every error the earlier checks found.
     import hashlib, importlib.util, tempfile
-    V = str(ROOT / \"skills/<x>/scripts/validate_ARTIFACT.py\")
-    FIX = ROOT / \"tests/fixtures\"
-    spec = importlib.util.spec_from_file_location(\"v\", V)
+    V = str(ROOT / "skills/<x>/scripts/validate_ARTIFACT.py")
+    FIX = ROOT / "tests/fixtures"
+    spec = importlib.util.spec_from_file_location("v", V)
     mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-    if getattr(mod, \"SAMPLES_PRESENT\", False):
-        errors.append(\"[fixtures] validate_ARTIFACT.py still ships the template's sample \"
-                      \"checks (SAMPLES_PRESENT) — replace them and delete the marker\")
-    _mm = \".\".join(json.loads((ROOT / \".claude-plugin/plugin.json\").read_text())[\"version\"]
-                   .split(\".\")[:2])
+    if getattr(mod, "SAMPLES_PRESENT", False):
+        errors.append("[fixtures] validate_ARTIFACT.py still ships the template's sample "
+                      "checks (SAMPLES_PRESENT) — replace them and delete the marker")
+    _mm = ".".join(json.loads((ROOT / ".claude-plugin/plugin.json").read_text())["version"]
+                   .split(".")[:2])
     if not mod.CONTRACT_VERSION.endswith(_mm):
-        errors.append(f\"[fixtures] CONTRACT_VERSION {mod.CONTRACT_VERSION!r} trails the \"
-                      f\"release ({_mm}) — era gates disarm silently on a stale value\")
+        errors.append(f"[fixtures] CONTRACT_VERSION {mod.CONTRACT_VERSION!r} trails the "
+                      f"release ({_mm}) — era gates disarm silently on a stale value")
     registered = {c.__name__ for c in mod.CHECKS}
-    _pass_files = {f.name for f in (FIX / \"ARTIFACT_pass\").iterdir() if f.is_file()}
+    _PF = FIX / "ARTIFACT_pass"
+    if not _PF.is_dir():
+        errors.append("[fixtures] ARTIFACT_pass is missing — the positive control cannot run; "
+                      "unproven, not exempt")
+    _pass_files = {f.name: f.read_bytes() for f in _PF.iterdir() if f.is_file()} if _PF.is_dir() else {}
+    _pass_recs = set(json.loads((_PF / "manifest.json").read_text()).get("artifacts", {})) \
+                 if (_PF / "manifest.json").exists() else set()
     _seen = {}
     with tempfile.TemporaryDirectory() as td:
-        rc = subprocess.run([sys.executable, V, str(FIX / \"ARTIFACT_pass\"),
-                             \"--report\", f\"{td}/pass.json\"], capture_output=True).returncode
+        rc = subprocess.run([sys.executable, V, str(FIX / "ARTIFACT_pass"),
+                             "--report", f"{td}/pass.json"], capture_output=True).returncode
         if rc != 0:
-            errors.append(\"[fixtures] ARTIFACT_pass did not pass — the validator can never approve\")
+            errors.append("[fixtures] ARTIFACT_pass did not pass — the validator can never approve")
         for fn in sorted(registered):
-            d = FIX / f\"ARTIFACT_fail_{fn}\"
+            d = FIX / f"ARTIFACT_fail_{fn}"
             if not d.is_dir():
-                errors.append(f\"[fixtures] {fn} has no negative fixture — unproven, not exempt\")
+                errors.append(f"[fixtures] {fn} has no negative fixture — unproven, not exempt")
                 continue
-            _gone = _pass_files - {f.name for f in d.iterdir() if f.is_file()}
+            _fx = {f.name: f.read_bytes() for f in d.iterdir() if f.is_file()}
+            # deleted, blanked, AND dropped-manifest-record: all three make require_file /
+            # require_record crit under the CALLING check's name, so all three certify a
+            # check whose body is a lone helper call.
+            _gone = sorted(n for n in _pass_files if not _fx.get(n, b"").strip())
+            _gone += sorted("manifest.artifacts." + k for k in _pass_recs -
+                            set(json.loads(_fx.get("manifest.json") or b"{}").get("artifacts", {})))
             if _gone:
-                errors.append(f\"[fixtures] ARTIFACT_fail_{fn} DELETES {sorted(_gone)} — a removed \"
-                              f\"input crits under the calling check's name, proving the helper \"
-                              f\"rather than {fn}; corrupt one field instead\")
-            _dig = hashlib.sha256(b\"\".join(sorted(f.name.encode() + f.read_bytes()
-                                  for f in d.rglob(\"*\") if f.is_file()))).hexdigest()
+                errors.append(f"[fixtures] ARTIFACT_fail_{fn} REMOVES {_gone} — a removed, blanked "
+                              f"or dropped input crits under the calling check's name, proving the "
+                              f"helper rather than {fn}; change a value in place instead")
+            _dig = hashlib.sha256(b"".join(sorted(f.name.encode() + f.read_bytes()
+                                  for f in d.rglob("*") if f.is_file()))).hexdigest()
             if _dig in _seen:
-                errors.append(f\"[fixtures] ARTIFACT_fail_{fn} is byte-identical to \"
-                              f\"{_seen[_dig]} — one bad session copied N times is one proof\")
-            _seen[_dig] = f\"ARTIFACT_fail_{fn}\"
-            rep = pathlib.Path(td) / f\"{fn}.json\"
-            rc = subprocess.run([sys.executable, V, str(d), \"--report\", str(rep)],
+                errors.append(f"[fixtures] ARTIFACT_fail_{fn} is byte-identical to "
+                              f"{_seen[_dig]} — one bad session copied N times is one proof")
+            _seen[_dig] = f"ARTIFACT_fail_{fn}"
+            rep = pathlib.Path(td) / f"{fn}.json"
+            rc = subprocess.run([sys.executable, V, str(d), "--report", str(rep)],
                                 capture_output=True).returncode
             # severity matters: a guard downgraded from crit() to warn() still appears in
             # findings, and a cascading defect from another check supplies the exit 1.
-            named = fn in {f[\"check\"] for f in json.loads(rep.read_text())[\"findings\"]
-                           if f[\"severity\"] == \"critical\"} if rep.exists() else False
+            # location "validator" is the runner talking about the check (crashed, NOT RUN),
+            # never the check reporting a defect. Without this clause a fixture that makes the
+            # check crash or not run at all reads as proof that it ran.
+            named = fn in {f["check"] for f in json.loads(rep.read_text())["findings"]
+                           if f["severity"] == "critical" and f["location"] != "validator"} \
+                    if rep.exists() else False
             if rc != 1 or not named:
-                errors.append(f\"[fixtures] ARTIFACT_fail_{fn}: exit {rc}, {fn} crit: {named}\")
+                errors.append(f"[fixtures] ARTIFACT_fail_{fn}: exit {rc}, {fn} crit: {named}")
     # ...and the OTHER direction (the check-12 fold): a fixture proving a check that is not
     # in CHECKS means the check was written, fixtured, and never registered — green everywhere.
-    for d in sorted(FIX.glob(\"ARTIFACT_fail_*\")):
-        fn = d.name[len(\"ARTIFACT_fail_\"):]
+    for d in sorted(FIX.glob("ARTIFACT_fail_*")):
+        fn = d.name[len("ARTIFACT_fail_"):]
         if fn not in registered:
-            errors.append(f\"[fixtures] {d.name} proves a check absent from CHECKS — \"
-                          f\"register it or delete it; never orphan it\")
+            errors.append(f"[fixtures] {d.name} proves a check absent from CHECKS — "
+                          f"register it or delete it; never orphan it")
 
 The reviewer's approve is illegal without a recorded pass, and THAT is code too, not prose:
 give the generated lint the review-coherence check (this repo's check 15) and add a clause
@@ -206,7 +232,13 @@ def era_at_least(manifest, floor):
     """Compare version NUMBERS, never strings. `"x_skill.1.17" >= "x_skill.1.4"` is False as
     a string compare, and so is `"x.10.0" >= "x.9.0"` — a plugin that reaches minor .10 would
     silently disarm every era gate written the obvious way, which is the exact failure the
-    paragraph above warns about."""
+    paragraph above warns about.
+
+    CAVEAT, stated rather than implied: with no session_contract_version, contract_era falls
+    back to THIS validator's CONTRACT_VERSION, which sits at the FLOOR of the plugin's history
+    and therefore DISARMS era gates rather than arming them. That is safe only because the
+    fixture runner requires CONTRACT_VERSION to track the current release — transcribe that
+    check, or this fallback is a hole."""
     def parts(v):
         return [int(n) for n in re.findall(r"\d+", str(v))]
     return parts(contract_era(manifest)) >= parts(floor)

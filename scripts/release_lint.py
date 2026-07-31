@@ -54,7 +54,7 @@ errors, warnings = [], []
 # Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
 # its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
 # missed it — and the total held. record() sites still count toward the reported total.
-MIN_SUITE_CHECKS = 86
+MIN_SUITE_CHECKS = 99
 
 # 1. Hardcoded harness paths in shared skill bodies
 #    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
@@ -92,12 +92,15 @@ if plugin_version is None:
 
 # 3. Deprecated repo URLs outside the changelog (none at birth; add as they retire)
 DEPRECATED = ("maxuwp/page",)  # pre-rename repo; live check, not a placeholder
-#    .py included: a deprecated URL in a script was invisible. tests/ is excluded because its
-#    fixtures carry the deprecated string deliberately, and this file declares it above.
+#    .py included: a deprecated URL in a script was invisible. The two exemptions are
+#    FILE-scoped, not directory-scoped — 1.18 excluded all of tests/ to spare the suite's
+#    deliberate fixture string and silently dropped coverage of tests/*.md and tests/*.json
+#    that 1.17 had.
+_DEP_EXEMPT = {pathlib.Path(__file__).resolve(), (ROOT / "tests/run_deterministic.py").resolve()}
 for p in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.json")) + list(ROOT.rglob("*.py")):
     rel = p.relative_to(ROOT)
-    if (rel.parts[0] in {".git", "node_modules", "tests"} or p.name == "CHANGELOG.md"
-            or p.resolve() == pathlib.Path(__file__).resolve()):
+    if (rel.parts[0] in {".git", "node_modules"} or p.name == "CHANGELOG.md"
+            or p.resolve() in _DEP_EXEMPT):
         continue
     text = p.read_text(errors="ignore")
     for dep in DEPRECATED:
@@ -362,8 +365,8 @@ elif "--skip-suite" not in sys.argv[1:]:
         # So: count the cases in the SOURCE, require the reported number to equal them, and
         # finish with a canary that proves the suite still detects a broken guard.
         _src = _suite.read_text()
-        _sites = len(re.findall(r"^(?:seeded|probe|record)\(", _src, re.M))
-        _falsifiable = len(re.findall(r"^(?:seeded|probe)\(", _src, re.M))
+        _sites = len(re.findall(r"^(?:seeded|probe|downstream|record)\(", _src, re.M))
+        _falsifiable = len(re.findall(r"^(?:seeded|probe|downstream)\(", _src, re.M))
         _const = re.findall(r"^record\([^\n]*?,\s*True\s*[,)]", _src, re.M)
         _m = re.search(r"^PASS\s+(\d+)/(\d+)\s+deterministic checks", _r.stdout, re.M)
         if not _m:
@@ -521,6 +524,11 @@ for _rf in sorted(set(_review_files)):
         _cc = _d.get("computed_checks")
         if not isinstance(_cc, dict) or not _cc:
             _why.append("no computed_checks block while a validator exists")
+        elif not any(k.endswith("_validator_pass") for k in _cc):
+            # a block of any shape satisfied the gate: recording the report path and
+            # renaming or forgetting the pass flag was enough
+            _why.append("computed_checks names no '<artifact>_validator_pass' entry while a "
+                        "validator exists")
         else:
             _why += [f"computed_checks.{k}={v!r}" for k, v in _cc.items()
                      if k.endswith("_validator_pass") and v is not True]
@@ -584,8 +592,21 @@ for p in sorted(_scan):
             # skill directory resolves in a checkout (siblings are bare names) and dangles
             # installed (siblings are prefixed). The first cut keyed on the placeholder being
             # present, so a plain `../scaffold/…` reopened the defect in eleven characters.
+            # PER HOP, not just the destination: a citation of the form ../../skills/NAME/…
+            # (unbackticked here so this comment is not itself a citation) leaves the skill
+            # directory and comes back, so a destination-only test passed it while the installed
+            # layout (where siblings are prefixed) still dangles.
+            _owner_r = _owner.resolve()
+            _cur, _escaped = pathlib.Path(target.parts[0]), False
+            for _seg in target.parts[1:]:
+                _cur = _cur.parent if _seg == ".." else _cur / _seg
+                if _seg == ".." and _cur != _owner_r and _owner_r not in _cur.parents:
+                    _escaped = True
+                    break
             try:
-                target.resolve().relative_to(_owner.resolve())
+                if _escaped:
+                    raise ValueError
+                target.resolve().relative_to(_owner_r)
             except ValueError:
                 errors.append(f"[cite] {rel_p}: `{tok}` traverses out of "
                               f"{_owner.relative_to(ROOT) if _owner != ROOT else 'the repo'} "
