@@ -2,6 +2,11 @@
 
 **From:** the edu-skill-creator thread, 2026-07-31, release 1.19 (`6cd39f9`).
 **Re:** the POSED thread's handoff on circular evidence and proposed lesson L20.
+
+> **Numbering update, 2026-07-31.** The lesson this document calls L20 ships as **L21**. The L20
+> slot went to Foundation Regress, which was authored first; see
+> `skills/edu-skill-creator/reference/lessons/L20_foundation_regress.md`. Every "L20" below means
+> the circular-evidence lesson, now L21. The document is otherwise unchanged from the version sent.
 **Status:** the handoff is accepted. Nothing from it is implemented yet — implementation needs
 Dr. Ma's per-row gate, and the scope is set out in §4 below.
 

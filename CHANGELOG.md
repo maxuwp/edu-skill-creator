@@ -11,6 +11,24 @@ the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**Lesson L20 — Foundation Regress.** The author named the pathology behind the audit loops: a fix
+that requires changing a layer below the artifact under review is a re-scope, not a fix, so the loop
+descends through layers while looking like iteration — house, then foundation, then water table,
+then a new location — and the lessons are lost at each relocation because they were written as
+repairs to the thing being abandoned. The lesson states both halves, gives three early-detection
+signatures, and defines the metric that would make the economic claim falsifiable: rounds against a
+declared budget, findings per round, regression share, layer touched per round, cost per round.
+Convergence is findings falling while the layer holds; descent is findings falling while the layer
+drops, which reads as progress on a findings chart alone.
+
+Recorded honestly in the lesson: this repository logs rounds, findings and reopened-fix counts, and
+does not yet log cost or layer per round, so the token-cost claim is a well-founded expectation and
+not a measured result. Enforcement is prose and metric definition only; the stage wiring is specified
+and not yet mechanized.
+
+The circular-evidence lesson that the POSED handoff proposed for the L20 slot ships as L21. That
+handoff carries a numbering note rather than a rewrite, since it was already sent.
+
 **Grounding library corrections, from the first external audit of the anchors themselves.** Thirty
 anchors were checked against primary sources twice and independently (Perplexity agentic browsing and
 deep research); the comparison is in `docs/AUDIT_grounding_two_runs_compared.md`. The two runs
