@@ -37,6 +37,10 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
      dimension scores sum to the total it reports.
  16. Citation resolution: every backticked path in a skill body resolves, and no skill
      reaches a sibling through '..' (which resolves in a checkout and dangles installed).
+ 17. The confirm-first review contract: a review log written under the 1.20 contract era
+     carries a non-empty `verified` baseline whose entries name a classified mechanism, at
+     least one of them strong; findings arrive as `modification` and their `preserve` ids
+     resolve. Era-gated on `review_contract_version`, and exemption must be declared.
 
 Three outcomes, not two: error, clean, and UNVERIFIABLE — the check ran and could not
 tell. An unverifiable result that authorizes a gate is also an error (fail closed); the
@@ -63,7 +67,7 @@ errors, warnings, _unver = [], [], []
 # Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
 # its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
 # missed it — and the total held. record() sites still count toward the reported total.
-MIN_SUITE_CHECKS = 104
+MIN_SUITE_CHECKS = 113
 
 # 1. Hardcoded harness paths in shared skill bodies
 #    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
@@ -670,6 +674,85 @@ for p in sorted(_scan):
 if _cited < 50:   # the real corpus is far larger; a collapsed count means the extractor
     errors.append(f"[cite] citation extractor matched only {_cited} path(s) — it has stopped "
                   f"seeing the corpus; a resolver with nothing to resolve proves nothing")
+
+# 17. The confirm-first review contract, mechanised (CR 1.20 c1-c5). L19 said a review has two
+#     halves and nothing checked it, which is the state every prose-only rule in this repo has
+#     drifted from. The review log is JSON this lint already reads, so the contract is checkable.
+#     ERA GATE, and it fails CLOSED: exemption requires the log to SAY "pre-1.20". Defaulting a
+#     MISSING version to exempt would have made every future log exempt by omission — the
+#     fail-open Grok's review named. Historical logs carry the marker explicitly.
+REVIEW_ERA = "1.20"
+STRONG_KINDS = {"mutation", "command", "diff", "schema"}
+VERIFIED_KINDS = STRONG_KINDS | {"human_gate", "other"}
+
+
+def _era_ge(v, floor):
+    """Integer-list comparison, never string comparison: '1.9' < '1.10' is only true if the
+    parts are compared as numbers, and the era gate is the thing that decides whether a check
+    applies at all."""
+    def parts(s):
+        return [int(n) for n in re.findall(r"\d+", str(s))]
+    return parts(v) >= parts(floor)
+
+
+for _rf in sorted(set(_review_files)):
+    try:
+        _d = json.loads(_rf.read_text())
+    except json.JSONDecodeError:
+        continue                      # check 9 already reports unreadable review files
+    if not isinstance(_d, dict):
+        continue
+    _rel = _rf.relative_to(ROOT)
+    _ver = _d.get("review_contract_version")
+    if _slug(_ver) == "pre-1.20":
+        continue                      # declared pre-era, exempt by its own statement
+    if _ver is None:
+        errors.append(f"[contract] {_rel}: no review_contract_version. A log written after the "
+                      f"{REVIEW_ERA} contract must declare its era; write 'pre-1.20' to claim the "
+                      f"exemption explicitly. A missing version is non-compliant, not exempt")
+        continue
+    if not _era_ge(_ver, REVIEW_ERA):
+        continue                      # an older era it declared honestly
+    _vf = _d.get("verified")
+    if not isinstance(_vf, list) or not _vf:
+        errors.append(f"[contract] {_rel}: empty or missing 'verified' — a review that confirmed "
+                      f"nothing has not reviewed (L19). An artifact with nothing worth keeping is "
+                      f"expressible as verified negative ground, not as an empty array")
+        continue
+    _ids = set()
+    _strong = False
+    for _i, _v in enumerate(_vf):
+        if not isinstance(_v, dict):
+            errors.append(f"[contract] {_rel}: verified[{_i}] is not an object")
+            continue
+        _ids.add(_v.get("id"))
+        _kind = _slug(_v.get("how_verified_kind"))
+        if _kind not in VERIFIED_KINDS:
+            errors.append(f"[contract] {_rel}: verified[{_i}] how_verified_kind "
+                          f"{_v.get('how_verified_kind')!r} is not one of "
+                          f"{sorted(VERIFIED_KINDS)} — an unclassified verification cannot be "
+                          f"weighed, and this baseline will be defended by the ledger")
+        elif _kind in STRONG_KINDS:
+            _strong = True
+        if not str(_v.get("how_verified") or "").strip():
+            errors.append(f"[contract] {_rel}: verified[{_i}] records no how_verified — a "
+                          f"property with no mechanism behind it is an assertion")
+    if not _strong:
+        errors.append(f"[contract] {_rel}: no 'verified' entry of kind {sorted(STRONG_KINDS)} — "
+                      f"a baseline made entirely of reading is worse than no baseline, because "
+                      f"the ledger will protect it (c16)")
+    for _i, _f in enumerate(_d.get("findings") or []):
+        if not isinstance(_f, dict):
+            continue
+        if not str(_f.get("modification") or "").strip():
+            errors.append(f"[contract] {_rel}: findings[{_i}] carries no 'modification' — a "
+                          f"finding must arrive as the smallest change that fixes it, not as "
+                          f"free prose; a revision is a modification, never a new draft (L19)")
+        for _p in _f.get("preserve") or []:
+            if _p not in _ids:
+                errors.append(f"[contract] {_rel}: findings[{_i}].preserve names {_p!r}, which is "
+                              f"not a verified id in this file — the do-not-break list must "
+                              f"resolve, or it protects nothing")
 
 for w in warnings: print("WARN ", w)
 for u in _unver:   print("UNVER", u)

@@ -494,6 +494,55 @@ def m_ccbound(r):
 seeded("c20 fully bound computed pass is accepted", m_ccbound, "", expect_fail=False)
 
 # --------------------------------------------------------------------------------------
+# 17. the confirm-first contract (CR 1.20 c1-c5). Every case starts from a COMPLIANT
+#     1.20 log and removes exactly one thing, so each case names the guard it proves
+#     rather than passing because the log was malformed in some other way.
+# --------------------------------------------------------------------------------------
+def _era(d, **over):
+    d.update(review_contract_version="1.20",
+             verified=[{"id": "v1", "property": "check 3 scans .py files",
+                        "how_verified": "deleted the guard on a copy; c3 case failed",
+                        "how_verified_kind": "mutation",
+                        "location": "scripts/release_lint.py:109"}])
+    for f in d.get("findings") or []:
+        f["modification"] = "narrow the exemption to the one file that needs it"
+    d.update(**over)
+def m_eraok(r):     _json_edit(r, REV, lambda d: _era(d))
+def m_eranover(r):  _json_edit(r, REV, lambda d: (_era(d), d.pop("review_contract_version")))
+def m_eraempty(r):  _json_edit(r, REV, lambda d: _era(d, verified=[]))
+def m_erakind(r):
+    _json_edit(r, REV, lambda d: (_era(d), d["verified"][0].update(how_verified_kind="vibes")))
+def m_eraweak(r):
+    _json_edit(r, REV, lambda d: (_era(d), d["verified"][0].update(how_verified_kind="other")))
+def m_erahow(r):
+    _json_edit(r, REV, lambda d: (_era(d), d["verified"][0].update(how_verified="  ")))
+def m_eramod(r):
+    _json_edit(r, REV, lambda d: (_era(d), d["findings"][0].pop("modification")))
+def m_erapres(r):
+    _json_edit(r, REV, lambda d: (_era(d), d["findings"][0].update(preserve=["v99"])))
+
+seeded("c17 log written after the era with no contract version", m_eranover,
+       "no review_contract_version")
+seeded("c17 approve with an empty verified baseline", m_eraempty,
+       "empty or missing 'verified'")
+seeded("c17 how_verified_kind outside the closed set", m_erakind,
+       "is not one of")
+seeded("c17 baseline verified only by reading (no strong kind)", m_eraweak,
+       "no 'verified' entry of kind")
+seeded("c17 verified property with no mechanism recorded", m_erahow,
+       "records no how_verified")
+seeded("c17 finding with no modification (free prose fix retired)", m_eramod,
+       "carries no 'modification'")
+seeded("c17 preserve id that resolves to nothing", m_erapres,
+       "not a verified id in this file")
+seeded("c17 a compliant 1.20 log is accepted", m_eraok, "", expect_fail=False)
+def m_eraprefix(r):
+    # the era gate itself: a log that declares the pre-era exemption is exempt, and the
+    # exemption must be DECLARED — a missing version is non-compliant, not exempt (c5).
+    _json_edit(r, REV, lambda d: d.update(review_contract_version="pre-1.20", verified=[]))
+seeded("c17 declared pre-era log stays exempt", m_eraprefix, "", expect_fail=False)
+
+# --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"
 # --------------------------------------------------------------------------------------
 def m_citebad(r):

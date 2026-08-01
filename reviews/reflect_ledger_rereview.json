@@ -1,4 +1,5 @@
 {
+  "review_contract_version": "pre-1.20",
   "review": "reflect_ledger_rereview",
   "round": 2,
   "reviewer": "independent-fresh-context",
@@ -7,7 +8,7 @@
   "reviewed_at": "2026-07-28",
   "first_review_findings_verified": [
     {
-      "finding": "f8: four folded candidates (positional identity, silent resource downgrade, reuse-detector semantics, multilingual leakage) had no inspectable anchor — only a blanket 'four reader reports' citation carried through two documents.",
+      "finding": "f8: four folded candidates (positional identity, silent resource downgrade, reuse-detector semantics, multilingual leakage) had no inspectable anchor \u2014 only a blanket 'four reader reports' citation carried through two documents.",
       "claimed": "fixed",
       "verdict": "confirmed",
       "note": "Split to f18 (superseded) and then to f24-f27, each citing a named POSED release. Opened posed-plugin CHANGELOG.md at 2ca8f7b directly and confirmed every one verbatim: 1.58.1 'Semantic decision numbering never derives from array position' (f24); 1.63.1 'captured from actual addSlide order (never file-order-inferred)' (f24); 1.41.1 'a downgrade the user cannot see degrades their product without their knowledge' and 'single-model environments... have no menu to route across' (f25); 1.37 'a shared given with a NEW target' reported as warning, 'legal pedagogy that a naive exact gate would have blocked' (f26); 1.37.1 'generalized to ANY multilingo-source pipeline' (f27). All four are now genuinely inspectable and accurately quoted."
@@ -34,7 +35,7 @@
       "finding": "f2: prose named four discoveries but the anchor list cited a fifth release (1.40) never connected to the prose.",
       "claimed": "fixed",
       "verdict": "confirmed",
-      "note": "f2 now states 'Five observed instances' and the fifth clause ('a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered') is an accurate paraphrase of CHANGELOG 1.40 verified directly: 'Stage 5 review happened on markdown source while the faculty's real review unit is the instructional slide as experienced — nine pilot defects ... were invisible at every gate and obvious the moment the deck rendered.'"
+      "note": "f2 now states 'Five observed instances' and the fifth clause ('a whole renderer was built because review happened on markdown source while the faculty's real review unit was the slide as experienced, leaving nine pilot defects invisible at every gate and obvious the moment the deck rendered') is an accurate paraphrase of CHANGELOG 1.40 verified directly: 'Stage 5 review happened on markdown source while the faculty's real review unit is the instructional slide as experienced \u2014 nine pilot defects ... were invisible at every gate and obvious the moment the deck rendered.'"
     },
     {
       "finding": "Ledger-wide: Codex recommendations R8 and R11 had no visible disposition anywhere in the ledger.",

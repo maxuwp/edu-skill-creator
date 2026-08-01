@@ -57,24 +57,50 @@ minor −1; floored at 0 within the dimension).
     proxy-to-target mapping (L14).
 14. A user's explicit decision can be altered, reclassified or dropped by a downstream stage
     without a later decision from that same user (L15).
+15. A review reports defects with no verified baseline, or a revision rewrites a unit the
+    previous round verified without recording the trade (L19).
 
 ## Output schema
 
 ```json
 {
   "skill": "<name>", "score": 0, "threshold": 85,
+  "review_contract_version": "1.20",
   "dimension_scores": { "grounding": 0, "gates": 0, "craft": 0,
                         "integrity": 0, "hygiene": 0 },
   "critical_flags": [],
+  "verified": [ { "id": "v1", "property": "…", "how_verified": "…",
+                  "how_verified_kind": "mutation|command|diff|schema|human_gate|other",
+                  "location": "file:line" } ],
   "findings": [ { "severity": "blocking|major|minor", "location": "…",
-                  "issue": "…", "fix": "…" } ],
+                  "issue": "…", "modification": "…", "preserve": ["v1"] } ],
   "recommendation": "approve | revise | regenerate"
 }
 ```
 
-Iteration policy: score ≥ 85 and no critical flags → human gate opens. 80 ≤ score < 85 →
-drafter revises with the findings (max 3 rounds). Score < 80 → escalate to the author
-with the top findings.
+**`verified` is the protected baseline, not praise** (L19). Each entry is a property this
+reviewer checked and found **correct**, with the mechanism that established it — a claim the
+next round is obliged to keep true. `how_verified_kind` is a closed set; `other` requires the
+reason in `how_verified`. At least one entry must be of kind `mutation`, `command`, `diff` or
+`schema`: a baseline made entirely of "read it and it looked right" is worse than no baseline,
+because it will be defended.
+
+**Findings arrive as modifications.** `modification` is the smallest change that fixes the
+finding; `preserve` names the `verified` ids it must not disturb. Free-prose `fix` is retired —
+it invited a redraft where a modification was required.
+
+**`verified` may record negative ground.** An honest `regenerate` on an artifact with nothing
+worth keeping is expressible as a verified *absence* — "no unit meets threshold X", established
+by command or mutation — rather than by inventing positives. What is illegal is an empty array.
+
+Iteration policy: score ≥ 85, no critical flags, and a non-empty `verified` → human gate opens.
+**`approve` with an empty `verified` is illegal: a review that confirmed nothing has not
+reviewed.** 80 ≤ score < 85 → drafter revises with the findings (max 3 rounds). Score < 80 →
+escalate to the author with the top findings.
+
+`review_contract_version` declares which era the log was written under. Logs that predate 1.20,
+or that record `pre-1.20`, are exempt from the checks above; a log written after and carrying no
+version is not exempt, it is non-compliant.
 
 ## Worked failure example
 

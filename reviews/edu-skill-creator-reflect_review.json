@@ -1,5 +1,6 @@
 {
   "skill": "edu-skill-creator-reflect",
+  "review_contract_version": "pre-1.20",
   "score": 88,
   "threshold": 85,
   "dimension_scores": {

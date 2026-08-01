@@ -17,6 +17,30 @@ rubric critical flag, and it takes the ids CR 1.20 does not claim, so 1.20 gates
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**`c1`–`c5` implemented — the confirm-first contract is now a mechanism.** L19 has said since 1.18
+that a review has two halves and that the confirmed half is a protected baseline. Nothing checked it,
+which is the state every prose-only rule in this repository has drifted from.
+
+The reviewer output schema now carries `verified: [{id, property, how_verified, how_verified_kind,
+location}]`, findings carry `modification` and `preserve` instead of free-prose `fix`, and
+`review_contract_version` declares the era. `how_verified_kind` is a closed set, and at least one
+entry per log must be `mutation`, `command`, `diff` or `schema` — a baseline made entirely of "read it
+and it looked right" is worse than no baseline, because the ledger will defend it. An honest
+`regenerate` on an artifact with nothing worth keeping is expressible as verified negative ground, so
+the rule does not force fabricated positives. Rubric critical flag 15 makes the omission block.
+
+**New release lint check 17, era-gated, and the gate fails closed.** The CR proposed exempting logs
+whose version field is absent. That is the fail-open Grok's review named: every future log would be
+exempt by omission. Exemption is now a declaration — a log claims it by recording `pre-1.20` — and the
+twelve historical review logs were stamped accordingly. A log written after the era with no version is
+non-compliant, not exempt.
+
+Nine new suite cases, seven negative and two positive controls, each starting from a compliant 1.20
+log and removing exactly one thing so that every case names the guard it proves: missing version,
+empty baseline, an unclassified verification kind, a baseline verified only by reading, a property
+with no mechanism, a finding with no modification, a `preserve` id resolving to nothing, plus the
+compliant log and the declared pre-era log both accepted. Suite 109 to 118; floor raised to 113.
+
 **`c20` and `c21` implemented — the one live defect in shipped code is closed.** Check 15 authorized
 L11's central gate on `computed_checks.<artifact>_validator_pass: true`, a boolean the reviewing
 agent wrote about its own conduct. Nothing opened the report it named, confirmed the file existed, or
