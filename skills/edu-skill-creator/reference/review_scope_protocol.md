@@ -1,5 +1,12 @@
 # Review Scope Protocol — how a reviewer declares, holds, and escalates scope
 
+> **Amended 2026-08-01.** This file is the operational procedure. The contract it implements — the
+> three states CLARIFY / EXECUTE / REBASE, the reviewer outcomes, the packet shape and the settlement
+> test — is defined once in `docs/DESIGN_clarify_execute_rebase_2026-08-01.md` and is not restated
+> here (L7). Three rules below were corrected after three independent reviews: the scan order is now
+> foundation first, the one-descent reserve is withdrawn as unevidenced, and escalation is decided on
+> the dependency cone rather than on a layer ladder.
+
 **Who this is for.** Both reviewer populations, with one procedure:
 
 - **In-skill reviewers** — the fresh-context reviewers this system dispatches (Stage 2 grounding-map
@@ -54,9 +61,15 @@ completed, and a scan that cannot be completed cannot report coverage (L11's pop
 
 This is the rule that stops descent, and it is the one reviewers break first.
 
-1. **Complete the horizontal pass at the declared layer.** Every item in `breadth`, all of them,
-   before any finding is written up. A reviewer who follows the first defect downward returns one
-   deep finding and an unmeasured surface; the next round then rediscovers what was never scanned.
+0. **Test the foundation and the acceptance oracle first.** Do the accepted assumptions hold, and
+   can the acceptance evidence actually establish the intended outcome? If either fails, **stop the
+   detailed review here** and emit one consolidated rebase packet. Reviewing the descendants of an
+   invalid foundation produces findings that will be discarded, which is the waste this protocol
+   exists to prevent.
+1. **Then complete the horizontal pass across the declared breadth.** Every item in `breadth`, all
+   of them, before any finding is written up. A reviewer who follows the first defect downward
+   returns one deep finding and an unmeasured surface; the next round then rediscovers what was
+   never scanned.
 2. **Record the confirmed half as you go** (L19): what you checked, found correct, and *how you
    verified it* — a mechanism, not an impression. This is the do-not-break baseline for the next
    round.
@@ -72,23 +85,14 @@ The report has three parts, and the third is what makes scope governable.
 
 **A. Confirmed** — the protected baseline, per L19.
 **B. Findings** — in-scope only. Each states the smallest modification and what it must not disturb.
-**C. Scope pressure** — everything the scan found that cannot be fixed at the declared layer:
-
-```
-scope_pressure:
-  - violated_invariant:   <what is actually broken>
-    current_layer:        <declared>
-    required_layer:       <where the fix must land>
-    affected_artifacts:   <the impact cone, enumerated>
-    invalidated:          <approvals, gate decisions, tests, or baseline rows this would void>
-    alternatives:         <including "live with it", stated honestly>
-    estimated_cost:       <in rounds, not adjectives>
-    recommended_class:    local delta | controlled descent | major re-scope | relocation
-    authority_required:   <who must enact it>
-```
-
-A scope-pressure entry is not a finding and is not fixed in this round. It is a proposal for the
-next round's declaration.
+**C. Scope pressure** — everything the scan found that cannot be fixed inside the accepted
+foundation. A scope-pressure entry is not a finding and is not fixed in this round; it is a proposal
+for the next loop's foundation. Where it amounts to `REBASE_REQUIRED`, fill the **rebase packet**,
+whose fields are defined once in `docs/DESIGN_clarify_execute_rebase_2026-08-01.md` and are not
+repeated here. Its two halves a reviewer most often skips: the **complete prior-decision inventory**,
+in which every existing decision is carried forward unchanged, carried forward as a constraint,
+adapted, or invalidated *with evidence*; and **confirmed_unaffected**, which is what stops a rebase
+turning into a regeneration.
 
 ## Part 4 — The four classes, and who may enact each
 
@@ -103,9 +107,17 @@ either freeze or creep.
 | **Major re-scope** | changes an interface, a rubric's meaning, an evidence source, a gate, a shared component, or an approved decision | stop implementing; complete the impact analysis; propose | **faculty authorization required** |
 | **Relocation** | the current foundation cannot satisfy the invariant, or the evidence is circular, or the loop has stopped converging | close the old approach with a written design verdict; carry implementation-neutral invariants into the replacement | **faculty authorization required** |
 
-**The bounded reserve.** A round may spend **one** controlled descent. A second one in the same
-round converts the round into a major re-scope proposal, whatever its size. This is the cap that
-turns "it kept growing" into a decision with a name.
+**The bounded reserve is withdrawn (2026-08-01).** The first version capped a round at one
+controlled descent. That number was invented here, and this project's own research found that nobody
+has measured whether tighter scope constraints raise or lower an agent's resolution rate. What
+replaces it is not another number: the reviewer returns one of `PASS`, `REVISE_LOCAL` or
+`REBASE_REQUIRED`, and on `REBASE_REQUIRED` **the harness stops calling the implementer** and opens a
+separate read-only rebase task. The implementer is never asked to set aside its own minimal-change
+discipline, which is what makes this reliable rather than a matter of the agent's judgement.
+
+**Escalate on the dependency cone, not on the ladder.** Layer labels stay useful for reporting what
+moved. The decision to rebase is made on the impact cone: which artifacts depend on the invalidated
+assumption, which are demonstrably unaffected, and what must be re-reviewed.
 
 **Enacting a re-scope, once authorized.** Write a new declaration block, do not edit the old one.
 The superseded declaration stays, with the reason, exactly as `c7`'s ledger supersession works. If

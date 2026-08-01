@@ -11,6 +11,46 @@ the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**CLARIFY / EXECUTE / REBASE — the canonical loop contract, and L22 amended by three reviews.** The
+author's objection stood: the scope protocol was human change management, and the agent chain is
+different. Four contributions were reconciled into one design record rather than merged silently.
+The research run supplied the empirical base — across six vendors' own documentation, four instruct
+minimal scope and **none** tells the agent what to do when the correct fix lies outside it. Grok
+supplied the move that resolves the conflict architecturally: do not ask the implementer to set aside
+minimal scope, stop calling the implementer. Codex supplied the intake assumption audit, the
+foundation-first review order, the dependency cone in place of a layer ladder, and selective
+invalidation. The author supplied the principle the other three had all missed.
+
+**Rebase, not restart.** When the foundation changes, every prior decision is protected by default
+and must carry a recorded disposition — carried forward unchanged, carried forward as a constraint,
+adapted because its dependencies moved, or invalidated with the evidence for why it could not
+survive. Nothing is regenerated merely because its upstream changed. And the new foundation is chosen
+using every requirement gathered so far, including those that only surfaced while building on the
+wrong one. This is the part specific to working with an agent: it holds the whole history and can
+consume it in one pass, where a human team re-derives it slowly, which is why human change control
+treats relocation as expensive and avoids it. Discarding the accumulated design to start clean throws
+away the one advantage the medium provides.
+
+**Three parts of L22 did not survive, and the corrections are recorded in place rather than
+rewritten.** The one-controlled-descent reserve is withdrawn as unevidenced — it was invented here,
+and this project's own research found nobody has measured whether tighter scope constraints raise or
+lower resolution rate. The complete-the-breadth-first rule is corrected to foundation first: once a
+foundation assumption is demonstrably invalid, reviewing its descendants produces findings that will
+be discarded, which is the waste the lesson exists to prevent. The single layer ladder is demoted to
+reporting vocabulary, because a control plane such as the release lint is not simply deeper and
+defects travel laterally through shared dependencies as often as down. What survived: declaring scope
+before starting, separating scope pressure from findings, and grading by impact.
+
+Reviewer outputs become `PASS`, `REVISE_LOCAL` or `REBASE_REQUIRED`, with the harness stop behind the
+third. Settlement is converged, rebased, or a design verdict; many rounds and general fatigue is not
+settlement. Faculty authority is narrowed to intent, approved decisions, risk and cost rather than
+every technical boundary adjustment.
+
+Recorded as unestablished, in the record itself: that any of this saves tokens; that minimal-diff
+discipline is what stalled our own loops; and two figures cited for the clarification scaffold that
+are not in the paper's abstract. The dual-mode proposal in the POSED repository keeps its analysis
+and defers its contract section to this record, so one contract exists rather than two.
+
 **Review Scope Protocol, and lesson L22 — controlled scope escalation.** Three external reviewers
 were asked independently how to control a review scope that keeps expanding as the digging goes
 deeper. They returned the same structure from three traditions: timeboxed spikes that convert an
