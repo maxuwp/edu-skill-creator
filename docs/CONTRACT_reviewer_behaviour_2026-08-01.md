@@ -1,26 +1,46 @@
 # Reviewer contract — for Codex, Grok, Fable, and any model asked to review
 
-**Adopt this as durable behaviour, not as a one-off instruction.** It was derived from evidence in
-this project's own records, and each rule below carries its evidence status so you can argue with the
-weak ones rather than obey all of them equally.
+**Status: PROPOSED reviewer contract, not yet wired.** No skill entry, lesson index row, reviewer
+dispatch, schema or lint currently loads it, so it is prose outside the loading path — which is the
+defect its own companion warns about. It becomes durable behaviour when the briefs inject its fields,
+a schema validates the envelope, non-pass outcomes have named consumers, and process data is
+recorded. Until then, adopt it by choice.
+
+Derived from evidence in this project's own records; each rule carries its evidence status so the
+weak ones can be argued with rather than obeyed equally.
+
+**Revision 1, 2026-08-01**, after an independent review by Codex. What that review confirmed and this
+revision does not touch: the confirm-first structure with `confirmed_correct` before findings and a
+do-not-break baseline; one consolidated report rather than serial single-finding returns; the
+separation of local findings, scope pressure and requirements questions; the three-way closure
+language; the requirement for artifact version, scope, oracle and prior confirmed properties; honest
+`not recorded` for missing cost data; and the refusal to claim token savings or universal foundation
+regress. Eleven findings changed the rest, each noted in place.
 
 ---
 
 ## 1. Declare before you read
 
-State these five, and refuse to start without them. If the requester did not supply them, write what
-you assume them to be and say that you assumed:
+Before substantive review, run a **bounded orientation pass**: derive these fields and disclose them.
+Stop only when a load-bearing field cannot be derived safely. An assumption about the oracle or the
+scope is marked provisional and cannot support `PASS` until it is confirmed.
 
 ```
 artifact_and_version:      what you are reviewing, at what hash or revision
-review_population:         the COMPLETE set you will inspect, enumerated
+population_type:           finite | bounded_model | open_ended
+review_population:         the set you will inspect, enumerated where the type allows
+coverage_limitations:      what you could not reach, and why
 in_scope / out_of_scope:   surfaces you may and may not raise findings about
 acceptance_oracle:         what would establish that this artifact is correct
 prior_confirmed:           properties an earlier round verified, which you must not break
 ```
 
-An unenumerable population cannot be completed, and a review that cannot say what it covered cannot
-support a claim of closure.
+**`population_type` is not a formality.** Security, usability and semantic surfaces frequently have no
+finite population, and a contract that demands one invites an unsupported universal claim. Enumerate
+where enumeration is possible; otherwise state the threat or behaviour model you worked within, and
+report residual uncertainty rather than coverage.
+
+A review that cannot say what it covered cannot support a claim of closure, whichever type it is.
 
 ## 2. Test the foundation before the details
 
@@ -28,10 +48,11 @@ Are the requirements, the architecture, the evidence source and the acceptance o
 of them fails, **stop the detailed review** and return one consolidated packet. Reviewing the
 descendants of an invalid foundation produces findings that will be discarded.
 
-*Evidence: strong. In one recorded case, four rounds successively found `<base>`, CSS `url()`,
-`srcdoc` and `meta refresh` bypasses before anyone concluded that enumeration was the wrong control
-and moved to deny-by-default. The oracle was wrong for four rounds and each round's findings were
-correct and useless.*
+*Evidence: observed case, general rule not yet measured. One recorded security review found four
+bypass mechanisms across four rounds before replacing URL enumeration as the primary control with
+deny-by-default CSP. The parser remained useful as defence in depth, so the earlier findings were
+incomplete rather than useless. This supports testing the control model before exhaustive mechanism
+enumeration; it is one case, not general proof.*
 
 ## 3. Report once, and report both halves
 
@@ -45,18 +66,29 @@ Complete the declared population, then return **one** consolidated report contai
 - `requirements_questions` — load-bearing ambiguities only, each written with the decision its answer
   settles. If neither answer changes a decision, do not ask it.
 
-Returning one issue per round is the behaviour that makes a loop look endless. It is also the
-behaviour a reviewer defaults to, and correcting it is the single largest change in this contract.
+A partial report presented as complete causes unreviewed breadth to reappear as new findings in later
+rounds, which is what makes a loop look endless from the outside. The records show that pattern; they
+do not establish that reviewers generally return one issue at a time, and this contract no longer
+claims they do.
 
 *Evidence: mixed. Defect-only reviews demonstrably let fixes create later defects — three findings in
 one round were introduced by the previous round's own fixes. That confirm-first then prevents this is
 observed in one change request and is not generally proven.*
 
-## 4. Do not design the repair you found
+## 4. Do not IMPLEMENT the repair in the review pass
 
-Identify the defect and the smallest acceptable change. A separate agent implements it against the
-protected baseline. The finder and the fixer being the same party is how a round's fix becomes the
-next round's defect.
+Repair guidance is required, not forbidden — an implementer that has to infer the intended fix will
+often infer a different one. Specify the acceptance constraints, the smallest repair shape, the
+affected dependencies, and the alternatives where an architectural choice is genuinely open.
+
+What is forbidden is modifying the artifact during the review pass. Implementation is a separate
+pass, and for consequential changes a separate agent, working against the protected baseline. A
+trivial local correction may be implemented by the same author in a later, explicitly delimited pass
+and then independently reviewed.
+
+*Why: the finder and the fixer being the same party in the same pass is how a round's fix becomes the
+next round's defect — three findings in one recorded round were introduced by the previous round's
+own fixes.*
 
 ## 5. Say precisely what "done" means
 
@@ -64,27 +96,44 @@ Never write closed, verified, or implemented without distinguishing:
 
 ```
 local repair       — this instance is fixed
-class closure      — this defect CLASS cannot recur, and here is why
+class closure      — this defect class cannot recur WITHIN a finite population or an explicitly
+                     stated threat or behaviour model, and here is the model
 full acceptance    — the complete regression passed at settlement
 ```
+
+Over an open-ended surface, report the controls established and the residual uncertainty. Never write
+"cannot recur" about a population you could not enumerate.
 
 *Evidence: strong. A run reported `release_lint: 0 error(s)` while the behaviour the lint existed to
 prevent remained possible. Green is a statement about what was checked, never about what is true.*
 
-## 6. Four outcomes, and only four
+## 6. Four outcomes, plus an orthogonal runnability flag
 
 ```
-PASS | REVISE_LOCAL | CLARIFICATION_REQUIRED | REBASE_REQUIRED
+review_status:    completed | unrunnable
+outcome:          PASS | REVISE_LOCAL | CLARIFICATION_REQUIRED | REBASE_REQUIRED | null
+unrunnable_reason:
+rebase_subtype:   boundary_rescope | foundation_rebase        # when outcome is REBASE_REQUIRED
 ```
+
+`review_status` is **orthogonal** to the outcome. A reviewer that cannot read the artifact, run a
+required check, or reach the declared population is `unrunnable`, and `outcome` is null. Reporting
+operational failure as a semantic verdict is the pass/fail/unrunnable conflation this project has
+already had to correct once in validator dispatch. An unrunnable review never authorizes progress.
 
 `CLARIFICATION_REQUIRED` means a load-bearing need is ambiguous — an expressed requirement that could
-be a preference or a workaround, which the artifact cannot settle. `REBASE_REQUIRED` means the
-foundation itself is wrong. Neither is advice to the implementer: the requester must route them.
+be a preference or a workaround, which the artifact cannot settle. `REBASE_REQUIRED` means a new
+execution foundation **or an approved scope contract** is needed; `boundary_rescope` covers the case
+where the fix exceeds the current scope without invalidating the foundation, such as an adjacent
+shared component. **Do not return `PASS` while load-bearing scope pressure has no authorized route.**
+Neither escalation is advice to the implementer: the requester must route them.
 
-*Evidence: strong, and it is the reason this rule exists. In fifteen observed runs, agents escalated
-readily — but did so through five invented keys that no validator read. The behaviour was never the
-problem; the missing consumer was. **If you escalate into a channel nobody reads, you have not
-escalated.** Say so in your return if you suspect that is happening.*
+*Evidence: spontaneous escalation is observed, so a complete absence of escalation ability is
+falsified. Its frequency and reliability are not measured, because opportunities and behaviours were
+not separately coded. The directly observed systems defect is that recorded escalations had no
+required consumer — five invented keys, no validator reading any of them. **If you escalate into a
+channel nobody reads, you have not escalated.** Say so in your return if you suspect that is
+happening.*
 
 ## 7. Record what your review cost and what it added
 
@@ -93,8 +142,14 @@ broke or found broken, whether the object under review changed from the previous
 count you honestly have of calls, tokens or elapsed time. Write **not recorded** rather than an
 estimate.
 
-Also: **which of your findings do you believe no other reviewer would have raised?** That question is
-the only source of data on what a second reviewer is worth, and nobody has published it.
+Give every finding a **stable id** with its claim or surface, its evidence, and its severity, so that
+a separate coder can compute overlap, unique valid findings, false positives and cost **after** all
+reviewers have finished independently.
+
+Do not predict which of your findings another reviewer would have missed. You cannot know another
+reviewer's counterfactual output, and your prediction would be one more same-agent assertion offered
+as evidence — the exact failure this project has a lesson about. You may label a finding
+`lens_specific_hypothesis`; that label is a hint for the coder, never a measurement of uniqueness.
 
 ## 8. Two things this contract does NOT claim
 
