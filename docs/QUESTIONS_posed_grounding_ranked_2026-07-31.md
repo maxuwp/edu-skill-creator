@@ -54,23 +54,69 @@ published lists, which would mean POSED's engineering verbs are unanchored rathe
 
 ## Tier 2 — Deep Research, in this order, one run each
 
-**Q2. The avoid-list census.** Which university assessment offices publish lists of verbs to avoid in
-learning outcomes, which verbs appear on them, and which verbs appear on two or more independent
-lists? Also: are `understand`, `know`, `appreciate` treated as settled or contested, and do
-engineering and ABET-facing guides differ? *Decides:* whether B3 states a fact or a documented
-position, and whether `comprehend` and `grasp` stay on POSED's avoid list. Fable 3.1, Grok 6/7/8/9.
+**Q2. The avoid-list census.** *Promoted to Computer mode after Q1 cost only ~300 credits.* Prompt:
+`docs/deepresearch_runs/POSED_Q2_avoid_list_census.md`. Which assessment offices publish lists of
+verbs to avoid, which terms appear on them, whether ABET follows the same convention, and whether the
+convention is contested in the literature at all. *Decides:* whether B3 states a fact or a documented
+position, whether `comprehend` and `grasp` stay on POSED's avoid list, and whether engineering mode
+needs an exemption. Fable 3.1, Grok 6/7/8/9.
 
-**Q3. Evidence of learning, and the restatement defect.** What do Wiggins & McTighe require of
-acceptable evidence relative to a goal, what do university templates demand of an
+**Blind controls for Q2, recorded here and absent from the prompt.** Expected: (a) `understand` and
+`know` appear on nearly every list, making them settled; (b) `comprehend` and `grasp` appear on few,
+which would mean POSED's avoid list over-extends beyond the published convention; (c) **ABET's own
+Criterion 3 outcomes use phrasing the avoid lists would reject**, which if true means engineering
+mode cannot apply the convention to accreditation-derived outcomes; (d) Strand 6 finds real published
+critique of avoid lists, which would turn B3 from a fact into a documented position.
+
+**Q3. Evidence of learning, and the restatement defect.** Prompt:
+`docs/deepresearch_runs/POSED_Q3_evidence_of_learning.md`. What do Wiggins & McTighe require of
+acceptable evidence relative to a goal, what do university templates demand of a
 "how will this be assessed" field, and is "evidence that only rephrases the objective" a named
 failure mode anywhere in the literature? Include what UbD says about `understand` as a goal verb.
 *Decides:* whether B4's Jaccard restatement check is grounded pedagogy or only a regex. Fable
 1.4/1.6, Grok 13/14/15.
 
-**Q4. What real learning outcomes actually look like.** Published audits of university SLOs: how
-often do outcomes carry a condition and a criterion, and are there published rubrics for scoring the
-*quality of an outcome statement* rather than student work? *Decides:* B6 severity, and whether B2's
-term-list signature can cite an instrument. Fable 2.3/3.4, Grok 14.
+**Run this one in Deep Research, not Computer — it is a mode test as well as a question.** Q1 and Q2
+cost ~300 credits each, so the constraint that shaped this plan turned out to be looser than assumed.
+The open question is now whether the cheaper mode, given the same contract that made the Computer runs
+work, satisfices the way it did on 2026-07-31. Q3 is a fair test because it is bounded: four strands,
+one census with a countable target, and no strand requiring more than a handful of documents.
+
+**What counts as satisfactory, fixed in advance so the judgement is not made after seeing the
+result.** All four strands reached and none dropped silently; Strand 2 returns six or more distinct
+publishers; every non-`unverified` row carries a verbatim quote and the URL hosting it; no blog,
+content farm or aggregator cited as a source; delivered as one Markdown file; roll call present and
+matching the tables. Dropping a strand while reporting completion, or returning three sources against
+a six-source target, is the satisficing failure and settles the mode question against Deep Research
+for this class of work.
+
+**Blind controls for Q3, recorded here and absent from the prompt.** Expected: (a) UbD *does*
+explicitly separate Stage 2 evidence from the Stage 1 goal, so Strand 1.1 should come back
+`required-explicitly`; (b) the restatement defect is **not** a named failure mode in the literature,
+which would mean B4's check is a house invention POSED must own rather than cite; (c) Mislevy's
+evidence model is a full argument structure, not a sentence, so citing ECD for a one-line planning
+field would be a scope overreach of the same species as the Mayer failure in lesson L14.
+
+**Q4. What real learning outcomes actually look like.** Prompt:
+`docs/deepresearch_runs/POSED_Q4_outcome_audits_and_rubrics.md`, built on
+`CONTRACT_run_prompt_v2.md`. Published audits of university SLOs: how often do outcomes carry a
+condition and a criterion; what instruments exist for scoring an outcome *statement* rather than
+student work; whether any of those instruments reports reliability; and whether outcome-statement
+quality predicts anything downstream. *Decides:* B6 severity, and whether B2's term-list signature can
+cite an instrument. Fable 2.3/3.4, Grok 14.
+
+**Blind controls for Q4, recorded here and absent from the prompt.** Expected: (a) condition and
+criterion are rare in real published outcomes, most being bare verb-plus-object; (b) outcome-quality
+rubrics exist in quantity but **none reports inter-rater reliability**; (c) no published evidence links
+outcome-statement wording to any downstream result, only outcome-assessment *alignment*, which is a
+different claim.
+
+**Why (b) and (c) matter beyond this question.** If they hold, they complete a pattern already visible
+in Q2 and Q3: the avoid list is a convention with no evidence base, the restatement defect has no name
+in the literature, and the instruments for judging outcome statements would then be unvalidated too.
+That would mean POSED's outcome-quality apparatus is convention rather than evidence — which does not
+make it wrong, but does determine how every one of those checks must be worded to a faculty user. That
+conclusion should be drawn once, deliberately, rather than three times by accident.
 
 **Q5. The numeric constants.** Four numbers currently resting on arithmetic rather than published
 norms: lecturer speech rate in natural lectures, out-of-class workload rates behind the Rice

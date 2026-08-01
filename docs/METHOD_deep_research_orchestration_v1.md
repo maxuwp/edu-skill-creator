@@ -166,6 +166,12 @@ The template is in `docs/deepresearch_runs/`, one paste-ready file per run. The 
   report. The prompt states that a short report with N traceable rows is a complete success and a
   long report with a discussion section is a failure. This is the single highest-leverage line.
 - **State the population size and demand a closing roll call.** Fixes D1 within a run.
+- **Demand one Markdown file containing the whole answer, and full URLs inside the cells.**
+  Learned the hard way on the Q1 Computer run, 2026-07-31: the app's download produced a CSV of the
+  first table only, and Dr. Ma had to re-transcribe four tables, two strand answers and the roll call
+  by hand. The same export dropped every URL to a bare hostname. Delivery format is therefore part of
+  the contract, not a preference — a run that answers perfectly and delivers one table has cost more
+  than it saved. Every run prompt now closes with a "How to deliver the result" block.
 - **Name the next query for every `unverified` row.** Borrowed from the coverage-backfill step in
   §3.2: their pipeline measures sparse cells and issues expanded queries before finishing, where a
   one-shot prompt can only report the gap. Requiring the run to name what it would try next converts

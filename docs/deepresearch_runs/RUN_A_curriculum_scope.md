@@ -88,3 +88,18 @@ resolved to a different paper than the row it belonged to, which made that row u
 
 5. **Ausubel, advance organizers.** We use it to ground lesson openers. Our scope limit:
    "Openers/organizers; not full lesson design."
+
+## How to deliver the result
+
+Put the **entire answer in one Markdown file** and offer that file for download. It must contain
+every table and every section asked for above, in order, with nothing left behind in the chat
+window. Do not split the answer across several files, and do not deliver a table as a CSV: a CSV
+export carries one table and silently drops everything else, which happened on a previous run and
+cost a manual re-transcription of the whole result.
+
+If a separate list, CSV or spreadsheet is also useful, produce it **in addition to** the complete
+Markdown file, never instead of it.
+
+Write **every URL in full inside the table cell**, as plain text beginning with `https://`. A bare
+hostname such as `example.edu` is not a citation and will be rejected. Do not rely on a hyperlink, a
+footnote marker or a citation chip to carry the address, because those do not survive export.
