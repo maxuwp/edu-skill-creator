@@ -9,6 +9,12 @@ of its own rides the next CR's release rather than minting a minor version. That
 corrections below carry no version bump of their own — a version number was deliberately skipped so
 the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
+**Open change requests, in gate order.** CR 1.20, confirm-first review as a mechanism, revision 2,
+awaiting a per-row gate. CR 1.21, circular evidence, scoped but not drafted. **CR 1.22, terminating
+review loops**, revision 0, drafted 2026-08-01 at `docs/CR_1.22_2026-08-01_terminating_review_loops.md`
+— it wires L24 through the review brief, the reviewer output schema, one release lint check and one
+rubric critical flag, and it takes the ids CR 1.20 does not claim, so 1.20 gates first.
+
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
 **L23 — preserve the need, reconsider the means.** The author's second correction, and it exposed a
