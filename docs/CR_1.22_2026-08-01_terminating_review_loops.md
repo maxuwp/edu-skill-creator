@@ -1,7 +1,8 @@
 # CR 1.22 — Give every review loop a declared stopping condition
 
 **Prepared by:** Claude (Opus 5), 2026-08-01, at Dr. Ma's direction.
-**Revision 0.** Not yet reviewed.
+**Revision 0**, one row corrected 2026-08-01 against the design rule as issued (`t3`). Not yet
+reviewed.
 **Status:** PROPOSED. Nothing here is implemented. Per-row gate required.
 **Depends on:** CR 1.20 gating first, because it allocates the next two release lint check ids and
 the next rubric critical flag id. This CR takes the free ids after those, and if CR 1.20 gates
@@ -59,7 +60,7 @@ routes to the faculty member as a decision rather than as another round.
 |---|---|---|
 | `t1` | `skills/architecture/SKILL.md`: every reviewer pairing declares `round_type` and `round_budget` at design time. A pairing that specifies a reviewer with no round type and no budget is an incomplete design and the stage says so. | L24, and L4: the gate budget is a design-time property, not a runtime improvisation. |
 | `t2` | `skills/draft/SKILL.md`: the review brief template carries the round type and, for `disposition_check` and `targeted_check`, the four-member reopen class verbatim. **After a full review, the next dispatch is never another full review.** | The defect is created by the brief, so the brief is where it is fixed. A brief that asks for open review gets open review, every time. |
-| `t3` | Reviewer output schema gains `round_type: full_review \| disposition_check \| targeted_check` and, on any finding opened by a non-full round, `reopen_class: contradiction \| false_approval \| irreversibility \| protected_property_broken`. | Designer contract revision 3, invariant 7. A rule with no field to check is prose. |
+| `t3` | Reviewer output schema gains `round_type: full_review \| disposition_check \| targeted_check`, **`round_index` and `round_budget`**, and, on any finding opened by a non-full round, `reopen_class: contradiction \| false_approval \| irreversibility \| protected_property_broken`. | Designer contract revision 3, invariant 7. A rule with no field to check is prose. **Corrected 2026-08-01:** rev 0 named only `round_type`, while the envelope it cites as its authority carries `round_index / round_budget` too. Without them in the gated schema, `t6` can record the round index only in the test stage's own records and `t8`'s overrun is not detectable from a review log at all. |
 | `t4` | **New release lint check (next free id after CR 1.20)**: a finding recorded under a non-full `round_type` with no `reopen_class`, or with a `reopen_class` outside the four, fails. Fail-closed, one negative fixture per branch. | L11: the requirement is checkable, so code checks it. Without it, `t3` is a field nobody reads — the exact failure recorded when five invented escalation keys sat in manifests no validator opened. |
 | `t5` | Era-gate `t4` on the same `review_contract_version` field CR 1.20's `c5` introduces. Logs that predate the era, or read `pre-1.20`, are exempt; a post-era log with no round type fails. | Without the era gate the check fails on every existing review log. With a missing-means-exempt default it fails open forever. Same argument as `c5`, and it is why `t4` can ship at all. |
 | `t6` | `skills/test/SKILL.md` round records log the declared round type, the round index against its budget, and whether the round stayed inside its type. | L20's convergence-versus-descent metric cannot distinguish descent from over-review unless the round type is recorded. This row is what makes the L24 hypothesis falsifiable rather than doctrinal. |
