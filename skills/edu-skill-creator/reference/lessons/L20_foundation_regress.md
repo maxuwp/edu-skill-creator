@@ -23,10 +23,13 @@ Two distinct failures are joined there, and both must be answered:
 
 **Rule.**
 
-1. **A fix that changes a layer below the artifact under review is a re-scope, not a fix.** Stop
-   the round. Record the constraint the deeper layer imposes, then re-open deliberately at that
-   layer with the protected baseline (L19) carried forward. Rounds that silently change object are
-   the mechanism of the regress.
+1. **A fix that changes a layer below the artifact under review is a re-scope, not a fix.** Record
+   the constraint the deeper layer imposes, and re-open at that layer deliberately, with the
+   protected baseline (L19) carried forward. Rounds that silently change object are the mechanism of
+   the regress. **Amended 2026-08-01 by L22:** every lower-layer change is a re-scope, but not every
+   re-scope is a restart. The response is graded by impact, from an author-enacted controlled
+   descent to a faculty-authorized relocation. This rule detects; L22 routes. The rest of this
+   lesson is unchanged.
 2. **Write every lesson as a constraint on *any* implementation, never as a repair to this one.**
    The test is mechanical: *could this entry be checked against a replacement written from
    scratch?* If it cannot, it will not survive a relocation, and it is a changelog entry

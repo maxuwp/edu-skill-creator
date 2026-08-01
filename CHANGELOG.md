@@ -11,6 +11,44 @@ the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**Review Scope Protocol, and lesson L22 — controlled scope escalation.** Three external reviewers
+were asked independently how to control a review scope that keeps expanding as the digging goes
+deeper. They returned the same structure from three traditions: timeboxed spikes that convert an
+over-running fix into a re-scope proposal, one-logical-change commit discipline that files a deeper
+defect instead of absorbing it, and incident command re-declaring an incident's type rather than
+letting one grow quietly. The shared mechanism is that scope must be a declared artifact with an
+owner, so expansion becomes a diff between declared and touched rather than a feeling.
+
+`skills/edu-skill-creator/reference/review_scope_protocol.md` is the runnable procedure, written for
+both reviewer populations at once — the fresh-context reviewers this system dispatches, and external
+models reviewing this repository's own work. It carries the declaration block (object of record,
+layer, breadth, budget, authority), the rule that stops descent (complete the declared breadth at
+the declared layer before writing any finding), the scope-pressure record for everything that cannot
+be fixed at that layer, the four impact classes with their authorities, and two paste-ready brief
+blocks.
+
+**One correction to L20, and it came from a reviewer.** L20 rule 1 said a lower-layer fix means stop
+the round. Read strictly that sends a one-line adjacent correction through the same procedure as
+rebuilding the foundation, which makes teams either freeze or creep. The amended rule: every
+lower-layer change is a re-scope, but not every re-scope is a restart — the response is graded, from
+an author-enacted controlled descent (recorded, one per round) to a faculty-authorized relocation.
+L20 detects, L22 routes. The rest of L20 is unchanged, and the amendment says so in place.
+
+The bounded reserve is the cap that makes it decidable: one controlled descent per round; a second
+converts the round into a major re-scope proposal whatever its size.
+
+Grounded on a primary source rather than on the analogy: NASA's Systems Engineering Handbook
+separates a major change (impact on baseline specification, cost, safety, interface compatibility,
+training) from a minor one, and routes changes through a board chaired by someone with change
+authority. Added to the grounding library with a scope limit that says what it does not license —
+our four class names and the reserve are local rules. The incident-command corroboration is recorded
+as an illustration, not an anchor, because its primary text could not be fetched in this pass.
+
+Enforcement is prose and procedure only. Nothing reads a declaration block or notices a fix that
+landed below the declared layer. Wiring it is scoped as future change-request rows and deliberately
+not folded into CR 1.20, which is under gate — amending a document under review is the failure L19
+names, and widening a change already out for decision is the failure L22 names.
+
 **CR 1.20 rev 2, after both independent reviews.** Fable took the method and evidence lens, Grok the
 design and blast-radius lens; between them, eighteen findings, none rejected. Rev 2 opens with the
 confirm-first pass applied to itself: what both reviewers verified is stated as this document's own

@@ -101,6 +101,7 @@ model in its architecture (see `edu-skill-creator-architecture`), grounded in th
 | plugin-dev (anthropics/claude-code) | Plugin component structure, validation, 8-phase creation workflow | Claude Code plugin mechanics |
 | obra "Superpowers" — a complete agentic software-development methodology, of which `writing-skills` is one Meta skill | TDD for skills: RED baseline → GREEN minimal skill → REFACTOR loopholes | Process documentation testing; requires subagent-style test runs. We borrow one skill selectively from a much broader methodology — do not cite Superpowers as though it were a skill-writing guide `[audited 2026-07-31]` |
 | TDD (Beck) | Test-first discipline generally | Software; applied to skills via obra's adaptation |
+| NASA Systems Engineering Handbook — configuration management (baselines; major vs. minor change; change board with named authority) | Graded change control: classify a proposed change by impact, and authorize it before implementing | The shape only — baseline, classification by impact, a named authority, authorization before implementation. Validated for engineered systems under formal CM, not for review loops; our four scope classes and the one-descent reserve are local rules, not NASA's `[added 2026-08-01, primary source fetched]` |
 | Ma, ASEE 2026 "Professor + AI Team" protocol | Faculty-led AI tool development phases | **n8n-workflow development only** — do not generalize |
 
 ## Rules of use
