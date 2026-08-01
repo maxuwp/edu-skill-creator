@@ -4,6 +4,11 @@
 consumer must look like.** Derived from evidence in this project's own records, with each rule's
 evidence status attached so the weak ones can be argued with.
 
+**Revision 3, 2026-08-01** adds the termination design (L24): `round_type` and `round_budget` in the
+envelope, invariant 7 restricting what a non-full round may open, §10 on designing the stop, and
+acceptance test 10. A stage that dispatches reviewers without a declared round type has built a loop
+with no exit, which this project observed running until a human interrupted it.
+
 **Revision 2, 2026-08-01**, after Codex's disposition check on revision 1. Revision 1 (same day,
 after Codex's first review) stopped forcing a mechanical check into reviews where none is valid, and
 added runnability, population type and stable finding ids. Revision 2 closes the four findings that
@@ -26,6 +31,8 @@ shape** and let the lint check it:
 
 ```
 artifact_and_version:
+round_type:                 full_review | disposition_check | targeted_check
+round_index / round_budget: which round this is, out of how many the stage authorised
 population_type:            finite | bounded_model | open_ended
 review_population:          enumerated where the type allows
 coverage_limitations:
@@ -50,7 +57,7 @@ rebase_subtype:             boundary_rescope | foundation_rebase | null
 cost:                       calls, tokens, elapsed — or "not recorded"
 ```
 
-**Six conditional invariants, which are what make the envelope checkable rather than decorative.**
+**Seven conditional invariants, which are what make the envelope checkable rather than decorative.**
 Revision 1 carried the fields and left the relationships between them unstated, which is a schema
 that looks strict and enforces nothing.
 
@@ -63,6 +70,9 @@ that looks strict and enforces nothing.
    `confirmed_id`.
 6. A class-closure claim on `bounded_model` or `open_ended` requires an explicit `coverage_model`
    and a statement of residual uncertainty.
+7. A finding opened under `round_type: disposition_check` or `targeted_check` must carry
+   `reopen_class: contradiction | false_approval | irreversibility | protected_property_broken`.
+   A finding without one is out of contract and belongs in the backlog register (L24).
 
 **Evidence must fit the claim, and no single kind is universally required.**
 
@@ -163,7 +173,26 @@ Lens diversity for high-risk work — one reviewer on semantic validity, one on 
 integrity, one on usability — is supported by the evidence available. Whether **same-brief** reviewers
 add as much is not yet measured, and the corpus that would settle it exists but is uncoded.
 
-## 9. Acceptance tests for the wiring, so §1 to §7 can fail
+## 9. Design the stop, not just the review
+
+A review stage is not finished when it can dispatch a reviewer. It is finished when it can **end**.
+Three things make the ending exist:
+
+- **Declare the round type on dispatch.** After a full review, the next round is a disposition check
+  or a targeted check — not another full review. A stage that sends the same brief every round has
+  guaranteed that every round produces new findings, because that is what the brief asks for.
+- **Settle automatically.** When the targeted checks on the named corrections pass, the stage marks
+  the artifact settled and stops dispatching. No human has to interrupt.
+- **Budget the rounds, and route the overrun to the human.** Exceeding the budget is a signal that
+  the artifact, the brief or the acceptance oracle is wrong. That is a faculty decision (L5), never a
+  reason to run one more round.
+
+Match review depth to what the artifact claims: a `PROPOSED`, unloaded document gets adoption review,
+and one that governs execution gets protocol review. Reviewing a proposal against a protocol standard
+generates findings the artifact never claimed to satisfy. The evidence is in L24, including what that
+single case does and does not support.
+
+## 10. Acceptance tests for the wiring, so §1 to §9 can fail
 
 From Codex's review of this contract. A stage that claims to implement the envelope should be able to
 produce each of these.
@@ -180,10 +209,13 @@ produce each of these.
 8. A reviewer may propose repair constraints but cannot modify the artifact during the review pass.
 9. The security example is described as incomplete control coverage, with the parser's
    defence-in-depth value preserved.
+10. A `disposition_check` round that opens a finding without a `reopen_class` is rejected by the
+    stage, and the item is written to the backlog register instead. Passing targeted checks settle
+    the artifact without a further dispatch.
 
 **When these get wired, do not inject both documents into every reviewer prompt.** Keep the designer
 contract as an authoring reference. Maintain one compact operative core for reviewers — the envelope,
-the six invariants, the review order, and the outcome definitions — and link the evidence discussion
+the seven invariants, the review order, and the outcome definitions — and link the evidence discussion
 rather than repeating it. Test retention and output conformance through the actual harness before
 calling the behaviour durable, and do not invent a word limit before that test. As measured on
 revision 1: the reviewer contract is about 1,450 words and this one about 1,380, and neither is

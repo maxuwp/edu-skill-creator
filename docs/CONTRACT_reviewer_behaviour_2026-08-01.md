@@ -9,8 +9,12 @@ recorded. Until then, adopt it by choice.
 Derived from evidence in this project's own records; each rule carries its evidence status so the
 weak ones can be argued with rather than obeyed equally.
 
-**Revision 1, 2026-08-01**, after an independent review by Codex. What that review confirmed and this
-revision does not touch: the confirm-first structure with `confirmed_correct` before findings and a
+**Revision 2, 2026-08-01** adds §8, the termination rule: every round declares its type, a
+disposition check may not open new findings outside a short reopen class, settlement is automatic,
+and review depth is proportional to the artifact's status. It changes nothing else.
+
+**Revision 1, 2026-08-01**, after an independent review by Codex. What that review confirmed and
+neither revision touches: the confirm-first structure with `confirmed_correct` before findings and a
 do-not-break baseline; one consolidated report rather than serial single-finding returns; the
 separation of local findings, scope pressure and requirements questions; the three-way closure
 language; the requirement for artifact version, scope, oracle and prior confirmed properties; honest
@@ -151,7 +155,44 @@ reviewer's counterfactual output, and your prediction would be one more same-age
 as evidence — the exact failure this project has a lesson about. You may label a finding
 `lens_specific_hypothesis`; that label is a hint for the coder, never a measurement of uniqueness.
 
-## 8. Two things this contract does NOT claim
+## 8. Every round declares its type, and the loop terminates
+
+**This is the section that ends the reviewer duel, and it is the one to read first if you read only
+one.** Before you review, you are told which of three rounds this is, and the type fixes what you may
+return:
+
+```
+full review        — you may open new findings across the declared population
+disposition check  — you report only whether the named prior findings closed and whether the
+                     protected baseline held. You may not open new findings.
+targeted check     — you report only pass or fail on the named corrections.
+```
+
+**The reopen class.** A disposition check or targeted check may open a new finding only for: a
+critical contradiction between two rules in the artifact, a false approval (a property recorded as
+confirmed that is not true), an irreversibility or data-loss risk, or a broken protected property.
+Name which one applies. Everything else you notice — a field you would have added, a schema you would
+have designed, a binding you think wiring will need — goes to **backlog**, recorded once, raised
+never again.
+
+**Settlement is a state, not a favour.** When the targeted checks on the named corrections pass, the
+artifact is settled and no further general round is scheduled. You do not need to be told to stop.
+
+**Review depth is proportional to the artifact's status.** A document marked `PROPOSED` and loaded by
+nothing gets adoption review — is it coherent and safe enough to try? A document that governs
+execution gets protocol review — is every field defined and every transition legal? Reviewing a
+proposal as a protocol manufactures findings against a standard the artifact never claimed, and it is
+the specific failure that produced this section: a 98-line proposed contract, unwired, drew six major
+findings and a larger replacement envelope, all of which were withdrawn on challenge and settled with
+two local corrections.
+
+*Evidence: one case, and the withdrawal was the reviewer's own re-disposition under challenge, not an
+independent finding that the six were invalid. What it does establish is that the round had no
+declared type and no termination condition, so producing more findings was the only behaviour the
+brief rewarded.* Full statement in
+`skills/edu-skill-creator/reference/lessons/L24_review_termination.md`.
+
+## 9. Two things this contract does NOT claim
 
 - **That every repeated round is a foundation problem.** Two independent retrospective checks
   examined eight transitions and found zero demonstrable silent descents, with four undecidable. Some

@@ -1,9 +1,12 @@
 # Fixer contract — for the agent that implements what a reviewer found
 
-**Status: PROPOSED, revision 0 — initial draft, not yet reviewed and not yet wired.** Its two
-companions are at revision 1 and revision 2 respectively, having each been through an
-independent review; this one has been through none, and should be read with that difference in
-mind. Nothing loads any of the three. Companion to
+**Status: SETTLED, revision 1, 2026-08-01 — adopted as proposed behavioural guidance, not yet
+wired.** Revision 0 went to Codex, which first returned six major findings and a larger envelope,
+then withdrew that disposition on the grounds that it had reviewed a short proposed contract as if it
+were a production protocol. The settlement it proposed and this revision implements: two local
+corrections, everything else to backlog, and **no further general review round**. The deferred items
+are in `docs/BACKLOG_contract_wiring_2026-08-01.md`. The termination rule that ends this class of
+exchange is L24. Nothing loads any of the three contracts. Companion to
 `docs/CONTRACT_reviewer_behaviour_2026-08-01.md` and
 `docs/CONTRACT_designing_reviewers_in_skills_2026-08-01.md`, and deliberately shorter than both: a
 fixer reads its contract while holding a diff in its head.
@@ -21,8 +24,10 @@ A review envelope carrying `findings` (each with its `finding_id`, `acceptance_c
 `smallest_change`, `affected_dependencies`, `preserve`) and `do_not_break` referencing
 `confirmed_id`s.
 
-If the finding you were handed has no `smallest_change` and no `acceptance_constraints`, do not
-invent them. Return `implementation_status: unrunnable` with the reason. A fixer that infers the
+If the finding you were handed is missing its `smallest_change` **or** its `acceptance_constraints`,
+do not invent the missing one. Both are required: without the constraints you cannot tell whether the
+change worked, and without the change shape you are designing the repair. Either omission alone
+blocks the pass. Return `implementation_status: unrunnable` with the reason. A fixer that infers the
 intended repair is the failure mode the reviewer contract's §4 exists to prevent, arriving one step
 later.
 
@@ -40,6 +45,12 @@ later.
 Every `do_not_break` entry must still hold when you finish, and you state **how you checked each
 one** — by re-running its recorded `how_verified`, not by reasoning that your change could not have
 affected it.
+
+Where the recorded `how_verified` is not something you can execute — an independent semantic review,
+a human gate, a primary-source check — you do not rerun it and you do not simulate it. You mark that
+entry `routed_for_reconfirmation` and name who must reconfirm it. A fixer that re-asserts a semantic
+baseline on its own authority has replaced the check with itself, which is the same defect as
+re-checking by argument.
 
 *Evidence: a property recorded as confirmed in one round was later found unreachable on a real
 session, so it had never been true. A baseline re-checked by argument is not re-checked.*
@@ -66,7 +77,9 @@ implemented:            [finding_id]
 not_implemented:        [{finding_id, reason}]
 deliberately_untouched: [things you noticed and left alone]
 scope_pressure:         [{issue, load_bearing, required_boundary}]
-baseline_recheck:       [{confirmed_id, how_rechecked, result}]
+baseline_recheck:       [{confirmed_id, how_rechecked,
+                          result: held | broken | routed_for_reconfirmation,
+                          reconfirmer: who must reconfirm, when routed}]
 changed_units:          [what you edited]
 dependency_affected:    [what depends on it and must be re-reviewed]
 believed_unaffected:    [what you deemed out of the cone, and why]
