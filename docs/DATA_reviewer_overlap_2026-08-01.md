@@ -59,6 +59,43 @@ lenses and produced non-overlapping findings along exactly those lines, which su
 overlap is at least partly *designed* rather than discovered — a confound that any write-up must
 carry, and a variable worth manipulating deliberately in a later round.
 
+## 2a. Second measurement — POSED CR 1.71 revision 2.1, three reviewers
+
+Codex, Fable and Grok reviewed the same implementation. The change request records which reviewers
+raised each concern, in its own revision-2.1 section, written before any measurement was contemplated.
+
+| # | concern | Codex | Fable | Grok | raised by |
+|---|---|---|---|---|---|
+| 1 | Vehicle binding table: token to manifest key, student form only | M2 | E26 | ✓ | **three** |
+| 2 | `pre_course_quiz` moved to diagnostic-exempt; 4 of 5 origin tags would have fired falsely | — | E25 | — | Fable |
+| 3 | Acceptance test 1 softened from "exactly two" to "at minimum two" | — | E5 | ✓ | two |
+| 4 | R3 renamed to declared dependency order; the "0 forward references" claim withdrawn as vacuous | C1a | E24 | ✓ | **three** |
+| 5 | D2's plan half replaced with a post-assembly validate-and-stamp transaction | C3 | — | critical | two |
+| 6 | Census enumerator frozen and shipped, denominator stated | — | — | major | Grok |
+| 7 | Test 14 re-derives whenever claim fields are present; P1 and R1b tightened | — | E27 | minors | two |
+
+**7 concerns. 2 raised by exactly one reviewer — 28.6%.** Two of the seven were raised by all three.
+
+**These two numbers do not belong in the same column, and saying so is the point.** CR 1.20 counts
+concerns **raised**; CR 1.71's section counts concerns **actioned in a revision**. A concern raised by
+one reviewer and rejected never appears in the second frame. Putting 72.7% and 28.6% side by side
+without that distinction would repeat exactly the defect Fable caught in CR 1.20 — mixing
+denominators and censoring one end of the distribution — in a document written to measure the process
+that caught it.
+
+**Two hypotheses fall out, both testable against this corpus.**
+
+1. **Co-raised findings may be preferentially actioned.** If a concern raised by two reviewers is more
+   likely to survive triage than one raised by one, the actioned frame will always show higher
+   agreement than the raised frame, and the gap between the two frames is itself the measurement.
+   Testable by coding raised-and-rejected concerns from the same rounds.
+2. **Agreement tracks how mechanical the artifact is.** CR 1.20 was a method and evidence review, and
+   the reviewers diverged; CR 1.71 was an implementation review, and they converged. The grounding
+   audit is a third instance in the same direction: two independent runs agreed on the factual rows
+   and disagreed on eight of fourteen scope judgments. If it holds, the practical rule is that a
+   second reviewer buys most where the judgment is interpretive, and least where a check could have
+   settled it — which is also the cost argument for pushing mechanical work down to the lint.
+
 ## 3. Corpus available for further coding
 
 | source | multi-reviewer artifacts | state |
