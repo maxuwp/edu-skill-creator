@@ -11,6 +11,47 @@ the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**CR 1.20 rev 2, after both independent reviews.** Fable took the method and evidence lens, Grok the
+design and blast-radius lens; between them, eighteen findings, none rejected. Rev 2 opens with the
+confirm-first pass applied to itself: what both reviewers verified is stated as this document's own
+protected baseline before any row changes, so the revision is a modification and not a new draft.
+
+The evidence section was the part that did not survive review. Rev 1 claimed "3/3 to 0/30, the only
+variable changed was the brief". Both reviewers rejected that independently: the two rates use
+different denominators, the after-period censors round 5 (no subsequent round has audited its
+fixes), and three things co-varied with the brief — the suite grew from 25 to 78 falsifiable cases
+before round 4, round 3 had no external auditors, and three rounds had already swept the older
+surfaces. Rev 2 states the per-fix-set rates, names the confounds, and gives the attribution to the
+combination while noting that the component this repository's own evidence most directly supports is
+the mechanised baseline rather than the brief's wording. That is a weaker claim about the prose and a
+stronger one about Groups A and B.
+
+Six rows were tightened where the CR's own mitigation was prose under its own lint: `how_verified`
+gains a closed kind and check 17 must reject a log that verified nothing by a runnable mechanism;
+supersession gains a required shape, an evidence burden and a human-gate authority, so a wrong
+protected row can be demoted without the ledger becoming decorative; `c3` admits negative ground so
+an honest regenerate is expressible; `c5` closes the missing-version fail-open that would have made
+every future log exempt by omission; `c13` becomes an opt-in module rather than the default shape of
+every generated plugin, held behind one internal round.
+
+`c8`'s seed data is now in the repository (`docs/APPENDIX_CR_1.20_baseline_seed.md`), recovered from
+the round-4 and round-5 auditor reports: 26 invariants with their breaks-if clauses, which is the
+part that survives a rewrite. Recovering it corrected a count rev 1 got wrong — "24 (7 lint + 17
+generated-surface)" added mutation counts as though they were property counts; the enumeration is 8
+and 18. A CR about protected baselines mis-stating the size of its own baseline is worth recording
+rather than quietly fixing.
+
+Rows `c20` and `c21` are pulled forward from the scoped CR 1.21 into this gate. They change the same
+contract Group A changes, so gating them apart would mint two contract eras and permanently double
+the exemption matrix `c5` reasons over. `c20` is the one live defect in shipped code: check 15
+authorizes L11's central gate on a boolean the reviewing agent wrote about its own conduct, and
+never opens the report it names.
+
+Grok's review is now filed at `docs/REVIEW_CR_1.20_grok.md`. It had decided rows while living only in
+chat, which is the same durability defect as `c8`'s seed data, one level up.
+
+Nothing in the CR is implemented; it awaits the per-row gate.
+
 **Lesson L20 — Foundation Regress.** The author named the pathology behind the audit loops: a fix
 that requires changing a layer below the artifact under review is a re-scope, not a fix, so the loop
 descends through layers while looking like iteration — house, then foundation, then water table,
