@@ -17,6 +17,31 @@ rubric critical flag, and it takes the ids CR 1.20 does not claim, so 1.20 gates
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**`c6`–`c8`, `c15` and `c16` implemented — the baseline is now cumulative, and L19 tells the truth
+about its own evidence.** `docs/REGRESSION_LEDGER.md` exists, seeded with the 26 invariants recovered
+in the appendix, and release lint check 18 enforces it: legal verdicts including the two that are
+usually missing, lifecycle status kept on a separate axis from the verdict, no recycled ids, and every
+confirmed active row naming either a suite case or an explicit "not mechanisable, because …". Eight of
+the 26 rows carry that explicit reason rather than a case id, which is the honest state and is now
+visible instead of implied.
+
+"No row disappears" is enforced as a floor, because the lint cannot see history. Lowering it is a
+deliberate act argued here, never a side effect of tidying — the same shape as the suite floor, for
+the same reason.
+
+Not one row is marked plainly `confirmed`. Each records a verification performed against 1.18 and
+1.19 and **recovered from transcripts**, with re-anchoring pending. A ledger that inherited stale
+anchors would certify them, which is the failure it exists to prevent.
+
+L19 now carries the corrected second instance: per-fix-set rates, round 5 marked unobserved, the
+three confounds named, and the attribution given to the combination with the mechanised baseline as
+the best-supported component. POSED is described as shipped and enforced rather than solved, and the
+author-reported instance is labelled as testimony. The residual risk section is no longer prose: the
+`how_verified` standard is check 17 and the escape hatch is the supersession record, with the
+`present-but-not-a-defect` verdict named as protected error's likeliest home.
+
+Six new suite cases for check 18. Suite 118 to 124; floor raised to 119.
+
 **`c1`–`c5` implemented — the confirm-first contract is now a mechanism.** L19 has said since 1.18
 that a review has two halves and that the confirmed half is a protected baseline. Nothing checked it,
 which is the state every prose-only rule in this repository has drifted from.

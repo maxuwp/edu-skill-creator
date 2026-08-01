@@ -543,6 +543,33 @@ def m_eraprefix(r):
 seeded("c17 declared pre-era log stays exempt", m_eraprefix, "", expect_fail=False)
 
 # --------------------------------------------------------------------------------------
+# 18. the cumulative regression ledger (CR 1.20 c6-c8)
+# --------------------------------------------------------------------------------------
+LEDGER = "docs/REGRESSION_LEDGER.md"
+def m_ledgone(r):  (r / LEDGER).unlink()
+def m_ledthin(r):
+    # rows are superseded with a record, never dropped; the floor is what makes a quiet
+    # deletion visible to a lint that cannot see history
+    p = r / LEDGER
+    p.write_text("\n".join(l for l in p.read_text().splitlines()
+                           if not re.match(r"^\|\s*`g1[0-9]`", l)) + "\n")
+def m_ledverdict(r): _sub(r, LEDGER, "| `s1` | confirmed", "| `s1` | probably fine")
+def m_ledstatus(r):  _sub(r, LEDGER, "(1.19, re-anchor) | active | round 5 | Citation",
+                          "(1.19, re-anchor) | live | round 5 | Citation")
+def m_leddup(r):     _sub(r, LEDGER, "| `s2` |", "| `s1` |")
+def m_ledmech(r):
+    _sub(r, LEDGER, "| suite cases `c16 …` |", "| looked right when I read it |")
+
+seeded("c18 ledger deleted", m_ledgone, "REGRESSION_LEDGER.md is missing")
+seeded("c18 rows dropped below the floor", m_ledthin, "below the floor of")
+seeded("c18 verdict outside the four", m_ledverdict, "is not one of")
+seeded("c18 status that is not a lifecycle value", m_ledstatus,
+       "is not active or superseded")
+seeded("c18 recycled row id", m_leddup, "duplicate row id")
+seeded("c18 confirmed row with no mechanism named", m_ledmech,
+       "must name a suite case")
+
+# --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"
 # --------------------------------------------------------------------------------------
 def m_citebad(r):

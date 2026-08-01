@@ -41,6 +41,9 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
      carries a non-empty `verified` baseline whose entries name a classified mechanism, at
      least one of them strong; findings arrive as `modification` and their `preserve` ids
      resolve. Era-gated on `review_contract_version`, and exemption must be declared.
+ 18. The cumulative regression ledger: docs/REGRESSION_LEDGER.md exists, carries at least
+     MIN_LEDGER_ROWS rows with legal verdicts and lifecycle status, recycles no id, and every
+     confirmed active row names a suite case or an explicit 'not mechanisable, because …'.
 
 Three outcomes, not two: error, clean, and UNVERIFIABLE — the check ran and could not
 tell. An unverifiable result that authorizes a gate is also an error (fail closed); the
@@ -67,7 +70,7 @@ errors, warnings, _unver = [], [], []
 # Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
 # its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
 # missed it — and the total held. record() sites still count toward the reported total.
-MIN_SUITE_CHECKS = 113
+MIN_SUITE_CHECKS = 119
 
 # 1. Hardcoded harness paths in shared skill bodies
 #    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
@@ -753,6 +756,45 @@ for _rf in sorted(set(_review_files)):
                 errors.append(f"[contract] {_rel}: findings[{_i}].preserve names {_p!r}, which is "
                               f"not a verified id in this file — the do-not-break list must "
                               f"resolve, or it protects nothing")
+
+# 18. The cumulative regression ledger (CR 1.20 c6-c8). A per-round baseline dies with the
+#     round that wrote it; this makes it monotone. The lint cannot see history, so "no row
+#     disappears" is enforced as a FLOOR, the same shape as MIN_SUITE_CHECKS: lowering it is a
+#     deliberate act argued in the changelog, never a side effect of tidying.
+MIN_LEDGER_ROWS = 26
+LEDGER_VERDICTS = {"confirmed", "defect", "ambiguous", "present-but-not-a-defect"}
+_led = ROOT / "docs/REGRESSION_LEDGER.md"
+if not _led.exists():
+    errors.append("[ledger] docs/REGRESSION_LEDGER.md is missing — the cumulative baseline is the "
+                  "only thing that stops one round fixing a case by breaking an earlier one; a "
+                  "vanished ledger is a failure, not a skip")
+else:
+    _lt = _led.read_text()
+    _rows = re.findall(r"^\|\s*`([sg]\d+)`\s*\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)\|([^|]*)\|",
+                       _lt, re.M)
+    if len(_rows) < MIN_LEDGER_ROWS:
+        errors.append(f"[ledger] {len(_rows)} parsed row(s), below the floor of {MIN_LEDGER_ROWS} "
+                      f"— rows are superseded with a record, never dropped, and an unparseable "
+                      f"ledger is an unchecked one, not an exempt one")
+    _seen = set()
+    for _id, _verdict, _status, _case, _mech in _rows:
+        if _id in _seen:
+            errors.append(f"[ledger] duplicate row id {_id!r} — ids are stable and never recycled")
+        _seen.add(_id)
+        _v = _slug(_verdict).split("(")[0].strip("- ")
+        if _v not in LEDGER_VERDICTS:
+            errors.append(f"[ledger] row {_id}: verdict {_verdict.strip()!r} is not one of "
+                          f"{sorted(LEDGER_VERDICTS)} — the two unusual verdicts are the point, "
+                          f"and a case with nowhere to go gets re-decided every round")
+        if _slug(_status) not in {"active", "superseded"}:
+            errors.append(f"[ledger] row {_id}: status {_status.strip()!r} is not active or "
+                          f"superseded — lifecycle is a separate axis from the verdict")
+        if _v == "confirmed" and _slug(_status) == "active":
+            _m = _mech.strip()
+            if not (("suite case" in _m) or _m.lower().startswith("not mechanisable")):
+                errors.append(f"[ledger] row {_id}: a confirmed, active row must name a suite case "
+                              f"or state 'not mechanisable, because …' — an unmechanised confirmed "
+                              f"row is an assertion the ledger will defend")
 
 for w in warnings: print("WARN ", w)
 for u in _unver:   print("UNVER", u)
