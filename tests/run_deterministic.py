@@ -10,7 +10,7 @@ every lesson file, so check 12's 18 errors satisfied fixtures written for check 
 stayed green with check 11's guard deleted. A fixture that accepts any failure proves the
 lint can fail, not that THIS guard fires. `expect_tag` is mandatory for that reason.
 """
-import json, pathlib, re, shutil, subprocess, sys, tempfile
+import hashlib, json, pathlib, re, shutil, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "skills/scaffold/reference/validator_template.py"
@@ -440,6 +440,58 @@ seeded("c15 approve with a failing computed check", m_computedfalse,
        "computed_checks.thing_validator_pass=False")
 seeded("c15 computed_checks block with no _validator_pass key", m_computedkey,
        "names no '<artifact>_validator_pass' entry")
+
+# c20: a true pass flag is the reviewer's testimony about its own conduct. Each case below
+# is one way that testimony was accepted with nothing behind it. Every one of them passed
+# the lint before this clause existed.
+#   The report lives OUTSIDE reviews/ on purpose: check 9 enumerates reviews/*.json as
+#   review logs and check 15 rglobs *review*.json, so a validator report parked among them
+#   would be linted as a review and the fixture would fail for a reason it never meant.
+RPT = "docs/thing_validation.json"
+RPT_BODY = b'{"passed": true}\n'
+RPT_SHA = hashlib.sha256(RPT_BODY).hexdigest()
+
+def _cc(r, **kv):
+    m_nocomputed(r)
+    _json_edit(r, REV, lambda d: d.update(computed_checks=kv))
+def _report(r):
+    (r / RPT).write_bytes(RPT_BODY)
+
+def m_ccnopath(r):
+    _cc(r, thing_validator_pass=True)
+def m_ccghost(r):
+    _cc(r, thing_validator_pass=True, thing_validator_report=RPT)   # never written
+def m_ccunbound(r):
+    _report(r)
+    _cc(r, thing_validator_pass=True, thing_validator_report=RPT)
+def m_ccdrift(r):
+    _report(r)
+    _cc(r, thing_validator_pass=True, thing_validator_report=RPT,
+        thing_validator_report_sha256="0" * 64)
+
+seeded("c20 pass flag true with no report path", m_ccnopath,
+       "names no report path")
+seeded("c20 report path naming a file that does not exist", m_ccghost,
+       "a missing report is UNVERIFIABLE")
+seeded("c20 report exists but its bytes are not bound", m_ccunbound,
+       "is unbound")
+seeded("c20 report changed after the review that cited it", m_ccdrift,
+       "changed after the review")
+
+def m_ccbound(r):
+    # The positive control. Without it the four cases above prove only that the clause can
+    # FAIL, never that it can pass — a guard nothing can satisfy is as dead as a guard
+    # nothing can trip, and it would be satisfied here by a clause that rejected everything.
+    # Every approving review needs the block, not just one: the moment a validator exists,
+    # L11's gate applies to all of them, which is the contract, not a fixture artefact.
+    _report(r)
+    m_nocomputed(r)
+    for p in sorted((r / "reviews").glob("*.json")):
+        _json_edit(r, f"reviews/{p.name}", lambda d: d.update(computed_checks={
+            "thing_validator_pass": True,
+            "thing_validator_report": RPT,
+            "thing_validator_report_sha256": RPT_SHA}))
+seeded("c20 fully bound computed pass is accepted", m_ccbound, "", expect_fail=False)
 
 # --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"

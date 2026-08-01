@@ -38,6 +38,10 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
  16. Citation resolution: every backticked path in a skill body resolves, and no skill
      reaches a sibling through '..' (which resolves in a checkout and dangles installed).
 
+Three outcomes, not two: error, clean, and UNVERIFIABLE — the check ran and could not
+tell. An unverifiable result that authorizes a gate is also an error (fail closed); the
+separate name keeps "wrong" distinguishable from "not established" in the record.
+
 Every check has a negative fixture in tests/run_deterministic.py that names the error it
 expects. Adding a check without one is adding a green light, not a guard (L8).
 
@@ -47,14 +51,19 @@ import hashlib, json, pathlib, re, subprocess, sys
 
 PUBLISH = "--publish" in sys.argv[1:]
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-errors, warnings = [], []
+# Three outcomes, not two. `_unver` is the third: the check ran, and could not tell. Until
+# it existed the lint had error and clean only, so "I could not open the evidence" had
+# nowhere to go and was recorded as clean. An unverifiable result that is AUTHORIZING a gate
+# is also an error — it fails closed — but it is named separately so the record distinguishes
+# "this is wrong" from "this could not be established" (CR 1.20 c21).
+errors, warnings, _unver = [], [], []
 
 # Floor for check 13. Raise it when the suite grows; lowering it is a deliberate act that
 # must be argued in the changelog, never a side effect of deleting cases.
 # Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
 # its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
 # missed it — and the total held. record() sites still count toward the reported total.
-MIN_SUITE_CHECKS = 99
+MIN_SUITE_CHECKS = 104
 
 # 1. Hardcoded harness paths in shared skill bodies
 #    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
@@ -532,6 +541,45 @@ for _rf in sorted(set(_review_files)):
         else:
             _why += [f"computed_checks.{k}={v!r}" for k, v in _cc.items()
                      if k.endswith("_validator_pass") and v is not True]
+            # c20: a True pass flag is the reviewing agent's own testimony about its own
+            # conduct. Until this clause, nothing opened the report it names, confirmed the
+            # file existed, or bound its bytes — level 5 authorizing L11's central gate, in
+            # the newest code in the file. The prose promised more than the code delivered:
+            # skills/scaffold/SKILL.md and the validator template's header both say the pass
+            # flag travels WITH a real report path.
+            for _k, _v in sorted(_cc.items()):
+                if not _k.endswith("_validator_pass") or _v is not True:
+                    continue
+                _art = _k[: -len("_validator_pass")]
+                _rep = _cc.get(f"{_art}_validator_report")
+                _sha = _cc.get(f"{_art}_validator_report_sha256")
+                if not isinstance(_rep, str) or not _rep.strip():
+                    _unver.append(f"[unverifiable] {_rel}: computed_checks.{_k} is true with no "
+                                  f"'{_art}_validator_report' path — the pass is the reviewer's "
+                                  f"own testimony and nothing can open what it refers to")
+                    _why.append(f"computed_checks.{_k} names no report path")
+                    continue
+                _rp = ROOT / _rep
+                if not _rp.exists():
+                    _unver.append(f"[unverifiable] {_rel}: computed_checks.{_art}_validator_report "
+                                  f"names {_rep!r}, which does not exist — a missing report is "
+                                  f"UNVERIFIABLE, never a pass")
+                    _why.append(f"computed_checks.{_art}_validator_report {_rep!r} does not exist")
+                    continue
+                try:
+                    _now = hashlib.sha256(_rp.read_bytes()).hexdigest()
+                except OSError as _e:
+                    _unver.append(f"[unverifiable] {_rel}: {_rep} is unreadable ({_e}) — "
+                                  f"UNVERIFIABLE, never a pass")
+                    _why.append(f"computed_checks.{_art}_validator_report is unreadable")
+                    continue
+                if not isinstance(_sha, str) or not _sha.strip():
+                    _why.append(f"computed_checks.{_art}_validator_report is unbound — no "
+                                f"'{_art}_validator_report_sha256', so the report may change "
+                                f"under the approval that cites it")
+                elif _sha.strip().lower() != _now:
+                    _why.append(f"computed_checks.{_art}_validator_report changed after the "
+                                f"review ({_sha.strip()[:12]}… -> {_now[:12]}…)")
     if _why:
         errors.append(f"[coherence] {_rel} recommends {_rec!r} while its own record shows "
                       f"{', '.join(_why)} — a recommendation must agree with the evidence it signs")
@@ -624,6 +672,8 @@ if _cited < 50:   # the real corpus is far larger; a collapsed count means the e
                   f"seeing the corpus; a resolver with nothing to resolve proves nothing")
 
 for w in warnings: print("WARN ", w)
+for u in _unver:   print("UNVER", u)
 for e in errors:   print("ERROR", e)
-print(f"\nrelease_lint: {len(errors)} error(s), {len(warnings)} warning(s)")
+print(f"\nrelease_lint: {len(errors)} error(s), {len(warnings)} warning(s), "
+      f"{len(_unver)} unverifiable")
 sys.exit(1 if errors else 0)

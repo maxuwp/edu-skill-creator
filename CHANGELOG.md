@@ -17,6 +17,29 @@ rubric critical flag, and it takes the ids CR 1.20 does not claim, so 1.20 gates
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**`c20` and `c21` implemented — the one live defect in shipped code is closed.** Check 15 authorized
+L11's central gate on `computed_checks.<artifact>_validator_pass: true`, a boolean the reviewing
+agent wrote about its own conduct. Nothing opened the report it named, confirmed the file existed, or
+bound its bytes. A reviewer that wrote `true` without running anything passed, and the prose in the
+scaffold skill and the validator template's own header had promised more than the code delivered: the
+pass flag travels with a real report path.
+
+The clause now requires the report path, requires the file to exist, and binds its sha256, so a
+report that changes after the approval that cites it is caught the way check 14 catches a drifted
+gate artifact.
+
+**The lint has a third outcome.** Error, clean, and now UNVERIFIABLE — the check ran and could not
+tell. A missing or unreadable report is unverifiable, never a pass; because it is authorizing a gate
+it is also an error, so it fails closed, but the record now distinguishes "this is wrong" from "this
+could not be established". Before this the lint had two outcomes and "I could not open the evidence"
+had nowhere to go except clean.
+
+Five new suite cases, four negative and one positive control: no report path, a path naming a file
+that does not exist, a report whose bytes are unbound, a report that changed after the review, and
+the fully bound block accepted. The positive control gives every approving review the complete block,
+not just one, because the moment a validator exists L11's gate applies to all of them — that is the
+contract, not a fixture artefact. Suite 104 to 109 cases, floor raised to 104 falsifiable sites.
+
 **L23 — preserve the need, reconsider the means.** The author's second correction, and it exposed a
 defect in the rebase design committed hours earlier. That design protected recorded requirements by
 default, so his own example breaks it: a house with small windows carries "many lighting fixtures",
