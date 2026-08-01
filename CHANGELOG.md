@@ -11,6 +11,44 @@ the CR and the release could keep matching. The manifests bump when 1.20 gates.
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**L23 — preserve the need, reconsider the means.** The author's second correction, and it exposed a
+defect in the rebase design committed hours earlier. That design protected recorded requirements by
+default, so his own example breaks it: a house with small windows carries "many lighting fixtures",
+the site changes to one with good daylight, and the fixtures ride across unchanged. The new house
+gets a large window and twelve lamps. The requirement was never a requirement; it was a compensating
+workaround for a limitation the new foundation removed, and carrying it forward imports the old
+foundation's defect into the new one. The same sentence with a decorative reason behind it inverts
+the correct action entirely — preserve the fixtures, adapt the structure to carry them. Identical
+artifact text, opposite correct migrations, and nothing in the artifact can tell them apart. Only the
+person who asked knows, which is why this is solved by asking rather than by better analysis.
+
+Requirements are now recorded on two axes that the first version conflated: semantic role (need,
+outcome, preference, constraint, solution, workaround, assumption) and migration disposition
+(preserve, adapt, retire_workaround, invalidate, hold_pending_clarification). Reviewer outcomes gain
+a fourth, `CLARIFICATION_REQUIRED`, distinct from `REBASE_REQUIRED` because an ambiguous load-bearing
+need is not the same state as a foundation known to be wrong. Questions are written with the decision
+each answer settles, and a question whose answers change no decision is not asked.
+
+**Two corrections to this thread's own proposals, both against Claude.** "Carry it forward and flag
+it" was not sufficient as a tie-break for an ambiguous requirement: carried forward *as active*, it
+still gets built, and the twelve-lamp house survives the flag. The disposition is
+`hold_pending_clarification` — keep the item in the lineage, commit the design to nothing, and where
+work must continue take the most reversible option deliberately. And the proposal to widen L20's
+definition of convergence to admit "discovery" as a third category was refused, correctly: it would
+have let a descending loop relabel itself as discovery. The three axes — artifact convergence,
+requirements resolution, foundation transition — sit beside that definition rather than inside it, so
+`silent_descent` remains the pathology while `governed_rebase` is not.
+
+Provenance is mandatory on every lineage entry: an inference must never silently become
+`user_confirmed`, and a confirmed status points at the interaction that established it. Without that
+field an agent's own guess about what the faculty member wanted is read three rounds later as the
+faculty member's stated requirement, which is the circular-evidence failure reserved as L21 arriving
+in the requirements layer.
+
+The acceptance test is stated so it can fail: hold the artifact text constant, vary only the human's
+answer, and the migration decisions must differ — and must differ only after the clarification, never
+before. The lighting pair is the standing fixture. Not mechanised, and the lesson says so.
+
 **CLARIFY / EXECUTE / REBASE — the canonical loop contract, and L22 amended by three reviews.** The
 author's objection stood: the scope protocol was human change management, and the agent chain is
 different. Four contributions were reconciled into one design record rather than merged silently.

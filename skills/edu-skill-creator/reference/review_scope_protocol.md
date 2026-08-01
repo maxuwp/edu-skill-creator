@@ -85,6 +85,9 @@ The report has three parts, and the third is what makes scope governable.
 
 **A. Confirmed** — the protected baseline, per L19.
 **B. Findings** — in-scope only. Each states the smallest modification and what it must not disturb.
+**B2. Requirements discovery** — needs discovered, means mistaken for needs, compromises identified,
+and the questions for the human, each written with the decision its answer settles (L23). A round
+that closes no defects but resolves a load-bearing unknown is progress, recorded on its own axis.
 **C. Scope pressure** — everything the scan found that cannot be fixed inside the accepted
 foundation. A scope-pressure entry is not a finding and is not fixed in this round; it is a proposal
 for the next loop's foundation. Where it amounts to `REBASE_REQUIRED`, fill the **rebase packet**,
@@ -110,8 +113,11 @@ either freeze or creep.
 **The bounded reserve is withdrawn (2026-08-01).** The first version capped a round at one
 controlled descent. That number was invented here, and this project's own research found that nobody
 has measured whether tighter scope constraints raise or lower an agent's resolution rate. What
-replaces it is not another number: the reviewer returns one of `PASS`, `REVISE_LOCAL` or
-`REBASE_REQUIRED`, and on `REBASE_REQUIRED` **the harness stops calling the implementer** and opens a
+replaces it is not another number: the reviewer returns exactly one of `PASS`, `REVISE_LOCAL`,
+`CLARIFICATION_REQUIRED` or `REBASE_REQUIRED`. `CLARIFICATION_REQUIRED` says the foundation may be
+sound but a load-bearing need is ambiguous — an expressed requirement that could be a preference or a
+workaround, which the artifact cannot settle (L23). On `REBASE_REQUIRED` **the harness stops calling
+the implementer** and opens a
 separate read-only rebase task. The implementer is never asked to set aside its own minimal-change
 discipline, which is what makes this reliable rather than a matter of the agent's judgement.
 

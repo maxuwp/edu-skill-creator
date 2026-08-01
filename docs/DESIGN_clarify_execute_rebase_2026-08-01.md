@@ -92,14 +92,35 @@ This is the state the first two proposals got wrong, in the same direction: both
 outer loop as *replan*, which reads as beginning again. A new foundation is not a blank sheet.
 **Every prior decision is protected by default and must be given a recorded disposition.**
 
+Dispositions are recorded on **two axes**, because what a requirement *means* and what *happens to
+it* during migration are different questions and conflating them was a defect in the first version of
+this record:
+
 ```text
-carry_forward_unchanged:      requirements, user preferences, acceptance criteria,
-                              verified design decisions, selections already made
-carry_forward_as_constraints: decisions that must now bind the new foundation
-adapt_to_new_foundation:      work whose dependencies changed, adapted rather than regenerated
-invalidate_with_evidence:     only what is demonstrably incompatible, each with the evidence
-unresolved:                   compatibility questions needing evidence or a faculty judgment
+semantic_role:          need | outcome | preference | constraint | solution | workaround | assumption
+migration_disposition:  preserve | adapt | retire_workaround | invalidate | hold_pending_clarification
 ```
+
+The category the first version was missing entirely is **`workaround`**: a solution adopted only
+because of a limitation in the *old* foundation. Carrying one forward is not preservation, it is
+importing the old foundation's defect into the new one.
+
+```text
+# the same expressed request, two different underlying needs
+expressed: "many lighting fixtures"   need: brightness, windows are small
+  semantic_role: workaround           migration_disposition: retire_workaround
+expressed: "many lighting fixtures"   need: decorative character
+  semantic_role: preference           migration_disposition: preserve
+```
+
+Nothing in the artifact distinguishes those two rows. Only the person who asked can.
+
+**Unknown does not mean active.** When a requirement's role is genuinely undetermined, the
+disposition is `hold_pending_clarification`: the item stays in the lineage and is neither deleted nor
+built. "Carry it forward and flag it" is not good enough, because carrying an unresolved requirement
+forward *as active* still builds the twelve-lamp house on the bright lot. If work must continue
+before the answer arrives, take the **most reversible** option — provide for the possibility
+structurally, defer the commitment — and record that the reversibility was chosen deliberately.
 
 Two consequences that are the whole point of doing this with an agent rather than a project manager:
 
@@ -119,8 +140,14 @@ a demonstrated incompatibility, not a changed ancestor.
 Every reviewer in this system and every external reviewer returns exactly one of:
 
 ```text
-PASS | REVISE_LOCAL | REBASE_REQUIRED
+PASS | REVISE_LOCAL | CLARIFICATION_REQUIRED | REBASE_REQUIRED
 ```
+
+`CLARIFICATION_REQUIRED` means the foundation may well be sound, but a **load-bearing need is
+ambiguous** — typically because an expressed requirement could be a preference or a workaround and
+the artifact cannot tell you which. It is a distinct state from `REBASE_REQUIRED`, which means the
+clarified need has shown the current foundation to embody a workaround, a wrong assumption, or an
+unnecessary compromise.
 
 `REBASE_REQUIRED` is **not advice to the current implementer**. The harness ends the execution task
 and opens a separate, read-only rebase task. That is what makes this an architecture rather than an
@@ -193,6 +220,63 @@ decisions, evidence and review findings — not merely the latest defect report.
 structured decision graph is allowed; compression that loses the user's reasoning or requirements is
 the amnesia this contract exists to prevent.
 
+## 6a. Requirement lineage, and the provenance that keeps it honest
+
+A requirement is not a string. It is a chain, and only the chain lets a later agent tell an end from a
+means:
+
+```text
+underlying need  ->  desired outcome  ->  constraint or preference  ->  chosen solution
+                 ->  compromise or workaround  ->  current artifact
+```
+
+Each significant requirement carries a record:
+
+```text
+expressed_request:
+semantic_role:          need | outcome | preference | constraint | solution | workaround | assumption
+underlying_need:
+rationale:
+status:                 inferred | observed | user_confirmed | derived
+source_reference:
+confirmed_by:
+confirmed_at:
+decision_id:
+confidence:
+migration_disposition:
+```
+
+**An inference must never silently become `user_confirmed`.** A `user_confirmed` status points at the
+actual interaction or the stamped decision that established it. Without that rule, an agent's own
+guess about what the faculty member wanted is read three rounds later as the faculty member's stated
+requirement — which is the circular-evidence failure reserved as L21, arriving in a new place. The
+`status` field is what makes the laundering visible.
+
+## 6b. Asking well: the question is part of the design
+
+Review rounds are the natural place to discover a need, because the artifact is finally concrete
+enough to argue with. The reviewer must not silently reinterpret a request; it asks, and the answer
+becomes a durable lineage update every later agent receives.
+
+Each question is written with its consequences attached, which is also the test of whether it is worth
+asking:
+
+```text
+question:                 If daylight were sufficient, would you still want these fixtures?
+decision_if_yes:          preserve as an aesthetic preference
+decision_if_no:           classify as a workaround, reconsider during rebase
+affected_design_elements: window design, electrical layout, fixture procurement
+```
+
+If neither answer changes a decision, the question is not load-bearing and is not asked.
+Counterfactual form works best, because it separates the end from the means in one sentence: *would
+you still want X if the limitation that produced it were gone?*
+
+**One to three questions per interaction is the default, not a cap.** If more than three load-bearing
+ambiguities remain, the reviewer pauses and schedules another clarification gate rather than guessing
+the rest. The bound exists because clarification is not free; the escape hatch exists because
+guessing is how the foundation defect is created in the first place.
+
 ## 7. Settlement
 
 A loop is settled only as one of:
@@ -205,10 +289,22 @@ A loop is settled only as one of:
 
 "Many rounds were run and everyone is tired" is not settlement.
 
-**A rebase is complete only when** every prior decision has a recorded disposition; unchanged work is
-demonstrably preserved; adapted work is faithful to its original purpose; invalidated work carries
-the evidence for why it could not survive; the new foundation accommodates both the original and the
-later-discovered requirements; and nothing was regenerated merely because its upstream changed.
+**A rebase is complete only when** every prior decision has a recorded disposition on both axes;
+unchanged work is demonstrably preserved; adapted work is faithful to its original purpose;
+invalidated work carries the evidence for why it could not survive; every `retire_workaround` names
+the limitation that no longer holds; every `hold_pending_clarification` item is either resolved or
+explicitly deferred with the reversible option that was taken in the meantime; the new foundation
+accommodates both the original and the later-discovered requirements; and nothing was regenerated
+merely because its upstream changed.
+
+**The acceptance test for the whole requirements-discovery half**, stated so it can fail: take one
+expressed request whose underlying need is ambiguous, hold the artifact text constant, and vary only
+the human's answer. The migration decisions must differ — `retire_workaround` under one answer,
+`preserve` under the other — and must differ **only after** the clarification, never before. The
+lighting pair is the standing fixture for this. A system that produces the same migration decision
+under both answers has not implemented this section; a system that produces different decisions
+without having asked has implemented something worse. **Not mechanised as of 2026-08-01:** this is a
+process test with no runner, and saying so is the L13 discipline.
 
 ## 8. Authority
 
@@ -226,10 +322,24 @@ decisions, risk and cost, not to every technical boundary adjustment.
 
 ## 9. Instrumentation — what makes any of this measurable
 
-Per round, record: round id, state, object, declared breadth, finding count, regression count,
-dependency-cone size, artifacts invalidated versus carried forward, clarification count, and token
-or dollar cost where available. Verdict per loop: `converged` | `descent` | `rebased` |
-`budget_exhausted`.
+Three **orthogonal** axes per round. They are kept separate on purpose: a round can fail on the first
+and succeed on the second, and collapsing them would let a descending loop relabel itself as
+discovery.
+
+```text
+artifact_convergence:      findings_opened, findings_closed, regressions
+requirements_resolution:   load_bearing_unknowns_opened, load_bearing_unknowns_resolved,
+                           needs_confirmed, workarounds_identified
+foundation_transition:     stable | governed_rebase | silent_descent
+```
+
+Also record per round: round id, state, object, declared breadth, dependency-cone size, artifacts
+carried forward versus adapted versus regenerated, clarification count, and token or dollar cost
+where available.
+
+**`silent_descent` is the pathology; `governed_rebase` is not.** The difference is entirely whether
+the foundation change was declared and dispositioned, which is what makes the distinction observable
+rather than a matter of intent.
 
 Without these columns, L20's convergence-versus-descent test cannot be run and the cost claim cannot
 be checked. This is the single largest gap between what this design asserts and what this repository
@@ -253,7 +363,8 @@ can currently observe.
 
 | Artifact | Change |
 |---|---|
-| L20 Foundation Regress | unchanged as pathology; its enforcement path is this record |
+| L20 Foundation Regress | **definition of convergence unchanged, on purpose.** The three-axis metric is added *beside* it, not folded into it: an earlier proposal of mine would have admitted "discovery" as a third convergence category, which would have let a descending loop relabel itself. Its enforcement path is this record |
+| L23 Requirement lineage | new lesson: preserve confirmed needs and preferences, reconsider solutions and compromises, hold ambiguous requirements without deleting or enforcing them |
 | L22 Controlled scope escalation | **amended**: scan order corrected to foundation-first; one-descent reserve removed as unevidenced; escalation decided on the dependency graph with layer labels demoted to reporting; authority narrowed; CLARIFY and REBASE added. Its declared-scope requirement and graded response survive |
 | `skills/edu-skill-creator/reference/review_scope_protocol.md` | becomes the operational procedure implementing this record, and stops defining packet shapes |
 | The dual-mode proposal in the POSED repository | keeps its analysis; its contract section defers to this record, so one contract exists rather than two |

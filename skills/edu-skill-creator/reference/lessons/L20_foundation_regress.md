@@ -78,6 +78,25 @@ Stated honestly: this repository records rounds, findings and reopened-fix count
 yet record cost per round or layer per round. Until it does, the token-cost claim is a well-founded
 expectation rather than a measured result, and it should not be reported as measured.
 
+**Amended 2026-08-01 — the definition of convergence above is unchanged, deliberately.** A round can
+close no defects, open a question about what is actually wanted, and be the most valuable round in
+the loop. The first attempt to account for that widened *this* definition to admit "discovery" as a
+third convergence category, which would have let a descending loop relabel itself as discovery and
+destroyed the diagnostic. The correct fix is a second axis recorded **beside** convergence, not
+inside it:
+
+```text
+artifact_convergence:      findings_opened, findings_closed, regressions
+requirements_resolution:   load_bearing_unknowns_opened, load_bearing_unknowns_resolved,
+                           needs_confirmed, workarounds_identified
+foundation_transition:     stable | governed_rebase | silent_descent
+```
+
+A round may therefore be non-convergent at the artifact level, successful at requirements discovery,
+and correctly classified as a **governed rebase** rather than a silent descent. `silent_descent`
+remains the pathology this lesson names; the difference from a governed rebase is entirely whether
+the foundation change was declared and every prior decision dispositioned (L22, L23).
+
 **Applies to.** `edu-skill-creator-architecture` (declare the loop budget and the finder/fixer split
 alongside each reviewer pairing), `edu-skill-creator-test` (RED/GREEN rounds record layer and
 findings, and halt on no progress), `edu-skill-creator-reflect` (the harvest states constraints on
