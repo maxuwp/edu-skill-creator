@@ -4,12 +4,18 @@
 consumer must look like.** Derived from evidence in this project's own records, with each rule's
 evidence status attached so the weak ones can be argued with.
 
-**Revision 1, 2026-08-01**, after an independent review by Codex. Unchanged and protected: the
-named-consumer rule for escalation outcomes, review at the representation the faculty member
-actually judges, delta review followed by one settlement regression, and the deferral of an
-automated rebase engine. Changed: the evidence requirement no longer forces a mechanical check into
-reviews where none is valid, and the envelope carries runnability, population type and stable
-finding ids.
+**Revision 2, 2026-08-01**, after Codex's disposition check on revision 1. Revision 1 (same day,
+after Codex's first review) stopped forcing a mechanical check into reviews where none is valid, and
+added runnability, population type and stable finding ids. Revision 2 closes the four findings that
+check left partially open: the envelope's fields existed but the **relationships between them did
+not**, which is a schema that looks strict and enforces nothing. It now carries `coverage_model`,
+`confirmed_id`, the repair-guidance fields the prose already required, structured `scope_pressure`,
+and six conditional invariants.
+
+Unchanged and protected across both revisions: the named-consumer rule for escalation outcomes,
+review at the representation the faculty member actually judges, delta review followed by one
+settlement regression, and the deferral of an automated rebase engine. Codex verified all ten
+protected properties intact at revision 1 and did not reopen them.
 
 ---
 

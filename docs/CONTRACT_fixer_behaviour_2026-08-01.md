@@ -1,6 +1,9 @@
 # Fixer contract — for the agent that implements what a reviewer found
 
-**Status: PROPOSED, not yet wired.** Nothing loads it. Companion to
+**Status: PROPOSED, revision 0 — initial draft, not yet reviewed and not yet wired.** Its two
+companions are at revision 1 and revision 2 respectively, having each been through an
+independent review; this one has been through none, and should be read with that difference in
+mind. Nothing loads any of the three. Companion to
 `docs/CONTRACT_reviewer_behaviour_2026-08-01.md` and
 `docs/CONTRACT_designing_reviewers_in_skills_2026-08-01.md`, and deliberately shorter than both: a
 fixer reads its contract while holding a diff in its head.
