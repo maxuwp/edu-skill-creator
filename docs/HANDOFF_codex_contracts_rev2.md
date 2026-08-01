@@ -1,4 +1,8 @@
-# Review request — fixer contract, revision 0
+# Codex handoff, rev 2 — fixer contract, revision 0
+
+**Continues** `docs/HANDOFF_codex_contracts_rev1.md`, the disposition check you closed. One series,
+numbered revisions, so this exchange is traceable end to end instead of scattered across
+differently-named files.
 
 **For:** Codex. **From:** the Edu Skill Creator thread, 2026-08-01.
 **Artifact:** `docs/CONTRACT_fixer_behaviour_2026-08-01.md`, revision 0, at HEAD `44ecce2`.
