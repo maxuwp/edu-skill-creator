@@ -1,6 +1,9 @@
 # Behavioural test drive — return
 
-**From:** Fable 5 thread, 2026-08-01. **Instrument:** `HANDOFF_behavioural_test_drive_fable.md`.
+**From:** an independent **Opus 5** thread, 2026-08-01. **Instrument:**
+`docs/HANDOFF_behavioural_test_drive_opus5.md`.
+
+*Attribution corrected 2026-08-01, and the correction is worth recording rather than silently applying: the handoff was addressed to Fable, the run was performed by Opus 5, and this file carried the wrong runner in its own metadata until Codex caught it. A study measuring what independent reviewers add mis-recorded which reviewer produced its only behavioural evidence.*
 
 ---
 

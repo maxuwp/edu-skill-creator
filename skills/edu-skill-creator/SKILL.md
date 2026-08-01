@@ -83,8 +83,10 @@ for "where are we." On session start, read it first and resume.
 
 ## Reference files
 
-- `reference/lesson_index.md` — the always-read card: eighteen lessons, one line each, with the single
-  authoritative applicability map. Full entries in `reference/lessons/`, loaded on demand.
+- `reference/lesson_index.md` — the always-read card: one line per lesson, with the single
+  authoritative applicability map. Full entries in `reference/lessons/`, loaded on demand. (The count
+  used to be written here and drifted to four lessons out of date; a number prose cannot keep true is
+  a number prose should not carry — L13.)
 - `reference/edu_grounding_library.md` — starter framework menu + scope rules.
 - `reference/gate_design_patterns.md` — gate spec, decision JSON, stale-state model.
 - `reference/dual_harness_playbook.md` — repo layout, symlinks, lint, release rules.

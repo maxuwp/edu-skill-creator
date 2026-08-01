@@ -1,8 +1,8 @@
 # Three instruments returned. Two of them contradict us, and the study is better for it.
 
-**Date:** 2026-08-01. **Inputs:** the behavioural test drive (Opus 5, filed at
-`docs/RETURN_behavioural_test_drive_fable_2026-08-01.md` — the filename says Fable because the
-handoff did; the run was Opus 5); Codex's blind coding and pattern verification (in the NSF
+**Date:** 2026-08-01. **Inputs:** the behavioural test drive, run by an independent **Opus 5** thread and filed at
+`docs/RETURN_behavioural_test_drive_opus5_2026-08-01.md` (the handoff was addressed to Fable; the
+filename and the file's own metadata were corrected on 2026-08-01 after Codex caught the mismatch); Codex's blind coding and pattern verification (in the NSF
 workspace, the plugin repository being read-only to that thread); Grok's pattern verification
 (returned in chat); and the POSED thread's raised-frame corpus at
 `REVIEW_RECORDS_raised_frame_2026-08-01/` in the POSED repository — 62 verbatim reviewer returns, 40
@@ -113,6 +113,18 @@ touch the second, and the second is what shipped a falsehood into an artifact.
 On disclosure causing a correction: one instance, one null, and the instance is not clean — what was
 disclosed was a false rationale rather than an assumption. The runner declines to lean on it, and so
 does this document.
+
+## 4a. Codex's correction to §4, adopted
+
+The `10 of 15` counter-cases are **not one behaviour**. They combine disclosure, escalation, refusal
+and qualified approval, which have different mechanisms and different remedies, and the figure was
+reported here as a single count. It needs decomposition into those four classes, each with an
+**opportunity-based denominator** — a run cannot be counted as failing to escalate if nothing in it
+required escalation. Until that recoding is done, `10 of 15` is a headline, not a measurement, and
+nothing in §5 rests on it.
+
+The same correction applies in principle to `2 of 15` on Claims A and B: the denominator is runs, not
+opportunities.
 
 ## 5. What the study now claims, and what it no longer claims
 
