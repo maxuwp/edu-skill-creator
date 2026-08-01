@@ -98,12 +98,34 @@ that caught it.
 
 ## 3. Corpus available for further coding
 
+**Corpus census, 2026-08-01**, produced by `scripts/extract_reviewer_attributions.py` over the POSED
+and Edu Skill Creator change-request corpora. The earlier estimate of "6 codable change requests" was
+an artefact of one narrow search pattern and is withdrawn; the attribution grammar is more varied
+than that pattern assumed.
+
+| measure | count |
+|---|---|
+| candidate attribution lines | **820** |
+| naming exactly one reviewer | 686 |
+| naming two or more — candidate co-raised concerns | **134** |
+| distinct change-request ids touched | **48**, spanning 1.10 to 1.74 |
+| files carrying at least one attribution | 100 |
+
+Co-attribution pairs, which is where the overlap signal lives: Codex+Grok 61, Fable+Grok 52, all
+three together 11, Codex+Fable 7, and three lines involving Opus.
+
+**Every extracted row is a candidate, not a concern.** Prose that merely names a reviewer is included
+by design, and a concern spanning two lines is undercounted because only the line carrying the
+attribution is captured. The hand-coding pass is where both are repaired, and the coded sheet — not
+this census — is the dataset a result would rest on.
+
 | source | multi-reviewer artifacts | state |
 |---|---|---|
-| edu-skill-creator, CR 1.20 | 1 pair, both reviews filed in full | **coded above** |
-| edu-skill-creator, L20 and L22 | 3 reviewers (Fable, Codex, Grok) on the scope-escalation design | returns arrived in conversation, not filed as documents; recoverable from the session transcript |
-| POSED | 58 change requests mention a named external reviewer; **6** carry per-finding attribution in a codable form | needs manual coding; the other 52 attribute at the document level only |
-| p2d, slide-narrator, the codex-side mirrors | 40 review-named files across four repositories | not yet surveyed for multi-reviewer pairs |
+| edu-skill-creator, CR 1.20 | 1 pair, both reviews filed in full | **coded** |
+| POSED CR 1.71 rev 2.1 | 3 reviewers, actioned frame | **coded** |
+| POSED, remainder | 48 change-request ids, 134 co-attribution lines | extracted, awaiting the hand-coding pass |
+| edu-skill-creator, L20 and L22 | 3 reviewers on the scope-escalation design | returns arrived in conversation, not filed; recoverable from the session transcript |
+| p2d, slide-narrator, the codex-side mirrors | 40 review-named files across four repositories | not yet surveyed |
 
 **What is missing for a defensible study, in order of cost.** A second coder for the matching rule.
 Filed returns for the L20/L22 round, which currently exist only in a transcript. A same-lens control:
