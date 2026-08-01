@@ -23,20 +23,40 @@ artifact_and_version:
 population_type:            finite | bounded_model | open_ended
 review_population:          enumerated where the type allows
 coverage_limitations:
+coverage_model:             required for bounded_model, and for any class-level claim on an
+                            open-ended surface
 in_scope / out_of_scope:
 acceptance_oracle:
-confirmed_correct:          [{property, how_verified, how_verified_kind, claim_layer, location}]
-do_not_break:               [ids from confirmed_correct]
-findings:                   [{finding_id, claim_or_surface, evidence, smallest_change,
-                              preserve:[ids], severity}]
-scope_pressure:             [items whose fix lies outside scope]
+confirmed_correct:          [{confirmed_id, property, how_verified, how_verified_kind,
+                              claim_layer, location}]
+do_not_break:               [confirmed_id]
+findings:                   [{finding_id, claim_or_surface, evidence,
+                              acceptance_constraints, smallest_change,
+                              affected_dependencies, alternatives,
+                              preserve:[confirmed_id], severity}]
+scope_pressure:             [{issue, load_bearing, required_boundary,
+                              authorized_route, consumer, persistence, closing_state}]
 requirements_questions:     [{question, decision_if_yes, decision_if_no}]
 review_status:              completed | unrunnable
 unrunnable_reason:
 outcome:                    PASS | REVISE_LOCAL | CLARIFICATION_REQUIRED | REBASE_REQUIRED | null
-rebase_subtype:             boundary_rescope | foundation_rebase
+rebase_subtype:             boundary_rescope | foundation_rebase | null
 cost:                       calls, tokens, elapsed — or "not recorded"
 ```
+
+**Six conditional invariants, which are what make the envelope checkable rather than decorative.**
+Revision 1 carried the fields and left the relationships between them unstated, which is a schema
+that looks strict and enforces nothing.
+
+1. `review_status: completed` requires a non-null `outcome` and an empty `unrunnable_reason`.
+2. `review_status: unrunnable` requires `outcome: null` and a non-blank `unrunnable_reason`.
+3. `rebase_subtype` is required only when `outcome: REBASE_REQUIRED`, and is null otherwise.
+4. `PASS` is prohibited while any `scope_pressure` item with `load_bearing: true` lacks an
+   `authorized_route`.
+5. Every `do_not_break` entry and every finding's `preserve` value must resolve to a declared
+   `confirmed_id`.
+6. A class-closure claim on `bounded_model` or `open_ended` requires an explicit `coverage_model`
+   and a statement of residual uncertainty.
 
 **Evidence must fit the claim, and no single kind is universally required.**
 
@@ -147,11 +167,21 @@ produce each of these.
 3. An open security review reports its threat model and residual uncertainty, not universal closure.
 4. A semantic teaching review passes without manufacturing a mechanical `confirmed_correct` item.
 5. `CLARIFICATION_REQUIRED` names a consumer, a persistence path, and a closing state.
-6. Boundary-only scope pressure cannot return `PASS`; it routes through `rebase_subtype`.
+6. Load-bearing boundary scope pressure with no authorized route cannot return `PASS`; it routes
+   through `REBASE_REQUIRED` with `rebase_subtype: boundary_rescope`. Boundary pressure that is not
+   load-bearing, or that already has an authorized route, does not block `PASS`.
 7. Two independent reviewer reports are coded post hoc for overlap, without reviewer self-prediction.
 8. A reviewer may propose repair constraints but cannot modify the artifact during the review pass.
 9. The security example is described as incomplete control coverage, with the parser's
    defence-in-depth value preserved.
+
+**When these get wired, do not inject both documents into every reviewer prompt.** Keep the designer
+contract as an authoring reference. Maintain one compact operative core for reviewers — the envelope,
+the six invariants, the review order, and the outcome definitions — and link the evidence discussion
+rather than repeating it. Test retention and output conformance through the actual harness before
+calling the behaviour durable, and do not invent a word limit before that test. As measured on
+revision 1: the reviewer contract is about 1,450 words and this one about 1,380, and neither is
+loaded by anything yet, so no retention failure has been observed either way.
 
 **Open questions neither contract settles**, carried from the same review: whether separate finder
 and fixer agents improve quality enough to justify their cost; whether delta-only model review
