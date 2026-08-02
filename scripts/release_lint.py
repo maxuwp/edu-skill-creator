@@ -44,6 +44,7 @@ skills/edu-skill-creator/reference/lessons_learned.md L7/L8):
  18. The cumulative regression ledger: docs/REGRESSION_LEDGER.md exists, carries at least
      MIN_LEDGER_ROWS rows with legal verdicts and lifecycle status, recycles no id, and every
      confirmed active row names a suite case or an explicit 'not mechanisable, because …'.
+     Every named case must RESOLVE in the suite source: a dangling pointer reads as coverage.
 
 Three outcomes, not two: error, clean, and UNVERIFIABLE — the check ran and could not
 tell. An unverifiable result that authorizes a gate is also an error (fail closed); the
@@ -70,7 +71,7 @@ errors, warnings, _unver = [], [], []
 # Counts FALSIFIABLE case sites (seeded/probe). A dead guard could be neutered by turning
 # its case into record(name, bool(1)) — not a literal True, so the constant-verdict test
 # missed it — and the total held. record() sites still count toward the reported total.
-MIN_SUITE_CHECKS = 119
+MIN_SUITE_CHECKS = 124
 
 # 1. Hardcoded harness paths in shared skill bodies
 #    Whitelisted by repo-relative PATH, not basename: any file anywhere under skills/ that
@@ -763,6 +764,7 @@ for _rf in sorted(set(_review_files)):
 #     deliberate act argued in the changelog, never a side effect of tidying.
 MIN_LEDGER_ROWS = 26
 LEDGER_VERDICTS = {"confirmed", "defect", "ambiguous", "present-but-not-a-defect"}
+_suite_src = _suite.read_text() if _suite.exists() else None
 _led = ROOT / "docs/REGRESSION_LEDGER.md"
 if not _led.exists():
     errors.append("[ledger] docs/REGRESSION_LEDGER.md is missing — the cumulative baseline is the "
@@ -791,7 +793,28 @@ else:
                           f"superseded — lifecycle is a separate axis from the verdict")
         if _v == "confirmed" and _slug(_status) == "active":
             _m = _mech.strip()
-            if not (("suite case" in _m) or _m.lower().startswith("not mechanisable")):
+            if _m.lower().startswith("not mechanisable"):
+                pass
+            elif "suite case" in _m:
+                # c8's re-anchoring. The shape test above is satisfied by a well-formed cell
+                # that points at nothing, and a pointer resolving to nothing CERTIFIES the row
+                # instead of checking it — the exact failure the ledger exists to prevent. Names
+                # are matched verbatim against the suite SOURCE, the same layer check 13 counts
+                # its call sites in, so renaming a case breaks the release rather than quietly
+                # orphaning the row that depends on it. If the suite is missing, check 13 has
+                # already made that an error, so skipping resolution here cannot open a gate.
+                _named = re.findall(r"`([^`]+)`", _m)
+                if not _named:
+                    errors.append(f"[ledger] row {_id}: claims a suite case and names none in "
+                                  f"backticks — a case nobody can re-run is a claim, not a check")
+                elif _suite_src is not None:
+                    for _n in _named:
+                        if _n not in _suite_src:
+                            errors.append(f"[ledger] row {_id}: names suite case {_n!r}, which no "
+                                          f"longer exists in tests/run_deterministic.py — re-anchor "
+                                          f"the row or supersede it; a dangling pointer reads as "
+                                          f"coverage")
+            else:
                 errors.append(f"[ledger] row {_id}: a confirmed, active row must name a suite case "
                               f"or state 'not mechanisable, because …' — an unmechanised confirmed "
                               f"row is an assertion the ledger will defend")

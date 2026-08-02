@@ -17,13 +17,44 @@ rubric critical flag, and it takes the ids CR 1.20 does not claim, so 1.20 gates
 
 ## edu_skill_creator.1.20 — in progress (opened 2026-07-31)
 
+**`c8` discharged — the ledger's pointers now resolve, and the lint keeps them resolving.** Every one
+of the 26 rows was seeded carrying a `re-anchor` qualifier: it recorded a verification recovered from
+1.18 and 1.19 transcripts, not one performed today. That qualifier is gone, replaced per row by what
+was actually done — `re-anchored 1.20` where the row names cases that exist right now, `mechanised
+1.20` where a stale "not mechanisable" excuse was replaced by a case, `re-probed 1.20` where no
+mechanism is available and the property was re-run by hand on 2026-08-02 with the probe and its result
+written into the cell.
+
+**Check 18 now resolves every named case against the suite source.** The seeded check tested the cell's
+SHAPE — it accepted "suite cases `c16 …`", an ellipsis pointing at nothing. Four rows shipped that way.
+A pointer that resolves to nothing reads as coverage, which is the precise failure a regression ledger
+exists to prevent, so the check now requires each backticked name to appear verbatim in
+`tests/run_deterministic.py`. Renaming a case breaks the release instead of orphaning the row that
+depends on it.
+
+**Re-anchoring found four rows misdescribing their own coverage, which is the argument for having run
+it.** `g17` and `g18` were marked unmechanisable while the downstream harness had covered both since
+1.19: it invokes the generated lint with `cwd="/"`, and its clean case asserts exit 0 with empty
+stdout. `g1` and `g9` were one line each from a case, using harnesses already in the file. And `s6`
+claimed two properties while its cases proved one — nothing tested that the dimension arithmetic fires
+on a *rejecting* review, so moving that block below check 15's early return would have regressed in
+silence. Three rows remain unmechanised (`s8`, `g11`, `g16`), each now carrying the recipe for the
+harness it needs rather than an excuse.
+
+Five new suite cases. Suite 124 to 129; floor raised to 124. One of them, the dangling-pointer case,
+went green on its first cut with the guard doing nothing: the ghost name was written as a literal, so
+it lived in the very file check 18 resolves against and matched itself. The name is now assembled at
+run time, and the trap is recorded in the file — a fixture that resolves against itself is the same
+passing-for-the-wrong-reason shape `expect_tag` exists to forbid.
+
 **`c6`–`c8`, `c15` and `c16` implemented — the baseline is now cumulative, and L19 tells the truth
 about its own evidence.** `docs/REGRESSION_LEDGER.md` exists, seeded with the 26 invariants recovered
 in the appendix, and release lint check 18 enforces it: legal verdicts including the two that are
 usually missing, lifecycle status kept on a separate axis from the verdict, no recycled ids, and every
-confirmed active row naming either a suite case or an explicit "not mechanisable, because …". Eight of
-the 26 rows carry that explicit reason rather than a case id, which is the honest state and is now
-visible instead of implied.
+confirmed active row naming either a suite case or an explicit "not mechanisable, because …". Seven of
+the 26 rows carried that explicit reason rather than a case id at seeding, which was the honest state
+and is now visible instead of implied. (This paragraph first said eight, a miscount corrected during
+the re-anchoring pass below, which also cut the seven to three.)
 
 "No row disappears" is enforced as a floor, because the lint cannot see history. Lowering it is a
 deliberate act argued here, never a side effect of tidying — the same shape as the suite floor, for

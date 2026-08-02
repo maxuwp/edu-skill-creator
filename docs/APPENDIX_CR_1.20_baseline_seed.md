@@ -95,3 +95,10 @@ is recorded here as one row rather than duplicated as twelve.
 4. Do not mark any row `confirmed` in the ledger on the strength of this appendix alone. These are
    recovered records of a past verification, not a present one; the honest initial verdict is
    `confirmed (as of 1.19, by mutation, re-verification pending)`.
+
+**Status, 2026-08-02.** Steps 1 to 4 are done; the ledger carries the outcome per row and check 18
+resolves every named case against the suite source. Step 2's "any that does not map is the interesting
+case" was the productive half: four of this appendix's own mechanisation claims were wrong. `g17` and
+`g18` were recorded here as unmechanisable and had in fact been covered by the downstream harness since
+1.19, and `g1` and `g9` were one line each from a case. Read this file as the seed record it is, not as
+a current statement of coverage — for that, read the ledger.

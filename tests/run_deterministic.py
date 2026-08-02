@@ -419,6 +419,13 @@ seeded("c15 dimension scores that do not sum to the reported total",
        _incoh(score=95, dimension_scores={"a": 40, "b": 40}), "dimension_scores sum to")
 seeded("c15 dimension scores as a list (shape, not meaning)",
        _incoh(score=95, dimension_scores=[40, 40]), "dimension_scores sum to")
+# The arithmetic block sits ABOVE check 15's "recommendation is not approving -> continue".
+# Every other c15 fixture leaves the review approving, so moving the block below that early
+# return would regress in silence: a revise-verdict log could report any total it liked. Found
+# by re-anchoring ledger row s6, whose second clause no existing case proved.
+seeded("c15 arithmetic on a REJECTING review (the sum check sits above the early return)",
+       _incoh(recommendation="revise", score=95, dimension_scores={"a": 40, "b": 40}),
+       "dimension_scores sum to")
 def m_nocomputed(r):
     # L11's gate: with a validator present, approval without a recorded computed pass is
     # incoherent. Was prose in four files and code in none.
@@ -554,11 +561,22 @@ def m_ledthin(r):
     p.write_text("\n".join(l for l in p.read_text().splitlines()
                            if not re.match(r"^\|\s*`g1[0-9]`", l)) + "\n")
 def m_ledverdict(r): _sub(r, LEDGER, "| `s1` | confirmed", "| `s1` | probably fine")
-def m_ledstatus(r):  _sub(r, LEDGER, "(1.19, re-anchor) | active | round 5 | Citation",
-                          "(1.19, re-anchor) | live | round 5 | Citation")
+def m_ledstatus(r):  _sub(r, LEDGER, "re-anchored 1.20) | active | round 5 | Citation",
+                          "re-anchored 1.20) | live | round 5 | Citation")
 def m_leddup(r):     _sub(r, LEDGER, "| `s2` |", "| `s1` |")
-def m_ledmech(r):
-    _sub(r, LEDGER, "| suite cases `c16 …` |", "| looked right when I read it |")
+MECH_CELL = "| suite case `template exit 2 on an EMPTY CHECKS registry` |"
+def m_ledmech(r):    _sub(r, LEDGER, MECH_CELL, "| looked right when I read it |")
+# c8's re-anchoring, the half a shape check cannot reach: the cell may be well formed and
+# still point at nothing. Both cases below satisfy every earlier clause.
+#
+# The ghost name is ASSEMBLED at run time, never written as one literal. Spelled out, it would
+# live in this file — which is the source check 18 resolves against — so the fixture would
+# resolve against itself and the case would pass with the guard deleted. The first cut did
+# exactly that: it went green while the lint found nothing.
+_GHOST = "c99 a case that was " + "renamed out of the suite"
+def m_ledghost(r):   _sub(r, LEDGER, "`template exit 2 on an EMPTY CHECKS registry`",
+                          f"`{_GHOST}`")
+def m_lednoname(r):  _sub(r, LEDGER, MECH_CELL, "| suite case, obviously |")
 
 seeded("c18 ledger deleted", m_ledgone, "REGRESSION_LEDGER.md is missing")
 seeded("c18 rows dropped below the floor", m_ledthin, "below the floor of")
@@ -568,6 +586,10 @@ seeded("c18 status that is not a lifecycle value", m_ledstatus,
 seeded("c18 recycled row id", m_leddup, "duplicate row id")
 seeded("c18 confirmed row with no mechanism named", m_ledmech,
        "must name a suite case")
+seeded("c18 row naming a suite case that no longer exists", m_ledghost,
+       "no longer exists in tests/run_deterministic.py")
+seeded("c18 row claiming a suite case but naming none", m_lednoname,
+       "names none in backticks")
 
 # --------------------------------------------------------------------------------------
 # 16. citation resolution — the class check behind "reference not landing"
@@ -680,6 +702,13 @@ def s_pass(d, artifact=None, manifest=None):
 
 
 probe("template exit 2 on missing manifest", s_none, ["s"], 2)
+# An author mid-instantiation has an empty registry, and a registry with nothing in it
+# validated nothing. Ledger row g1 recorded this as verified on a scratch copy and therefore
+# unmechanised; the existing `source=` hook makes it one line, so the excuse was stale.
+probe("template exit 2 on an EMPTY CHECKS registry", s_pass, ["s"], 2,
+      source=TEMPLATE.read_text().replace(
+          "CHECKS = [check_required_structure, check_upstream_coverage, check_forbidden_markers]",
+          "CHECKS = []", 1))
 probe("template exit 2 on non-object manifest (was a crash)", s_list, ["s"], 2)
 probe("template exit 2 on unwritable report dir (was a crash)", s_blk,
       ["s", "--report", "s/blocker/x/r.json"], 2)
@@ -898,6 +927,9 @@ downstream("downstream: template samples still present",
            "SAMPLES_PRESENT")
 downstream("downstream: CONTRACT_VERSION trailing the release",
            _edit("validate_ARTIFACT.py", '"d_skill.0.1"', '"d_skill.0.0"'), "trails the release")
+downstream("downstream: a registered check with no negative fixture",
+           lambda d: shutil.rmtree(d / "tests/fixtures/ARTIFACT_fail_check_upstream_coverage"),
+           "has no negative fixture")
 downstream("downstream: a fixture for a check absent from CHECKS",
            lambda d: shutil.copytree(d / "tests/fixtures/ARTIFACT_fail_check_forbidden_markers",
                                      d / "tests/fixtures/ARTIFACT_fail_check_never_registered"),
